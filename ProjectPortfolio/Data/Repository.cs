@@ -6,9 +6,9 @@ namespace ProjectPortfolio.Data
     public class Repository(DbContextOptions<Repository> options) : DbContext(options)
     {
         public DbSet<ClientModel> Clients { get; set; }
-        public DbSet<ClientModel> SystemUsers { get; set; }
-        public DbSet<ClientModel> States { get; set; }
-        public DbSet<ClientModel> Issues { get; set; }
-        public DbSet<ClientModel> IssueNotes { get; set; }
+        public DbSet<SystemUserModel> SystemUsers { get; set; }
+        public DbSet<StateModel> States { get; set; }
+        public DbSet<IssueModel> Issues { get; set; }
+        public DbSet<IssueNoteModel> IssueNotes { get; set; }
     }
 }
