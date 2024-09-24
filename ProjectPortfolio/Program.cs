@@ -1,5 +1,6 @@
 using Microsoft.EntityFrameworkCore;
 using ProjectPortfolio.Data;
+using ProjectPortfolio.Services;
 
 namespace ProjectPortfolio
 {
@@ -11,6 +12,9 @@ namespace ProjectPortfolio
 
             // Add services to the container.
             builder.Services.AddControllersWithViews();
+
+            builder.Services.AddScoped<IClientService, ClientService>();
+            builder.Services.AddScoped<ISystemUserService, SystemUserService>();
 
             builder.Services.AddDbContext<Repository>(options =>
             {
