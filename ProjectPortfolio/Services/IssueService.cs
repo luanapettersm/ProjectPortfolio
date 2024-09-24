@@ -1,6 +1,6 @@
 ﻿namespace ProjectPortfolio.Services
 {
-    public class IssueService
+    public class IssueService : IssueService
     {
     }
 }

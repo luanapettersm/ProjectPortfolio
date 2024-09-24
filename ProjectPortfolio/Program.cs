@@ -15,6 +15,8 @@ namespace ProjectPortfolio
 
             builder.Services.AddScoped<IClientService, ClientService>();
             builder.Services.AddScoped<ISystemUserService, SystemUserService>();
+            builder.Services.AddScoped<IIssueService, IssueService>();
+            builder.Services.AddScoped<IIssueNoteService, IssueNoteService>();
 
             builder.Services.AddDbContext<Repository>(options =>
             {
