@@ -20,7 +20,7 @@ namespace ProjectPortfolio
 
             builder.Services.AddDbContext<Repository>(options =>
             {
-                options.UseNpgsql(builder.Configuration.GetConnectionString("PostgresConnection"));
+                options.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnection"));
             });
 
             var app = builder.Build();

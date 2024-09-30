@@ -1,6 +1,4 @@
-﻿using System.Data;
-
-namespace ProjectPortfolio.Models
+﻿namespace ProjectPortfolio.Models
 {
     public class ResponseModel<T>
     {
