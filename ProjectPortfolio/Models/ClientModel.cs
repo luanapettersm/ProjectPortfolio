@@ -36,7 +36,7 @@ namespace ProjectPortfolio.Models
             $"{CNPJUnformatted.Substring(8, 4)}-" +
             $"{CNPJUnformatted.Substring(12, 2)}";
 
-        public string CNPJUnformatted => RemoveMask(CNPJNumber);
+        public string CNPJUnformatted => RemoveMasks(CNPJNumber);
         public long CNPJIntNumber => Convert.ToInt64(CNPJUnformatted);
         public string CNPJNumber { get; set; }
         public string Root => CNPJUnformatted.Substring(0, 8);
@@ -47,13 +47,21 @@ namespace ProjectPortfolio.Models
             $"{CPFUnformatted.Substring(6, 3)}-" +
             $"{CPFUnformatted.Substring(9, 2)}";
 
-        public string CPFUnformatted => RemoveMask(CPFNumber);
+        public string CPFUnformatted => RemoveMasks(CPFNumber);
         public long CPFIntNumber => Convert.ToInt64(CPFUnformatted);
         public string CPFNumber { get; set; }
 
-        public static string RemoveMask(string number)
+        public static string RemoveMasks(string number)
         {
             return new Regex(@"[^\d]").Replace(number, "");
+        }
+
+        public void RemoveMasks()
+        {
+            CNPJNumber = RemoveMasks(CNPJNumber);
+            CPFNumber = RemoveMasks(CPFNumber);
+            if (ZipCode != null)
+                ZipCode = Regex.Replace(ZipCode, "[^0-9,]", "");
         }
     }
 }
