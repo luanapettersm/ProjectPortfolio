@@ -24,10 +24,9 @@ namespace ProjectPortfolio.Services
             return model;
         }
 
-        public async Task<ClientModel> DeleteAsync(Guid id)
+        public async Task DeleteAsync(Guid id)
         {
-            var query = await repository.Clients.Where(c => c.Id == id).FirstOrDefaultAsync();
-            return query;
+            await repository.Clients.Where(c => c.Id == id).FirstOrDefaultAsync();
         }
 
         public Task<ClientModel> FilterAsync()

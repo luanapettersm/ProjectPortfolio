@@ -9,6 +9,6 @@ namespace ProjectPortfolio.Services
         Task<ClientModel> GetAsync(Guid id);
         Task<ClientModel> CreateAsync(ClientModel model);
         Task<ClientModel> UpdateAsync(ClientModel model);
-        Task<ClientModel> DeleteAsync(Guid id);
+        Task DeleteAsync(Guid id);
     }
 }

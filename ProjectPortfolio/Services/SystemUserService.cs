@@ -1,8 +1,10 @@
-﻿using ProjectPortfolio.Models;
+﻿using Microsoft.EntityFrameworkCore;
+using ProjectPortfolio.Data;
+using ProjectPortfolio.Models;
 
 namespace ProjectPortfolio.Services
 {
-    public class SystemUserService : ISystemUserService
+    public class SystemUserService(Repository repository) : ISystemUserService
     {
         public Task<SystemUserModel> CreateAsync(SystemUserModel model)
         {
@@ -14,19 +16,21 @@ namespace ProjectPortfolio.Services
             throw new NotImplementedException();
         }
 
-        public Task<SystemUserModel> DeleteAsync(Guid id)
+        public async Task DeleteAsync(Guid id)
         {
-            throw new NotImplementedException();
+            var query = repository.SystemUsers.Where(e => e.Id == id).FirstOrDefaultAsync();
+
+            await repository.SystemUsers.ExecuteDeleteAsync(query);
         }
 
-        public Task<List<SystemUserModel>> GetAllAsync()
+        public async Task<List<SystemUserModel>> GetAllAsync()
         {
-            throw new NotImplementedException();
+            return await repository.SystemUsers.ToListAsync();
         }
 
-        public Task<SystemUserModel> GetAsync(Guid id)
+        public async Task<SystemUserModel> GetAsync(Guid id)
         {
-            throw new NotImplementedException();
+            return await repository.SystemUsers.Where(e => e.Id == id).FirstOrDefaultAsync();
         }
     }
 }
