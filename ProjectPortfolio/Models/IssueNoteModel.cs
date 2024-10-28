@@ -1,5 +1,4 @@
 ﻿using System.ComponentModel.DataAnnotations.Schema;
-using System.Text.Json.Serialization;
 
 namespace ProjectPortfolio.Models
 {
@@ -11,7 +10,6 @@ namespace ProjectPortfolio.Models
         public Guid SystemUserId {  get; set; }
         public Guid IssueId { get; set; }
 
-        [JsonIgnore]
         [ForeignKey(nameof(IssueId))]
         public IssueModel Issue { get; set; }
     }

@@ -1,6 +1,34 @@
-﻿namespace ProjectPortfolio.Services
+﻿using Microsoft.EntityFrameworkCore;
+using Microsoft.IdentityModel.Tokens;
+using ProjectPortfolio.Data;
+using ProjectPortfolio.Models;
+
+namespace ProjectPortfolio.Services
 {
-    public class IssueNoteService : IIssueNoteService
+    public class IssueNoteService(IIssueService issueService,
+        IIssueNoteRepository repository) : IIssueNoteService
     {
+        public async Task<IssueNoteModel> CreateAsync(IssueNoteModel model)
+        {
+            if (!await issueService.ValidateIssueIsOpened(model.IssueId))
+                throw new Exception("Atividade encontra-se encerrada.");
+
+            model.DateCreated = DateTimeOffset.Now;
+            model.Issue = null;
+            if ((model.Description.Length < 5 && model.Description.Length > 2000) || model.Description.IsNullOrEmpty())
+                throw new Exception("A descrição deve ter entre {0} e {0} caracteres");
+            return await repository.InsertAsync(model);
+        }
+
+        public async Task<IssueNoteModel> UpdateAsync(IssueNoteModel model)
+        {
+            var query = await repository.GetAll().Where(e => e.Id == model.IssueId).FirstOrDefaultAsync();
+
+            if (model.SystemUserId != query.SystemUserId)
+                throw new Exception("Apenas quem adicionou a nota pode editá-la.");
+
+            model.DateCreated = query.DateCreated;
+            return await repository.UpdateAsync(model);
+        }
     }
 }
