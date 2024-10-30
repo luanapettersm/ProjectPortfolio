@@ -4,14 +4,17 @@ using ProjectPortfolio.Models;
 
 namespace ProjectPortfolio.Services
 {
-    public class ClientService(Repository repository) : IClientService
+    public class ClientService(IClientRepository repository) : IClientService
     {
         public async Task<ClientModel> CreateAsync(ClientModel model)
         {
             model.RemoveMasks();
             await ValidateCNPJExists(model);
             await ValidateCPFExists(model);
-             
+
+            if (await repository.GetAll().Where(e => e.Name.Equals(model.Name, StringComparison.CurrentCultureIgnoreCase) && e.Id != model.Id).AnyAsync())
+                throw new Exception("Nome já existe.");
+
             return model;
         }
 
@@ -26,27 +29,12 @@ namespace ProjectPortfolio.Services
 
         public async Task DeleteAsync(Guid id)
         {
-            await repository.Clients.Where(c => c.Id == id).FirstOrDefaultAsync();
-        }
-
-        public Task<ClientModel> FilterAsync()
-        {
-            throw new NotImplementedException();
-        }
-
-        public async Task<IEnumerable<ClientModel>> GetAllAsync()
-        {
-            return await repository.Clients.ToListAsync();
-        }
-
-        public async Task<ClientModel> GetAsync(Guid id)
-        {
-            return await repository.Clients.Where(e => e.Id == id).FirstOrDefaultAsync();
+            await repository.DeleteAsync(id);
         }
 
         private async Task<ClientModel> ValidateCNPJExists(ClientModel model)
         {
-            var query = await repository.Clients.AsNoTracking()
+            var query = await repository.GetAll().AsNoTracking()
                 .Where(e => e.CNPJNumber == model.CNPJNumber && e.Id != model.Id)
                 .Select(e => new { e.Id, e.CNPJ, e.IsEnabled }).FirstOrDefaultAsync();
 
@@ -67,7 +55,7 @@ namespace ProjectPortfolio.Services
 
         private async Task<ClientModel> ValidateCPFExists(ClientModel model)
         {
-            var query = await repository.Clients.AsNoTracking()
+            var query = await repository.GetAll().AsNoTracking()
                 .Where(e => e.CPFNumber == model.CPFNumber && e.Id != model.Id)
                 .Select(e => new { e.Id, e.CNPJ, e.IsEnabled }).FirstOrDefaultAsync();
 

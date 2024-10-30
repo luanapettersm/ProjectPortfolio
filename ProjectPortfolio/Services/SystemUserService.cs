@@ -1,14 +1,20 @@
 ﻿using Microsoft.EntityFrameworkCore;
+using Microsoft.IdentityModel.Tokens;
 using ProjectPortfolio.Data;
 using ProjectPortfolio.Models;
 
 namespace ProjectPortfolio.Services
 {
-    public class SystemUserService(Repository repository) : ISystemUserService
+    public class SystemUserService(ISystemUserRepository repository) : ISystemUserService
     {
-        public Task<SystemUserModel> CreateAsync(SystemUserModel model)
+        public async Task<SystemUserModel> CreateAsync(SystemUserModel model)
         {
-            throw new NotImplementedException();
+            SystemUserValidator(model);
+            
+            model.DateCreated = DateTimeOffset.Now;
+
+            var result = await repository.InsertAsync(model);
+            return result;
         }
 
         public Task<SystemUserModel> UpdateAsync(SystemUserModel model)
@@ -18,19 +24,22 @@ namespace ProjectPortfolio.Services
 
         public async Task DeleteAsync(Guid id)
         {
-            var query = repository.SystemUsers.Where(e => e.Id == id).FirstOrDefaultAsync();
+            var query = repository.GetAll().Where(e => e.Id == id).FirstOrDefaultAsync();
 
-            await repository.SystemUsers.ExecuteDeleteAsync(query);
+            await repository.DeleteAsync(id);
         }
 
-        public async Task<List<SystemUserModel>> GetAllAsync()
+        private static void SystemUserValidator(SystemUserModel model)
         {
-            return await repository.SystemUsers.ToListAsync();
-        }
-
-        public async Task<SystemUserModel> GetAsync(Guid id)
-        {
-            return await repository.SystemUsers.Where(e => e.Id == id).FirstOrDefaultAsync();
+            if (model.Name.Length < 3 || model.Name.Length > 35 || model.Name.IsNullOrEmpty())
+                throw new Exception("Nome deve ter entre {0} e {1} caracteres.");
+            if (model.Surname.Length < 3 || model.Surname.Length > 100 || model.Surname.IsNullOrEmpty())
+                throw new Exception("O sobrenome deve ter entre 3 e 100 caracteres.");
+            if(model.UserName.Length < 3 || model.UserName.Length > 50 || model.Name.IsNullOrEmpty())
+                throw new Exception("O login deve ter entre 3 e 50 caracteres.");
+            if(model.BusinessRole.GetType() == null)
+                throw new Exception("O cargo é obrigatório.");
         }
     }
 }
+  

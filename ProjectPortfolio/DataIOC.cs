@@ -9,7 +9,7 @@ namespace ProjectPortfolio
         public static void Register(IServiceCollection services, IConfiguration configuration)
         {
             var config = services.BuildServiceProvider().GetService<IConfiguration>();
-            services.AddDbContextFactory<Repository>(e => e.UseSqlServer(configuration.GetConnectionString("DefaultConnection", config), ServiceLifetime.Transient));
+            //services.AddDbContextFactory<Repository>(e => e.UseSqlServer(configuration.GetConnectionString("DefaultConnection", config), ServiceLifetime.Transient));
 
             services.AddTransient<IClientService, ClientService>();
             services.AddTransient<ISystemUserService, SystemUserService>();
