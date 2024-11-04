@@ -5,7 +5,7 @@ using ProjectPortfolio.Models;
 
 namespace ProjectPortfolio.Services
 {
-    public class SystemUserService(ISystemUserRepository repository) : ISystemUserService
+    internal class SystemUserService(ISystemUserRepository repository) : ISystemUserService
     {
         public async Task<SystemUserModel> CreateAsync(SystemUserModel model)
         {

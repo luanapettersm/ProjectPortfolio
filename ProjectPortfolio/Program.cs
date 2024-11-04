@@ -14,11 +14,16 @@ namespace ProjectPortfolio
             builder.Services.AddControllersWithViews();
 
             builder.Services.AddScoped<IClientService, ClientService>();
+            builder.Services.AddScoped<IClientProjectService, ClientProjectService>();
             builder.Services.AddScoped<ISystemUserService, SystemUserService>();
             builder.Services.AddScoped<IIssueService, IssueService>();
             builder.Services.AddScoped<IIssueNoteService, IssueNoteService>();
+            builder.Services.AddScoped<ISystemUserRepository, SystemUserRepository>();
+            builder.Services.AddScoped<IClientRepository, ClientRepository>();
+            builder.Services.AddScoped<IIssueRepository, IssueRepository>();
+            builder.Services.AddScoped<IIssueNoteRepository, IssueNoteRepository>();
 
-            builder.Services.AddDbContext<Repository>(options =>
+            builder.Services.AddDbContextFactory<Repository>(options =>
             {
                 options.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnection"));
             });

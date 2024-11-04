@@ -14,12 +14,9 @@ namespace ProjectPortfolio.Models
         public string ZipCode { get; set; }
         public string Address { get; set; }
         public string City { get; set; }
-        public Guid StateId { get; set; }
-        public Guid CountryId { get; set; }
+        public string State { get; set; }
         public bool IsEnabled { get; set; }
-
-        [ForeignKey(nameof(StateId))]
-        public StateModel State { get; set; }
+        public ICollection<ClientProjectModel> Projects { get; set; }
 
         public bool ValidateMailAddress(string input)
         {
