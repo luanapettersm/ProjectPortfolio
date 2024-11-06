@@ -2,11 +2,12 @@
 
 namespace ProjectPortfolio.Controllers
 {
-    public class ClientController : Controller
+    public class LoginController : Controller
     {
         public IActionResult Index()
         {
             return View();
         }
+
     }
 }

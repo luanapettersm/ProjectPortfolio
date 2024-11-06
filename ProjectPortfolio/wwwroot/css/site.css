@@ -20,3 +20,55 @@ html {
 body {
   margin-bottom: 60px;
 }
+
+input {
+    margin-bottom: 10px;
+}
+
+.btn {
+    height: 40px;
+}
+
+.btn-primary {
+    background-color: #3D383D;
+    border-color: #3D383D;
+}
+
+.btn-primary:hover {
+    background-color: #FFFFFF;
+    color: #3D383D;
+    border-color: #3D383D;
+}
+
+.btn-secondary {
+    background-color: #EFE7DC;
+    border-color: #EFE7DC;
+}
+
+.btn-secondary:hover {
+    background-color: #FFFFFF;
+    color: #EFE7DC;
+    border-color: #EFE7DC;
+}
+
+textarea:focus, input:focus{
+    outline: none;
+    box-shadow: none !important;
+    border: 1px solid #ccc !important;
+}
+
+.btn-primary:active, .btn-primary:focus {
+    outline: none;
+    box-shadow: none !important;
+    background-color: #3D383D;
+    border-color: #3D383D;
+    color: #FFFFFF;
+}
+
+.btn-secondary:active, .btn-secondary:focus {
+    outline: none;
+    box-shadow: none !important;
+    background-color: #EFE7DC;
+    border-color: #EFE7DC;
+    color: #FFFFFF;
+}
