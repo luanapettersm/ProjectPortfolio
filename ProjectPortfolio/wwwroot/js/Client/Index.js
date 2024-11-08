@@ -1,6 +1,7 @@
 ﻿window.onload = function () {
     $("#clientInfoId").mask("999.999.99-99");
     $("#phoneNumberId").mask("(999)99999-9999");
+    Filter();
 };
 
 function ChangePeople(bool) {
@@ -32,4 +33,10 @@ function CleanEdit() {
     $("#cityId").val("");
     $("#stateId").val("");
     $("#isEnabledId").prop('checked', true);    
+}
+
+function Filter() {
+    $.get("Client/Filter", function (response) {
+        $("#wrapper").html(response);
+    });
 }

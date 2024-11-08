@@ -1,0 +1,36 @@
+﻿@{
+    ViewData["Title"] = "Cadastro de Usuário";
+}
+
+<div class="shadow p-3 bg-body rounded w-100" style="background-color: #FFFFFF !important">
+    <form id="systemUserFormId">
+        <input id="systemUserId" name="systemUser.id" hidden />
+        <div class="row">
+            <div class="col-3">
+                <input class="form-control" id="nameId" name="systemUser.name" placeholder="Nome">
+            </div>
+            <div class="col-3">
+                <input class="form-control" id="surnameId" name="systemUser.surname" placeholder="Sobrenome">
+            </div>
+            <div class="col-3">
+                <input class="form-control" id="userNameId" name="systemUser.userName" placeholder="Nome do usuário">
+            </div>
+            <div class="col-1">
+                <div class="form-check" style="margin-top: 8px;">
+                    <input class="form-check-input" type="checkbox" value="true" name="systemUser.isEnabled" id="isEnabledId" checked>
+                    <label class="form-check-label" for="isEnabledId">
+                        Ativo
+                    </label>
+                </div>
+            </div>
+            <div class="col-2 d-flex justify-content-end">
+                <button onclick="CleanEdit()" type="button" class="btn btn-primary me-2">Limpar</button>
+                <button type="button" class="btn btn-primary">Salvar</button>
+            </div>
+        </div>
+
+    </form>
+</div>
+<div id="wrapper"></div>
+
+<script src="~/js/SystemUser/Index.js" asp-append-version="true"></script>

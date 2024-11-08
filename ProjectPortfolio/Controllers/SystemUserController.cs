@@ -2,9 +2,18 @@
 
 namespace ProjectPortfolio.Controllers
 {
-    [Route("api/[controller]")]
-    [ApiController]
-    public class SystemUserController : ControllerBase
+    [Route("[controller]")]
+    public class SystemUserController : Controller
     {
+        public IActionResult Index()
+        {
+            return View();
+        }
+
+        [HttpGet("Filter")]
+        public IActionResult Filter()
+        {
+            return PartialView("~/Views/SystemUser/List.cshtml");
+        }
     }
 }

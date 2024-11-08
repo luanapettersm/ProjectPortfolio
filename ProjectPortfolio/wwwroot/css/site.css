@@ -8,6 +8,33 @@ html {
   }
 }
 
+.table-overflow-client {
+    max-height: 400px;
+    overflow-y: auto;
+}
+
+.table-overflow-systemUser {
+    max-height: 500px;
+    overflow-y: auto;
+}
+
+table {
+    overflow: auto;
+    height: 100px;
+}
+
+table thead{
+    background-color: #FFFFFF;
+    position: sticky;
+    top: 0;
+    z-index: 1;
+}
+
+.iconButton {
+    border: none;
+    background-color: transparent;
+}
+
 .btn:focus, .btn:active:focus, .btn-link.nav-link:focus, .form-control:focus, .form-check-input:focus {
   box-shadow: 0 0 0 0.1rem white, 0 0 0 0.25rem #258cfb;
 }
