@@ -1,5 +1,4 @@
 using Microsoft.EntityFrameworkCore;
-using ProjectPortfolio.Authorization;
 using ProjectPortfolio.Data;
 using ProjectPortfolio.Services;
 
@@ -45,8 +44,6 @@ namespace ProjectPortfolio
             app.UseRouting();
 
             app.UseAuthorization();
-
-            //app.UseMiddleware<BasicAuthMiddleware>();
 
             app.MapControllerRoute(
                 name: "default",
