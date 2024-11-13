@@ -1,4 +1,5 @@
 using Microsoft.EntityFrameworkCore;
+using ProjectPortfolio.Authorization;
 using ProjectPortfolio.Data;
 using ProjectPortfolio.Services;
 
@@ -13,15 +14,15 @@ namespace ProjectPortfolio
             // Add services to the container.
             builder.Services.AddControllersWithViews();
 
-            builder.Services.AddScoped<IClientService, ClientService>();
-            builder.Services.AddScoped<IClientProjectService, ClientProjectService>();
-            builder.Services.AddScoped<ISystemUserService, SystemUserService>();
-            builder.Services.AddScoped<IIssueService, IssueService>();
-            builder.Services.AddScoped<IIssueNoteService, IssueNoteService>();
-            builder.Services.AddScoped<ISystemUserRepository, SystemUserRepository>();
-            builder.Services.AddScoped<IClientRepository, ClientRepository>();
-            builder.Services.AddScoped<IIssueRepository, IssueRepository>();
-            builder.Services.AddScoped<IIssueNoteRepository, IssueNoteRepository>();
+            builder.Services.AddTransient<IClientService, ClientService>();
+            builder.Services.AddTransient<IClientProjectService, ClientProjectService>();
+            builder.Services.AddTransient<ISystemUserService, SystemUserService>();
+            builder.Services.AddTransient<IIssueService, IssueService>();
+            builder.Services.AddTransient<IIssueNoteService, IssueNoteService>();
+            builder.Services.AddTransient<ISystemUserRepository, SystemUserRepository>();
+            builder.Services.AddTransient<IClientRepository, ClientRepository>();
+            builder.Services.AddTransient<IIssueRepository, IssueRepository>();
+            builder.Services.AddTransient<IIssueNoteRepository, IssueNoteRepository>();
 
             builder.Services.AddDbContextFactory<Repository>(options =>
             {
@@ -44,6 +45,8 @@ namespace ProjectPortfolio
             app.UseRouting();
 
             app.UseAuthorization();
+
+            //app.UseMiddleware<BasicAuthMiddleware>();
 
             app.MapControllerRoute(
                 name: "default",
