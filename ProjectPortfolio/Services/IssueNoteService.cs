@@ -16,7 +16,7 @@ namespace ProjectPortfolio.Services
             model.DateCreated = DateTimeOffset.Now;
             model.Issue = null;
             if ((model.Description.Length < 5 && model.Description.Length > 2000) || model.Description.IsNullOrEmpty())
-                throw new Exception("A descrição deve ter entre {0} e {0} caracteres");
+                throw new Exception("A descrição deve ter entre 5 e 2000 caracteres");
             return await repository.InsertAsync(model);
         }
 

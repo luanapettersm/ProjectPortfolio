@@ -4,31 +4,46 @@ using ProjectPortfolio.Models;
 
 namespace ProjectPortfolio.Services
 {
-    internal class ClientService(IClientRepository repository) : IClientService
+    internal class ClientService(IClientRepository repository, IIssueRepository issueRepository) : IClientService
     {
         public async Task<ClientModel> CreateAsync(ClientModel model)
         {
             model.RemoveMasks();
-            await ValidateCNPJExists(model);
-            await ValidateCPFExists(model);
+            if(model.CPF != null)
+            {
+                await ValidateCPFExists(model);
+                if (await repository.GetAll().Where(e => e.CPF == model.CPF).AnyAsync())
+                    throw new Exception("Já existe cliente criado para este CPF.");
+            }
+            else if(model.CNPJ != null)
+            {
+                await ValidateCNPJExists(model);
+                if (await repository.GetAll().Where(e => e.CNPJ == model.CNPJ).AnyAsync())
+                    throw new Exception("Já existe cliente criado para este CNPJ.");
+            }
 
-            if (await repository.GetAll().Where(e => e.Name.Equals(model.Name, StringComparison.CurrentCultureIgnoreCase) && e.Id != model.Id).AnyAsync())
-                throw new Exception("Nome já existe.");
-
-            return model;
+            var result = await repository.InsertAsync(model);
+            return result;
         }
 
         public async Task<ClientModel> UpdateAsync(ClientModel model)
         {
-            model.RemoveMasks();
-            await ValidateCNPJExists(model);
-            await ValidateCPFExists(model);
+            var dbClient = await repository.GetAll().AsNoTracking().Where(e => e.Id == model.Id).FirstOrDefaultAsync();
+            if (model.CPF != dbClient.CPF)
+                throw new Exception("O CPF do cliente não pode ser alterado.");
+            if(model.CNPJ != dbClient.CNPJ)
+                throw new Exception("O CPF do cliente não pode ser alterado.");
 
+            var result = await repository.UpdateAsync(model);
             return model;
         }
 
         public async Task DeleteAsync(Guid id)
         {
+            var issues = await issueRepository.GetAll().AsNoTracking().Where(e => e.ClientId == id && e.Status != Enumerators.IssueStatusEnum.Closed).ToListAsync();
+            if (issues.Count > 0)
+                throw new Exception("Cliente está vinculado a atividade ativa e não pode ser excluído.");
+
             await repository.DeleteAsync(id);
         }
 
@@ -40,9 +55,9 @@ namespace ProjectPortfolio.Services
 
             if(query != null)
             {
-                if (!query.IsEnabled)
+                if (query.IsEnabled)
                     throw new Exception("CNPJ já existe");
-                else if (query.IsEnabled && query.Id != Guid.Empty)
+                else if (!query.IsEnabled && query.Id != Guid.Empty)
                     throw new Exception("CNPJ já existe em um registro desativado");
                 else
                 {
@@ -61,9 +76,9 @@ namespace ProjectPortfolio.Services
 
             if (query != null)
             {
-                if (!query.IsEnabled)
+                if (query.IsEnabled)
                     throw new Exception("CPF já existe");
-                else if (query.IsEnabled && query.Id != Guid.Empty)
+                else if (!query.IsEnabled && query.Id != Guid.Empty)
                     throw new Exception("CPF já existe em um registro desativado");
                 else
                 {
