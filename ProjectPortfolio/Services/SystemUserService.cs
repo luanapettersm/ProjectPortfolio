@@ -10,7 +10,7 @@ namespace ProjectPortfolio.Services
     {
         public async Task<SystemUserModel> CreateAsync(SystemUserModel model)
         {
-            SystemUserValidator(model);
+            Validator(model);
             
             model.DateCreated = DateTimeOffset.Now;
 
@@ -33,7 +33,7 @@ namespace ProjectPortfolio.Services
             await repository.DeleteAsync(id);
         }
 
-        private static void SystemUserValidator(SystemUserModel model)
+        private static void Validator(SystemUserModel model)
         {
             if (model.Name.Length < 3 || model.Name.Length > 35 || model.Name.IsNullOrEmpty())
                 throw new Exception("Nome deve ter entre 3 e 35 caracteres.");

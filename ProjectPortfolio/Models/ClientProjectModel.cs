@@ -12,6 +12,7 @@ namespace ProjectPortfolio.Models
         public string City { get; set; }
         public bool IsEnabled { get; set; }
         public string Description { get; set; }
+        public string Title { get; set; }
         
         [ForeignKey(nameof(ClientId))]
         public ClientModel Client { get; set; }

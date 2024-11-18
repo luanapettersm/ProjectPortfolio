@@ -8,5 +8,6 @@ namespace ProjectPortfolio.Data
         Task<ClientModel> InsertAsync(ClientModel model);
         Task<ClientModel> UpdateAsync(ClientModel model);
         Task DeleteAsync(Guid id);
+        Task<IEnumerable<ClientModel>> GetListAsync();
     }
 }

@@ -33,5 +33,16 @@ namespace ProjectPortfolio.Data
             await ct.SaveChangesAsync();
             return result.Entity;
         }
+
+        public async Task<IEnumerable<ClientModel>> GetListAsync()
+        {
+            var ct = await dbContextFactory.CreateDbContextAsync();
+
+            return await ct.Set<ClientModel>().Where(e => e.IsEnabled).OrderBy(e => e.Name).Select(e => new ClientModel
+            {
+                Id = e.Id,
+                Name = e.Name
+            }).ToListAsync();
+        } 
     }
 }
