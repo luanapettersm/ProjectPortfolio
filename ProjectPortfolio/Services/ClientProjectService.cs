@@ -5,7 +5,7 @@ using ProjectPortfolio.Models;
 
 namespace ProjectPortfolio.Services
 {
-    internal class ClientProjectService(ClientProjectRepository repository) : IClientProjectService
+    internal class ClientProjectService(IClientProjectRepository repository) : IClientProjectService
     {
         public async Task<ClientProjectModel> CreateAsync(ClientProjectModel model)
         {
