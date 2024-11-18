@@ -18,6 +18,7 @@ namespace ProjectPortfolio
             builder.Services.AddTransient<ISystemUserService, SystemUserService>();
             builder.Services.AddTransient<IIssueService, IssueService>();
             builder.Services.AddTransient<IIssueNoteService, IssueNoteService>();
+            builder.Services.AddTransient<ITokenService, TokenService>();
             builder.Services.AddTransient<ISystemUserRepository, SystemUserRepository>();
             builder.Services.AddTransient<IClientRepository, ClientRepository>();
             builder.Services.AddTransient<IIssueRepository, IssueRepository>();

@@ -10,6 +10,7 @@ namespace ProjectPortfolio.Models
         public string Surname { get; set; }
         public string UserName { get; set; }
         public bool IsEnabled { get; set; }
+        public string Password { get; set; }
         public DateTimeOffset DateCreated { get; set; }
         public BusinessRoleEnum BusinessRole { get; set; }
         public SystemRoleEnum SystemRole { get; set; }
