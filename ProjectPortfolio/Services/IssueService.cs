@@ -11,11 +11,16 @@ namespace ProjectPortfolio.Services
         public async Task<IssueModel> CreateAsync(IssueModel model)
         {
             IssueValidator(model);
+            var db = await repository.GetAll().AsNoTracking().OrderByDescending(e => e.SequentialId).LastAsync();
+            model.SequentialId = db.SequentialId + 1;
             return model;
         }
 
         public async Task<IssueModel> UpdateAsync(IssueModel model)
         {
+            if (!await ValidateIssueIsOpened(model.Id))
+                throw new Exception("Atividade encontra-se encerrada e não pode ser editada.");
+
             return model;
         }
 
@@ -31,8 +36,8 @@ namespace ProjectPortfolio.Services
         {
             if (model.Title.Length < 3 && model.Title.Length > 100 && !model.Title.IsNullOrEmpty())
                 throw new Exception("O título deve ter entre 3 e 100 caracteres.");
-            if (model.Description.Length < 3 && model.Description.Length > 4000 && !model.Description.IsNullOrEmpty())
-                throw new Exception("O título deve ter entre 3 e 100 caracteres.");
+            if (model.Description.Length < 3 && model.Description.Length > 2000 && !model.Description.IsNullOrEmpty())
+                throw new Exception("O título deve ter entre 3 e 2000 caracteres.");
             if (model.ClientId == Guid.Empty)
                 throw new Exception("O cliente é obrigatório.");
         }

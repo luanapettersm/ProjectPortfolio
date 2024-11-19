@@ -20,6 +20,11 @@ namespace ProjectPortfolio.Services
 
         public async Task<SystemUserModel> UpdateAsync(SystemUserModel model)
         {
+            var db = await repository.GetAll().AsNoTracking().Where(e => e.Id == model.Id).FirstOrDefaultAsync();
+            Validator(model);
+
+            model.DateCreated = db.DateCreated;
+
             var result = await repository.UpdateAsync(model);   
             return result;
         }
