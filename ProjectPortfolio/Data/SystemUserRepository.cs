@@ -3,8 +3,33 @@ using ProjectPortfolio.Models;
 
 namespace ProjectPortfolio.Data
 {
-    public class SystemUserRepository(IDbContextFactory<Repository> dbContextFactory) : ISystemUserRepository
+    internal class SystemUserRepository(IDbContextFactory<Repository> dbContextFactory) : ISystemUserRepository
     {
+        public async Task<FilterResponseModel<SystemUserModel>> FilterAsync(FilterRequestModel filter)
+        {
+            var ct = await dbContextFactory.CreateDbContextAsync();
+            var query = ct.Set<SystemUserModel>().AsQueryable();
+
+            if (!string.IsNullOrEmpty(filter.Search))
+            {
+                query = query.Where(e => e.Name.Contains(filter.Search) || e.Surname.Contains(filter.Search)); 
+            }
+
+            var totalRecords = await query.CountAsync();
+            var filteredRecords = await query.CountAsync();
+
+            var result = query
+                .Skip((filter.Page - 1) * filter.PageSize)
+                .Take(filter.PageSize).ToList();
+
+            return new FilterResponseModel<SystemUserModel>
+            {
+                Total = totalRecords,
+                FilteredRecords = filteredRecords,
+                Data = result
+            };
+        }
+
         public IQueryable<SystemUserModel> GetAll()
         {
             var ct = dbContextFactory.CreateDbContext();

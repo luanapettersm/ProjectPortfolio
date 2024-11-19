@@ -4,6 +4,7 @@ namespace ProjectPortfolio.Data
 {
     public interface IClientProjectRepository
     {
+        Task<FilterResponseModel<ClientProjectModel>> FilterAsync(FilterRequestModel filter);
         IQueryable<ClientProjectModel> GetAll();
         Task<ClientProjectModel> InsertAsync(ClientProjectModel model);
         Task<ClientProjectModel> UpdateAsync(ClientProjectModel model);

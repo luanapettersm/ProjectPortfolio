@@ -3,7 +3,7 @@ using ProjectPortfolio.Models;
 
 namespace ProjectPortfolio.Data
 {
-    public class IssueNoteRepository(IDbContextFactory<Repository> dbContextFactory) : IIssueNoteRepository
+    internal class IssueNoteRepository(IDbContextFactory<Repository> dbContextFactory) : IIssueNoteRepository
     {
         public IQueryable<IssueNoteModel> GetAll()
         {
