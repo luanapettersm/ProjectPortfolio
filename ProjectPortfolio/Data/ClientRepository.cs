@@ -68,6 +68,13 @@ namespace ProjectPortfolio.Data
                 Id = e.Id,
                 Name = e.Name
             }).ToListAsync();
-        } 
+        }
+
+        public async Task<ClientModel> GetAsync(Guid id)
+        {
+            var ct = await dbContextFactory.CreateDbContextAsync();
+            return await ct.Set<ClientModel>().Where(e => e.Id == id).FirstOrDefaultAsync();
+
+        }
     }
 }

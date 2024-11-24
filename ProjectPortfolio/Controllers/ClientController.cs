@@ -1,11 +1,14 @@
 ﻿using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using ProjectPortfolio.Data;
+using ProjectPortfolio.Models;
+using ProjectPortfolio.Services;
 
 namespace ProjectPortfolio.Controllers
 {
     [Authorize]
     [Route("[controller]")]
-    public class ClientController : Controller
+    public class ClientController(IClientRepository repository) : Controller
     {
         [HttpGet]
         public IActionResult Index()
@@ -18,5 +21,16 @@ namespace ProjectPortfolio.Controllers
         //{
         //    return PartialView("~/Views/Client/List.cshtml");
         //}
+
+        [HttpGet("Editor/{id}")]
+        public async Task<IActionResult> Editor(Guid id = new Guid())
+        {
+            var client = new ClientModel();
+
+            if (id != Guid.Empty)
+                client = await repository.GetAsync(id);
+
+            return PartialView("");
+        }
     }
 }
