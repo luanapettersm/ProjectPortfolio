@@ -9,15 +9,15 @@ namespace ProjectPortfolio.Services
     {
         public async Task<ClientProjectModel> CreateAsync(ClientProjectModel model)
         {
-            if (model.Title.Length < 3 || model.Title.Length > 50 || model.Title.IsNullOrEmpty())
+            if (model.Title.Length < 3 || model.Title.Length > 50 || string.IsNullOrEmpty(model.Title))
                 throw new Exception("O título deve ter entre 3 e 50 caracteres.");
-            if (model.Address.IsNullOrEmpty())
+            if (string.IsNullOrEmpty(model.Address))
                 throw new Exception("Necessário informar o endereço da obra.");
             if (model.Number == null)
                 throw new Exception("Necessário informar o número.");
-            if (model.City.IsNullOrEmpty())
+            if (string.IsNullOrEmpty(model.City))
                 throw new Exception("Necessário informar a cidade em que acontecerá a obra.");
-            if (model.ZipCode.IsNullOrEmpty())
+            if (string.IsNullOrEmpty(model.ZipCode))
                 throw new Exception("Necessário informar o CEP.");
 
             model.Client = null;

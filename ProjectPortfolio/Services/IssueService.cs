@@ -34,9 +34,9 @@ namespace ProjectPortfolio.Services
 
         private static void IssueValidator(IssueModel model)
         {
-            if (model.Title.Length < 3 && model.Title.Length > 100 && !model.Title.IsNullOrEmpty())
+            if (model.Title.Length < 3 && model.Title.Length > 100 && !string.IsNullOrEmpty(model.Title))
                 throw new Exception("O título deve ter entre 3 e 100 caracteres.");
-            if (model.Description.Length < 3 && model.Description.Length > 2000 && !model.Description.IsNullOrEmpty())
+            if (model.Description.Length < 3 && model.Description.Length > 2000 && !string.IsNullOrEmpty(model.Description))
                 throw new Exception("O título deve ter entre 3 e 2000 caracteres.");
             if (model.ClientId == Guid.Empty)
                 throw new Exception("O cliente é obrigatório.");

@@ -40,11 +40,11 @@ namespace ProjectPortfolio.Services
 
         private static void Validator(SystemUserModel model)
         {
-            if (model.Name.Length < 3 || model.Name.Length > 35 || model.Name.IsNullOrEmpty())
+            if (model.Name.Length < 3 || model.Name.Length > 35 || string.IsNullOrEmpty(model.Name))
                 throw new Exception("Nome deve ter entre 3 e 35 caracteres.");
-            if (model.Surname.Length < 3 || model.Surname.Length > 100 || model.Surname.IsNullOrEmpty())
+            if (model.Surname.Length < 3 || model.Surname.Length > 100 || string.IsNullOrEmpty(model.Surname))
                 throw new Exception("O sobrenome deve ter entre 3 e 100 caracteres.");
-            if(model.UserName.Length < 3 || model.UserName.Length > 50 || model.Name.IsNullOrEmpty())
+            if(model.UserName.Length < 3 || model.UserName.Length > 50 || string.IsNullOrEmpty(model.Name))
                 throw new Exception("O login deve ter entre 3 e 50 caracteres.");
             if(model.BusinessRole.GetType() == null)
                 throw new Exception("O cargo é obrigatório.");
