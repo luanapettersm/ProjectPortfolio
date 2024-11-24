@@ -9,7 +9,7 @@ namespace ProjectPortfolio.Models
         public Guid ClientId { get; set; }
         public Guid? AttendantId { get; set; }
         public string Description { get; set; }
-        public string Priority { get; set; }
+        public PriorityEnum Priority { get; set; }
         public string Title { get; set; }
         public DateTimeOffset DateCreated { get; set; }
         public DateTimeOffset? DateClosed { get; set; }
