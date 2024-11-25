@@ -1,5 +1,4 @@
 ﻿using Microsoft.EntityFrameworkCore;
-using Microsoft.IdentityModel.Tokens;
 using ProjectPortfolio.Data;
 using ProjectPortfolio.Models;
 
