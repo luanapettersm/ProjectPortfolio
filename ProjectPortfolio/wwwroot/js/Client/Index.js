@@ -19,3 +19,10 @@ function Edit(id) {
         $("#editModal").show();
     });
 }
+
+function Delete(id) {
+    $.get(`Client/${id}/Delete`)
+        .done(function (response) {
+            Filter();
+        });
+}

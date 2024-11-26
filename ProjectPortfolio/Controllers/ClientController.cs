@@ -23,9 +23,34 @@ namespace ProjectPortfolio.Controllers
 
         [HttpGet("Edit")]
         [HttpGet("Edit/{id}")]
-        public async Task<IActionResult> Edit(Guid id = new Guid())
+        public async Task<IActionResult> Edit(Guid? id)
         {
-            return PartialView("~/Views/Client/Edit.cshtml");
+            var model = new ClientModel();
+
+            //model = id.HasValue ? await repository.GetAsync((Guid)id) : null;
+
+            return PartialView("~/Views/Client/Edit.cshtml", model);
         }
+
+        [HttpPost("Save")]
+        public async Task<IActionResult> Save(ClientModel client)
+        {
+
+            //var result = client.Id == Guid.Empty ? await repository.InsertAsync(client)
+            //    : await repository.UpdateAsync(client);
+
+            //return result.Success ? Ok(result) : BadRequest(result.Error.Details ?? result.Error.Message);
+
+            return Ok();
+        }
+
+        [HttpGet("{id}/Delete")]
+        public async Task<IActionResult> Delete(Guid id)
+        {
+            await repository.DeleteAsync(id);
+
+            return Ok();
+        }
+
     }
 }

@@ -1,4 +1,6 @@
-﻿<div id="editModal" class="modal" tabindex="-1">
+﻿@model SystemUserModel;
+
+<div id="editModal" class="modal" tabindex="-1">
     <div class="modal-dialog">
         <div class="modal-content">
             <div class="modal-header">
@@ -6,31 +8,66 @@
             </div>
             <div class="modal-body">
                 <form id="systemUserFormId">
-                    <input id="systemUserId" name="systemUser.id" hidden />
+                    @if(Model != null)
+                    {
+                        <input id="systemUserId" name="systemUser.id" value="@Model.Id" hidden />
+                    }
                     <div class="row">
                         <div class="col-6">
-                            <input class="form-control" id="nameId" name="systemUser.name" placeholder="Nome">
+                            <input class="form-control" id="nameId" name="systemUser.name" placeholder="Nome" value="@(Model != null ? Model.Name : "")">
                         </div>
                         <div class="col-6">
-                            <input class="form-control" id="surnameId" name="systemUser.surname" placeholder="Sobrenome">
+                            <input class="form-control" id="surnameId" name="systemUser.surname" placeholder="Sobrenome" value="@(Model != null ? Model.Surname : "")">
                         </div>
                         <div class="col-6">
-                            <input class="form-control" id="userNameId" name="systemUser.userName" placeholder="Nome do usuário">
+                            <input class="form-control" id="userNameId" name="systemUser.userName" placeholder="Nome do usuário" value="@(Model != null ? Model.UserName : "")">
                         </div>
                         <div class="col-6">
-                            <input class="form-control" id="passwordId" name="systemUser.password" type="password" placeholder="Senha">
+                            <input class="form-control" id="passwordId" name="systemUser.password" type="password" placeholder="Senha" value="@(Model != null ? Model.Password : "")">
                         </div>
                         <div class="col-6">
                             <select class="form-select" id="businessRoleId" name="systemUser.businessRole">
-                                <option selected>Função empresarial</option>
-                                <option value="1">Estágiario</option>
-                                <option value="2">Análista</option>
-                                <option value="3">Gestor</option>
+                                @if(Model == null)
+                                {
+                                    <option selected>Função empresarial</option>
+                                    <option value="1">Estágiario</option>
+                                    <option value="2">Análista</option>
+                                    <option value="3">Gestor</option>
+                                }
+                                else
+                                {
+                                    <option>Função empresarial</option>
+                                    @if (Model.BusinessRole == ProjectPortfolio.Enumerators.BusinessRoleEnum.trainee)
+                                    {
+                                        <option selected value="1">Estágiario</option>
+                                    }
+                                    else
+                                    {
+                                        <option value="1">Estágiario</option>
+                                    }
+                                    @if (Model.BusinessRole == ProjectPortfolio.Enumerators.BusinessRoleEnum.analyst)
+                                    {
+                                        <option selected value="2">Análista</option>
+                                    }
+                                    else
+                                    {
+                                        <option value="2">Análista</option>
+                                    }
+                                    @if (Model.BusinessRole == ProjectPortfolio.Enumerators.BusinessRoleEnum.manager)
+                                    {
+                                        <option selected value="3">Gestor</option>
+                                    }
+                                    else
+                                    {
+                                        <option value="3">Gestor</option>
+                                    }
+                                }
+
                             </select>
                         </div>
                         <div class="col-6 d-flex justify-content-end">
                             <div class="form-check" style="margin-top: 8px;">
-                                <input class="form-check-input" type="checkbox" value="true" name="systemUser.isEnabled" id="isEnabledId" checked>
+                                <input class="form-check-input" type="checkbox" value="true" name="systemUser.isEnabled" id="isEnabledId" checked="@(Model == null ? true : Model.IsEnabled)">
                                 <label class="form-check-label" for="isEnabledId">
                                     Ativo
                                 </label>
@@ -41,7 +78,7 @@
             </div>
             <div class="modal-footer">
                 <button onclick="Close()" type="button" class="btn btn-primary">Fechar</button>
-                <button onclick="Save()" type="button" class="btn btn-primary">Salvar</button>
+                <button onclick="Save()" type="button" class="btn btn-primary mb-1">Salvar</button>
             </div>
         </div>
     </div>
