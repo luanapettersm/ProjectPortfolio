@@ -107,6 +107,13 @@ textarea:focus, input:focus{
 
 .head {
     margin: 10px 3px 0px 3px;
+    color: #212529;
+    font-weight: bold;
+}
+
+.client {
+    color: #212529;
+    font-weight: bold;
 }
 
 .card {
