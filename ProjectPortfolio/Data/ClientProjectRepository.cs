@@ -1,5 +1,6 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using ProjectPortfolio.Models;
+using System.Linq.Dynamic.Core;
 
 namespace ProjectPortfolio.Data
 {
@@ -10,24 +11,38 @@ namespace ProjectPortfolio.Data
             var ct = await dbContextFactory.CreateDbContextAsync();
             var query = ct.Set<ClientProjectModel>().AsQueryable();
 
-            if (!string.IsNullOrEmpty(filter.Search))
+            if (filter.Filters.ContainsKey("search"))
             {
-                query = query.Where(e => e.Title.Contains(filter.Search));
+                var search = filter.Filters["search"];
+                query = query.Where(e => e.Title.Contains(search));
             }
 
-            var totalRecords = await query.CountAsync();
-            var filteredRecords = await query.CountAsync();
+            if (filter.SortColumn != "")
+                query = query.OrderBy($" {filter.SortColumn} {filter.SortDirection} ");
 
-            var result = query
-                .Skip((filter.Page - 1) * filter.PageSize)
-                .Take(filter.PageSize).ToList();
+            var queryResult = query.Skip((filter.Page - 1) * filter.PageSize).Take(filter.PageSize).Select(e => e);
 
-            return new FilterResponseModel<ClientProjectModel>
+            var result = new FilterResponseModel<ClientProjectModel>
             {
-                Total = totalRecords,
-                FilteredRecords = filteredRecords,
-                Data = result
+                Page = filter.Page,
+                Total = query.Count()
             };
+
+            result.Result = await (from projetcts in queryResult
+                                   select new ClientProjectModel
+                                   {
+                                       Id = projetcts.Id,
+                                       Title = projetcts.Title,
+                                       Address = projetcts.Address,
+                                       City = projetcts.City,
+                                       ClientId = projetcts.ClientId,    
+                                       Number = projetcts.Number,
+                                       Description = projetcts.Description,
+                                       ZipCode = projetcts.ZipCode,
+                                       IsEnabled = projetcts.IsEnabled
+                                   }).ToListAsync();
+
+            return result; 
         }
 
         public async Task DeleteAsync(Guid id)

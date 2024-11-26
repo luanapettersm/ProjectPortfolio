@@ -1,5 +1,6 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using ProjectPortfolio.Models;
+using System.Linq.Dynamic.Core;
 
 namespace ProjectPortfolio.Data
 {
@@ -8,26 +9,42 @@ namespace ProjectPortfolio.Data
         public async Task<FilterResponseModel<ClientModel>> FilterAsync(FilterRequestModel filter)
         {
             var ct = await dbContextFactory.CreateDbContextAsync();
+
             var query = ct.Set<ClientModel>().AsQueryable();
 
-            if (!string.IsNullOrEmpty(filter.Search))
+            if (filter.Filters.ContainsKey("search"))
             {
-                query = query.Where(e => e.Name.Contains(filter.Search));
+                var search = filter.Filters["search"];
+                query = query.Where(e => e.Name.Contains(search) || e.City.Contains(search)
+                    || e.CNPJNumber.Contains(search)
+                    || e.CPFNumber.Contains(search));
             }
 
-            var totalRecords = await query.CountAsync();
-            var filteredRecords = await query.CountAsync();
+            if (filter.Filters.ContainsKey("IsEnabled") && !String.IsNullOrEmpty(filter.Filters["IsEnabled"]))
+                query = query.Where(e => e.IsEnabled == bool.Parse(filter.Filters["IsEnabled"]));
 
-            var result = query
-                .Skip((filter.Page - 1) * filter.PageSize)
-                .Take(filter.PageSize).ToList();
+            if (filter.SortColumn != "")
+                query = query.OrderBy($" {filter.SortColumn} {filter.SortDirection} ");
 
-            return new FilterResponseModel<ClientModel>
+            var queryResult = query.Skip((filter.Page - 1) * filter.PageSize).Take(filter.PageSize).Select(e => e);
+
+            var result = new FilterResponseModel<ClientModel>
             {
-                Total = totalRecords,
-                FilteredRecords = filteredRecords,
-                Data = result
+                Page = filter.Page,
+                Total = query.Count()
             };
+
+            result.Result = await (from clients in queryResult
+                                   select new ClientModel
+                                   {
+                                       Id = clients.Id,
+                                       Name = clients.Name,
+                                       CNPJNumber = clients.CNPJNumber,
+                                       CPFNumber = clients.CPFNumber,
+                                       IsEnabled = clients.IsEnabled
+                                   }).ToListAsync();
+
+            return result;
         }
 
         public async Task DeleteAsync(Guid id)
@@ -74,7 +91,12 @@ namespace ProjectPortfolio.Data
         {
             var ct = await dbContextFactory.CreateDbContextAsync();
             return await ct.Set<ClientModel>().Where(e => e.Id == id).FirstOrDefaultAsync();
+        }
 
+        public async Task<IEnumerable<ClientModel>> GetListAsync(IEnumerable<Guid> ids)
+        {
+            var ct = await dbContextFactory.CreateDbContextAsync();
+            return await ct.Set<ClientModel>().AsNoTracking().ToListAsync();
         }
     }
 }
