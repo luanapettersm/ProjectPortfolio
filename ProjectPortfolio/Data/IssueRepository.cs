@@ -30,22 +30,21 @@ namespace ProjectPortfolio.Data
                 }
                 else if (filter.IssueStatus == IssueStatusEnum.Pending)
                 {
-                    query = query.Where(e => e.DateClosed == null &&
-                        (e.AttendantId != null && e.AttendantId == userId
-                            && e.Status != IssueStatusEnum.Closed && e.Status != IssueStatusEnum.InProgress));
+                    query = query.Where(e => e.DateClosed == null/* &&
+                        (e.AttendantId != null && e.AttendantId == userId*/
+                            && e.Status != IssueStatusEnum.Closed && e.Status != IssueStatusEnum.InProgress);
+                    //);
                 }
                 else if (filter.IssueStatus == IssueStatusEnum.InProgress)
                 {
-                    query = query.Where(e => e.AttendantId != null && e.AttendantId == userId && e.DateClosed == null);
+                    query = query.Where(e => e.AttendantId != null /*&& e.AttendantId == userId*/ && e.DateClosed == null);
                 }
                 else if (filter.IssueStatus == IssueStatusEnum.Closed)
                 {
                     //Fazer validação para sair da coluna de Closed em x dias
-                    //var parameter = await parameterTenantRepository.GetAsync(ParameterKey.TicketCloseDays, tenantId);
-                    //var days = parameter?.Value ?? "0";
-                    //var dateClose = DateTimeOffset.Now.AddDays(-Convert.ToInt32(days));
+                    //var dateClose = DateTimeOffset.Now.AddDays(7);
 
-                    query = query.Where(e => e.DateClosed != null && e.DateClosed > dateClose);
+                    //query = query.Where(e => e.DateClosed != null && e.DateClosed > dateClose);
                 }
             }
             if (filter.Search != null && filter.Search.Length >= 3)
@@ -62,7 +61,7 @@ namespace ProjectPortfolio.Data
             if (filter.IssueStatus == IssueStatusEnum.Opened)
             {
                 query = query.OrderByDescending(e => e.SequentialId);
-                query = query.Page(filter.Page, 50);
+                query = query.Skip((filter.Page - 1) * filter.PageSize).Take(filter.PageSize).Select(e => e);
             }
 
             var cards = await query.AsNoTracking().Select(e => new IssueModel()
