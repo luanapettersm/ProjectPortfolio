@@ -18,6 +18,7 @@
 			<PrivateAssets>all</PrivateAssets>
 			<IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
 		</PackageReference>
+		<PackageReference Include="Microsoft.Playwright" Version="1.49.0" />
 		<PackageReference Include="Microsoft.Playwright.MSTest" Version="1.49.0" />
 		<PackageReference Include="MSTest.TestFramework" Version="3.6.3" />
 		<PackageReference Include="Swashbuckle.AspNetCore.SwaggerGen" Version="7.0.0" />
@@ -25,6 +26,7 @@
 		<PackageReference Include="System.Collections" Version="4.3.0" />
 		<PackageReference Include="System.IdentityModel.Tokens.Jwt" Version="8.2.1" />
 		<PackageReference Include="System.Linq.Dynamic.Core" Version="1.4.9" />
+		<PackageReference Include="System.Text.RegularExpressions" Version="4.3.1" />
 	</ItemGroup>
 
 </Project>
