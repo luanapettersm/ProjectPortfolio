@@ -67,17 +67,20 @@ namespace ProjectPortfolio
                 x.DefaultAuthenticateScheme = JwtBearerDefaults.AuthenticationScheme;
                 x.DefaultChallengeScheme = JwtBearerDefaults.AuthenticationScheme;
 
-            }).AddJwtBearer(c => 
-                c.TokenValidationParameters = new TokenValidationParameters
-                {
-                    ValidateIssuer = true,
-                    ValidateAudience = true,
-                    ValidateLifetime = true,
-                    ValidateIssuerSigningKey = true,
-                    ValidIssuer = builder.Configuration["Authentication:Jwt:Issue"],
-                    ValidAudience = builder.Configuration["Authentication:Jwt:Audience"],
-                    IssuerSigningKey = new SymmetricSecurityKey(Encoding.ASCII.GetBytes(builder.Configuration["Authentication:Jwt:Key"]))
-            });
+            }
+            //)
+            //.AddJwtBearer(c => 
+            //    c.TokenValidationParameters = new TokenValidationParameters
+            //    {
+            //        ValidateIssuer = true,
+            //        ValidateAudience = true,
+            //        ValidateLifetime = true,
+            //        ValidateIssuerSigningKey = true,
+            //        ValidIssuer = builder.Configuration["Authentication:Jwt:Issue"],
+            //        ValidAudience = builder.Configuration["Authentication:Jwt:Audience"],
+            //        IssuerSigningKey = new SymmetricSecurityKey(Encoding.ASCII.GetBytes(builder.Configuration["Authentication:Jwt:Key"]))
+            //}
+                );
 
             var app = builder.Build();
 
