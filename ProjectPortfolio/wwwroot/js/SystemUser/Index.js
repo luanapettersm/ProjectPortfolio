@@ -2,17 +2,16 @@
     Filter();
 };
 
-
-function CleanEdit() {
-    $("#systemUserId").val("");
-    $("#nameId").val("");
-    $("#surnameId").val("");
-    $("#userNameId").val("");
-    $("#isEnabledId").prop('checked', true);
-}
-
 function Filter() {
     $.get("SystemUser/Filter", function (response) {
         $("#wrapper").html(response);
+    });
+}
+
+function Edit(id) {
+    var url = id == undefined ? "SystemUser/Edit" : `SystemUser/Edit/${id}`
+    $.get(url, function (response) {
+        $("#wrapper-edit").html(response);
+        $("#editModal").show();
     });
 }

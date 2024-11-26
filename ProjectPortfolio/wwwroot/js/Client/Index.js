@@ -4,39 +4,16 @@
     Filter();
 };
 
-function ChangePeople(bool) {
-    if (bool) {
-        $("#clientInfoId").val("");
-        $("#clientInfoId").mask("999.999.99-99");
-        $("#surnameId").prop('disabled', false);
-    } else {
-        $("#clientInfoId").val("");
-        $("#clientInfoId").mask("99.999.999/9999-99");
-        $("#surnameId").val("");
-        $("#surnameId").prop('disabled', true);
-    }
-} 
-
-function CleanEdit() {
-    $("#clientId").val("");
-    $("#cpfId").prop('checked', true);
-    $("#clientInfoId").mask("999.999.99-99");
-    $("#clientInfoId").val("");
-    $("#nameId").val("");
-    $("#surnameId").val("");
-    $("#surnameId").prop('disabled', false);
-    $("#nameId").val("");
-    $("#phoneNumberId").val("");
-    $("#mailId").val("");
-    $("#zipCodeId").val("");
-    $("#addressId").val("");
-    $("#cityId").val("");
-    $("#stateId").val("");
-    $("#isEnabledId").prop('checked', true);    
-}
-
 function Filter() {
     $.get("Client/Filter", function (response) {
         $("#wrapper").html(response);
+    });
+}
+
+function Edit(id) {
+    var url = id == undefined ? "Client/Edit" : `Client/Edit/${id}`
+    $.get(url, function (response) {
+        $("#wrapper-edit").html(response);
+        $("#editModal").show();
     });
 }

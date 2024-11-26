@@ -21,15 +21,11 @@ namespace ProjectPortfolio.Controllers
             return PartialView("~/Views/Client/List.cshtml");
         }
 
-        [HttpGet("Editor/{id}")]
-        public async Task<IActionResult> Editor(Guid id = new Guid())
+        [HttpGet("Edit")]
+        [HttpGet("Edit/{id}")]
+        public async Task<IActionResult> Edit(Guid id = new Guid())
         {
-            var client = new ClientModel();
-
-            if (id != Guid.Empty)
-                client = await repository.GetAsync(id);
-
-            return PartialView("");
+            return PartialView("~/Views/Client/Edit.cshtml");
         }
     }
 }

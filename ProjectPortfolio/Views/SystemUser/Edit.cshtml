@@ -1,0 +1,39 @@
+﻿<div id="editModal" class="modal" tabindex="-1">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title">Usuário</h5>
+            </div>
+            <div class="modal-body">
+                <form id="systemUserFormId">
+                    <input id="systemUserId" name="systemUser.id" hidden />
+                    <div class="row">
+                        <div class="col-6">
+                            <input class="form-control" id="nameId" name="systemUser.name" placeholder="Nome">
+                        </div>
+                        <div class="col-6">
+                            <input class="form-control" id="surnameId" name="systemUser.surname" placeholder="Sobrenome">
+                        </div>
+                        <div class="col-8">
+                            <input class="form-control" id="userNameId" name="systemUser.userName" placeholder="Nome do usuário">
+                        </div>
+                        <div class="col-4 d-flex justify-content-end">
+                            <div class="form-check" style="margin-top: 8px;">
+                                <input class="form-check-input" type="checkbox" value="true" name="systemUser.isEnabled" id="isEnabledId" checked>
+                                <label class="form-check-label" for="isEnabledId">
+                                    Ativo
+                                </label>
+                            </div>
+                        </div>
+                    </div>
+                </form>
+            </div>
+            <div class="modal-footer">
+                <button onclick="Close()" type="button" class="btn btn-primary">Fechar</button>
+                <button onclick="Save()" type="button" class="btn btn-primary">Salvar</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script src="~/js/SystemUser/Edit.js" asp-append-version="true"></script>
