@@ -1,4 +1,6 @@
-﻿<div class="table-overflow-systemUser mt-4 shadow ps-3 pb-3 pe-3 bg-body rounded w-100" style="background-color: #FFFFFF !important;">
+﻿@model List<SystemUserModel>
+
+<div class="table-overflow-systemUser mt-4 shadow ps-3 pb-3 pe-3 bg-body rounded w-100" style="background-color: #FFFFFF !important;">
     <table class="table table-hover">
         <thead>
             <tr>
@@ -10,16 +12,22 @@
             </tr>
         </thead>
         <tbody>
-            <tr>
-                <td>Luana</td>
-                <td>Petters</td>
-                <td>Luana.Petters</td>
-                <td>Gestor</td>
-                <td>
-                    <button class="iconButton"><i class="glyphicon glyphicon-edit"></i></button>
-                    <button class="iconButton"><i class="glyphicon glyphicon-trash"></i></button>
-                </td>
-            </tr> 
+            @if(Model != null)
+            {
+                @foreach(var item in Model)
+                {
+                    <tr>
+                        <td>@item.Name</td>
+                        <td>@item.Surname</td>
+                        <td>@item.DisplayName</td>
+                        <td>@item.BusinessRole == 1 ? Estagiário : @item.BusinessRole == 2 ? Análista : Gestor</td>
+                        <td>
+                            <button title="Editar" onclick="edit(@item.Id)" class="iconButton"><i class="glyphicon glyphicon-edit"></i></button>
+                            <button title="Deletar" onclick="delete(@item.Id)" class="iconButton"><i class="glyphicon glyphicon-trash"></i></button>
+                        </td>
+                    </tr>
+                }
+            } 
         </tbody>
     </table>
 </div>

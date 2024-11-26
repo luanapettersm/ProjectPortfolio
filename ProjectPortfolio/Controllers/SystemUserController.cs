@@ -5,7 +5,7 @@ using ProjectPortfolio.Models;
 namespace ProjectPortfolio.Controllers
 {
     [Route("[controller]")]
-    public class SystemUserController : Controller
+    public class SystemUserController(ISystemUserRepository repository) : Controller
     {
         [HttpGet]
         public IActionResult Index()
@@ -16,14 +16,42 @@ namespace ProjectPortfolio.Controllers
         [HttpGet("Filter")]
         public IActionResult Filter()
         {
-            return PartialView("~/Views/SystemUser/List.cshtml");
+            var model = new List<SystemUserModel>();
+
+            return PartialView("~/Views/SystemUser/List.cshtml", model);
         }
 
         [HttpGet("Edit")]
         [HttpGet("Edit/{id}")]
-        public async Task<IActionResult> Edit(Guid id = new Guid())
+        public async Task<IActionResult> Edit(Guid? id)
         {
-            return PartialView("~/Views/SystemUser/Edit.cshtml");
+            var model = new SystemUserModel();
+
+            //model = id.HasValue ? await repository.GetAsync((Guid)id) : null;
+
+            return PartialView("~/Views/SystemUser/Edit.cshtml", model);
         }
+
+        [HttpPost("Save")]
+        public async Task<IActionResult> Save(SystemUserModel systemUser)
+        {
+
+            //var result = systemUser.Id == Guid.Empty ? await repository.InsertAsync(systemUser)
+            //    : await repository.UpdateAsync(systemUser);
+
+            //return result.Success ? Ok(result) : BadRequest(result.Error.Details ?? result.Error.Message);
+
+            return Ok();
+        }
+
+        [HttpGet("{id}/Delete")]
+        public async Task<IActionResult> Delete(Guid id)
+        {
+            await repository.DeleteAsync(id);
+
+            return Ok();
+        }
+
+
     }
 }

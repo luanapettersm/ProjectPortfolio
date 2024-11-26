@@ -33,3 +33,13 @@ function CleanEdit() {
 function Close() {
     $("#wrapper-edit").html("");
 }
+
+function Save() {
+    var fd = $("#clientFormId").serializeArray();
+
+    $.post(`/Client/Save`, fd)
+        .done(function (response) {
+            $('#wrapper-edit').html("");
+            Filter();
+        })
+}

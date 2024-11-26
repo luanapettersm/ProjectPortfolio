@@ -15,3 +15,10 @@ function Edit(id) {
         $("#editModal").show();
     });
 }
+
+function Delete(id) {
+    $.get(`SystemUser/${id}/Delete`)
+        .done(function (response) {
+            Filter();
+        });
+}
