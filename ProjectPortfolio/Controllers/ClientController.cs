@@ -6,7 +6,6 @@ using ProjectPortfolio.Services;
 
 namespace ProjectPortfolio.Controllers
 {
-    [Authorize]
     [Route("[controller]")]
     public class ClientController(IClientRepository repository) : Controller
     {
@@ -16,11 +15,11 @@ namespace ProjectPortfolio.Controllers
             return View();
         }
 
-        //[HttpGet("Filter")]
-        //public IActionResult Filter()
-        //{
-        //    return PartialView("~/Views/Client/List.cshtml");
-        //}
+        [HttpGet("Filter")]
+        public IActionResult Filter()
+        {
+            return PartialView("~/Views/Client/List.cshtml");
+        }
 
         [HttpGet("Editor/{id}")]
         public async Task<IActionResult> Editor(Guid id = new Guid())

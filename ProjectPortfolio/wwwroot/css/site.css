@@ -99,3 +99,31 @@ textarea:focus, input:focus{
     border-color: #EFE7DC;
     color: #FFFFFF;
 }
+
+.attendant {
+    height: 550px;
+    max-height: 550px;
+}
+
+.head {
+    margin: 10px 3px 0px 3px;
+}
+
+.card {
+    margin-top: 8px;
+    margin-bottom: 8px;
+    padding: 8px;
+}
+
+.card-list {
+    overflow-y: auto;
+    max-height: 530px;
+}
+
+.title{
+    margin-top: 5px;
+}
+
+.description {
+    font-size: 12px;
+}

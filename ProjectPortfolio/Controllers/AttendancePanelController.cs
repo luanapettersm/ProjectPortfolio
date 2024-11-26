@@ -2,12 +2,19 @@
 
 namespace ProjectPortfolio.Controllers
 {
-    public class AttendancePanelController() : Controller
+    [Route("[controller]")]
+    public class AttendancePanelController : Controller
     {
-        public async Task<IActionResult> Index()
+        [HttpGet]
+        public IActionResult Index()
         {
+            return View();
+        }
 
-            return View("");
+        [HttpGet("Card")]
+        public IActionResult Card()
+        {
+            return PartialView("~/Views/AttendancePanel/Card.cshtml");
         }
     }
 }

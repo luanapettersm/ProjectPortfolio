@@ -11,10 +11,10 @@ namespace ProjectPortfolio.Controllers
             return View();
         }
 
-        //[HttpGet("Filter")]
-        //public IActionResult Filter()
-        //{
-        //    return PartialView("~/Views/SystemUser/List.cshtml");
-        //}
+        [HttpGet("Filter")]
+        public IActionResult Filter()
+        {
+            return PartialView("~/Views/SystemUser/List.cshtml");
+        }
     }
 }
