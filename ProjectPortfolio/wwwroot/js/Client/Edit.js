@@ -1,8 +1,4 @@
-﻿window.onload = function () {
-    $("#clientInfoId").mask("999.999.99-99");
-    $("#phoneNumberId").mask("(999)99999-9999");
-};
-
+﻿
 function ChangePeople(bool) {
     if (bool) {
         $("#clientInfoId").val("");
