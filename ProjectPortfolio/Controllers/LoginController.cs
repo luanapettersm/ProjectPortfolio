@@ -8,20 +8,20 @@ namespace ProjectPortfolio.Controllers
 {
     public class LoginController(ITokenService tokenService) : Controller
     {
-        [HttpPost]
-        [AllowAnonymous]
+        [Route("[controller]")]
+        [HttpGet]
         public async Task<IActionResult> Index()
         {
             return View();
         }
 
         [HttpPost("Login")]
-        public async Task<IActionResult> Authenticate(AuthenticateModel model)
+        public async Task<IActionResult> Authenticate(AuthenticateModel login)
         {
-            if (string.IsNullOrEmpty(model.UserName) || string.IsNullOrEmpty(model.Password))
+            if (string.IsNullOrEmpty(login.UserName) || string.IsNullOrEmpty(login.Password))
                 return BadRequest("Necessário informar usuário e senha para realizar o login.");
 
-            var token = await tokenService.GetTokenAsync(model);
+            var token = await tokenService.GetTokenAsync(login);
 
             if(token == "" || token == null)
                 return Unauthorized();

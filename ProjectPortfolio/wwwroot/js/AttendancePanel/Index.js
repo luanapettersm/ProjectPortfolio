@@ -12,7 +12,7 @@
 
 function Card() {
     $.get("AttendancePanel/Card", function (response) {
-        $("#wrapper-pendent").append(response);
+        $("#wrapper-open").append(response);
     });
 
 }
