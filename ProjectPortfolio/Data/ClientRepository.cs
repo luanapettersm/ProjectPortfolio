@@ -16,12 +16,9 @@ namespace ProjectPortfolio.Data
             {
                 var search = filter.Filters["search"];
                 query = query.Where(e => e.Name.Contains(search) || e.City.Contains(search)
-                    || e.CNPJNumber.Contains(search)
-                    || e.CPFNumber.Contains(search));
+                    || e.CNPJ.Contains(search)
+                    || e.CPF.Contains(search));
             }
-
-            if (filter.Filters.ContainsKey("IsEnabled") && !String.IsNullOrEmpty(filter.Filters["IsEnabled"]))
-                query = query.Where(e => e.IsEnabled == bool.Parse(filter.Filters["IsEnabled"]));
 
             if (filter.SortColumn != "")
                 query = query.OrderBy($" {filter.SortColumn} {filter.SortDirection} ");
@@ -39,8 +36,8 @@ namespace ProjectPortfolio.Data
                                    {
                                        Id = clients.Id,
                                        Name = clients.Name,
-                                       CNPJNumber = clients.CNPJNumber,
-                                       CPFNumber = clients.CPFNumber,
+                                       CNPJ = clients.CNPJ,
+                                       CPF = clients.CPF,
                                        IsEnabled = clients.IsEnabled
                                    }).ToListAsync();
 

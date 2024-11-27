@@ -8,7 +8,9 @@ namespace ProjectPortfolio.Services
     {
         public async Task<ClientModel> CreateAsync(ClientModel model)
         {
-            model.RemoveMasks();
+            if (string.IsNullOrWhiteSpace(model.CPF) && string.IsNullOrWhiteSpace(model.CNPJ))
+                throw new ArgumentException("É necessário informar o CPF ou o CNPJ.");
+
             if(model.CPF != null)
             {
                 await ValidateCPFExists(model);
@@ -50,7 +52,7 @@ namespace ProjectPortfolio.Services
         private async Task<ClientModel> ValidateCNPJExists(ClientModel model)
         {
             var query = await repository.GetAll().AsNoTracking()
-                .Where(e => e.CNPJNumber == model.CNPJNumber && e.Id != model.Id)
+                .Where(e => e.CNPJ == model.CNPJ && e.Id != model.Id)
                 .Select(e => new { e.Id, e.CNPJ, e.IsEnabled }).FirstOrDefaultAsync();
 
             if(query != null)
@@ -71,7 +73,7 @@ namespace ProjectPortfolio.Services
         private async Task<ClientModel> ValidateCPFExists(ClientModel model)
         {
             var query = await repository.GetAll().AsNoTracking()
-                .Where(e => e.CPFNumber == model.CPFNumber && e.Id != model.Id)
+                .Where(e => e.CPF == model.CPF && e.Id != model.Id)
                 .Select(e => new { e.Id, e.CNPJ, e.IsEnabled }).FirstOrDefaultAsync();
 
             if (query != null)

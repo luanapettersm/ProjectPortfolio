@@ -1,13 +1,13 @@
-﻿using System.ComponentModel.DataAnnotations.Schema;
-using System.Text.RegularExpressions;
+﻿using System.Text.RegularExpressions;
 
 namespace ProjectPortfolio.Models
 {
     public class ClientModel
     {
+        private string _cpf;
+        private string _cnpj;
         public Guid Id { get; set; }
         public string Name { get; set; }
-        public string Surname { get; set; }
         public string PhoneNumber { get; set; }
         public string Mail { get; set; }
         public bool MailFormat => ValidateMailAddress(Mail);
@@ -26,39 +26,112 @@ namespace ProjectPortfolio.Models
             return Regex.IsMatch(input, @"\A(?:[a-z0-9!#$%&'+/=?^_`{|}~-]+(?:\.[a-z0-9!#$%&'+/=?^_`{|}~-]+)@(?:[a-z0-9](?:[a-z0-9-][a-z0-9])?\.)+[a-z0-9](?:[a-z0-9-]*[a-z0-9])?)\Z", RegexOptions.IgnoreCase);
         }
 
-        public string CNPJ =>
-            $"{CNPJUnformatted.Substring(0, 2)}." +
-            $"{CNPJUnformatted.Substring(2, 3)}." +
-            $"{CNPJUnformatted.Substring(5, 3)}/" +
-            $"{CNPJUnformatted.Substring(8, 4)}-" +
-            $"{CNPJUnformatted.Substring(12, 2)}";
+        //public static bool IsValidCnpj(string cnpj)
+        //{
+        //    return Regex.IsMatch(cnpj, @"^\d{14}$");
+        //}
 
-        public string CNPJUnformatted => RemoveMasks(CNPJNumber);
-        public long CNPJIntNumber => Convert.ToInt64(CNPJUnformatted);
-        public string CNPJNumber { get; set; }
-        public string Root => CNPJUnformatted.Substring(0, 8);
+        //public static string FormatCnpj(string cnpj)
+        //{
+        //    if (!IsValidCnpj(cnpj))
+        //        return "CNPJ inválido. Insira apenas 14 números.";
 
-        public string CPF =>
-            $"{CPFUnformatted.Substring(0, 3)}." +
-            $"{CPFUnformatted.Substring(3, 3)}." +
-            $"{CPFUnformatted.Substring(6, 3)}-" +
-            $"{CPFUnformatted.Substring(9, 2)}";
+        //    return Regex.Replace(cnpj, @"(\d{2})(\d{3})(\d{3})(\d{4})(\d{2})", "$1.$2.$3/$4-$5");
+        //}
+        //public string CNPJ =>
+        //    $"{CNPJUnformatted.Substring(0, 2)}." +
+        //    $"{CNPJUnformatted.Substring(2, 3)}." +
+        //    $"{CNPJUnformatted.Substring(5, 3)}/" +
+        //    $"{CNPJUnformatted.Substring(8, 4)}-" +
+        //    $"{CNPJUnformatted.Substring(12, 2)}";
 
-        public string CPFUnformatted => RemoveMasks(CPFNumber);
-        public long CPFIntNumber => Convert.ToInt64(CPFUnformatted);
-        public string CPFNumber { get; set; }
+        //public string CNPJUnformatted => RemoveMasks(CNPJNumber);
+        //public long CNPJIntNumber => Convert.ToInt64(CNPJUnformatted);
+        //public string CNPJNumber { get; set; }
+        //public string Root => CNPJUnformatted.Substring(0, 8);
 
-        public static string RemoveMasks(string number)
+        //public string CPF =>
+        //    $"{CPFUnformatted.Substring(0, 3)}." +
+        //    $"{CPFUnformatted.Substring(3, 3)}." +
+        //    $"{CPFUnformatted.Substring(6, 3)}-" +
+        //    $"{CPFUnformatted.Substring(9, 2)}";
+
+        //public string CPFUnformatted => RemoveMasks(CPFNumber);
+        //public long CPFIntNumber => Convert.ToInt64(CPFUnformatted);
+        //public string CPFNumber { get; set; }
+
+        //public static string RemoveMasks(string number)
+        //{
+        //    if (string.IsNullOrEmpty(number))
+        //        return string.Empty;
+
+        //    return new Regex(@"[^\d]").Replace(number, "");
+        //}
+
+        //public void RemoveMasks()
+        //{
+        //    CNPJNumber = RemoveMasks(CNPJNumber);
+        //    CPFNumber = RemoveMasks(CPFNumber);
+        //    if (ZipCode != null)
+        //        ZipCode = Regex.Replace(ZipCode, "[^0-9,]", "");
+        //}
+
+        public string CPF
         {
-            return new Regex(@"[^\d]").Replace(number, "");
+            get => _cpf;
+            set
+            {
+                if (!string.IsNullOrEmpty(value) && !IsValidCPF(value))
+                    throw new ArgumentException("CPF inválido.");
+                _cpf = RemoveFormatting(value);
+            }
         }
 
-        public void RemoveMasks()
+        public string CNPJ
         {
-            CNPJNumber = RemoveMasks(CNPJNumber);
-            CPFNumber = RemoveMasks(CPFNumber);
-            if (ZipCode != null)
-                ZipCode = Regex.Replace(ZipCode, "[^0-9,]", "");
+            get => _cnpj;
+            set
+            {
+                if (!string.IsNullOrEmpty(value) && !IsValidCNPJ(value))
+                    throw new ArgumentException("CNPJ inválido.");
+                _cnpj = RemoveFormatting(value);
+            }
+        }
+
+        public string CPFFormatado => !string.IsNullOrEmpty(_cpf) ? FormatCPF(_cpf) : string.Empty;
+
+        public string CNPJFormatado => !string.IsNullOrEmpty(_cnpj) ? FormatCNPJ(_cnpj) : string.Empty;
+
+        private static bool IsValidCPF(string cpf)
+        {
+            cpf = RemoveFormatting(cpf);
+            return Regex.IsMatch(cpf, @"^\d{11}$");
+        }
+
+        private static bool IsValidCNPJ(string cnpj)
+        {
+            cnpj = RemoveFormatting(cnpj);
+            return Regex.IsMatch(cnpj, @"^\d{14}$");
+        }
+
+        private static string FormatCPF(string cpf)
+        {
+            return Regex.Replace(cpf, @"(\d{3})(\d{3})(\d{3})(\d{2})", "$1.$2.$3-$4");
+        }
+
+        private static string FormatCNPJ(string cnpj)
+        {
+            return Regex.Replace(cnpj, @"(\d{2})(\d{3})(\d{3})(\d{4})(\d{2})", "$1.$2.$3/$4-$5");
+        }
+
+        private static string RemoveFormatting(string value)
+        {
+            return Regex.Replace(value ?? string.Empty, @"\D", "");
+        }
+
+        public override string ToString()
+        {
+            return !string.IsNullOrEmpty(CPF) ? CPFFormatado : CNPJFormatado;
         }
     }
 }
