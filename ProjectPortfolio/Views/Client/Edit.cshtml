@@ -71,14 +71,22 @@
         </div>
     </div>
 </div>
-
-<script>
-    if (@Model.CNPJ != null) {
-        ChangePeople(false);
-        $("#clientInfoId").val(@Model.CNPJ);
-    }else{
-        $("#clientInfoId").val(@Model.CPF);
-    }
-</script>
-
 <script src="~/js/Client/Edit.js" asp-append-version="true"></script>
+
+@if (Model != null)
+{
+    @if (Model.CNPJ == null)
+    {
+        <script>
+            ChangePeople(false);
+            $("#clientInfoId").val(@Model.CNPJ);
+        </script>
+
+    }
+    else
+    {
+        <script>
+            $("#clientInfoId").val(@Model.CPF);
+        </script>
+    }
+}

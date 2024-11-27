@@ -36,11 +36,10 @@ function Close() {
 
 function Save() {
     var fd = $("#clientFormId").serializeArray();
-
     if ($("#cpfId").is(":checked")) {
-        fd.push({ name: 'client.cpf', value: $("#clientInfoId").val() });
+        fd.push({ name: 'client._cpf', value: $("#clientInfoId").val() });
     } else {
-        fd.push({ name: 'client.cnpj', value: $("#clientInfoId").val() });
+        fd.push({ name: 'client._cnpj', value: $("#clientInfoId").val() });
     } 
 
     $.post(`/Client/Save`, fd)
