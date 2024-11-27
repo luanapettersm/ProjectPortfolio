@@ -20,7 +20,7 @@ namespace ProjectPortfolio.Controllers
         {
             var result = await repository.FilterAsync(filter);
 
-            return Ok(result);
+            return PartialView("~/Views/Client/List.cshtml", result);
         }
 
         [HttpGet("Edit")]
