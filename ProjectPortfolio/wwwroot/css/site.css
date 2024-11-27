@@ -135,17 +135,9 @@ textarea:focus, input:focus{
     font-size: 12px;
 }
 
-.alert-success {
+.alert {
     position: fixed;
     width: auto;
     bottom: 55px;
     right: 10px;
 }
-
-.alert-danger {
-    position: fixed;
-    width: auto;
-    bottom: 55px;
-    right: 10px;
-}
-
