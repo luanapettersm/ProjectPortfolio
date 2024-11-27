@@ -20,7 +20,7 @@ namespace ProjectPortfolio.Data
                     || e.CPF.Contains(search));
             }
 
-            if (filter.SortColumn != "")
+            if (!string.IsNullOrEmpty(filter.SortColumn))
                 query = query.OrderBy($" {filter.SortColumn} {filter.SortDirection} ");
 
             var queryResult = query.Skip((filter.Page - 1) * filter.PageSize).Take(filter.PageSize).Select(e => e);
@@ -28,17 +28,16 @@ namespace ProjectPortfolio.Data
             var result = new FilterResponseModel<ClientModel>
             {
                 Page = filter.Page,
-                Total = query.Count()
+                Total = await query.CountAsync()
             };
 
-            result.Result = await (from clients in queryResult
-                                   select new ClientModel
+            result.Result = await queryResult.Select(e => new ClientModel
                                    {
-                                       Id = clients.Id,
-                                       Name = clients.Name,
-                                       CNPJ = clients.CNPJ,
-                                       CPF = clients.CPF,
-                                       IsEnabled = clients.IsEnabled
+                                       Id = e.Id,
+                                       Name = e.Name,
+                                       CNPJ = e.CNPJ,
+                                       CPF = e.CPF,
+                                       IsEnabled = e.IsEnabled
                                    }).ToListAsync();
 
             return result;
