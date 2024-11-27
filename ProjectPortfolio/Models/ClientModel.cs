@@ -1,4 +1,5 @@
-﻿using System.Text.RegularExpressions;
+﻿using System.ComponentModel.DataAnnotations.Schema;
+using System.Text.RegularExpressions;
 
 namespace ProjectPortfolio.Models
 {
@@ -25,56 +26,6 @@ namespace ProjectPortfolio.Models
 
             return Regex.IsMatch(input, @"\A(?:[a-z0-9!#$%&'+/=?^_`{|}~-]+(?:\.[a-z0-9!#$%&'+/=?^_`{|}~-]+)@(?:[a-z0-9](?:[a-z0-9-][a-z0-9])?\.)+[a-z0-9](?:[a-z0-9-]*[a-z0-9])?)\Z", RegexOptions.IgnoreCase);
         }
-
-        //public static bool IsValidCnpj(string cnpj)
-        //{
-        //    return Regex.IsMatch(cnpj, @"^\d{14}$");
-        //}
-
-        //public static string FormatCnpj(string cnpj)
-        //{
-        //    if (!IsValidCnpj(cnpj))
-        //        return "CNPJ inválido. Insira apenas 14 números.";
-
-        //    return Regex.Replace(cnpj, @"(\d{2})(\d{3})(\d{3})(\d{4})(\d{2})", "$1.$2.$3/$4-$5");
-        //}
-        //public string CNPJ =>
-        //    $"{CNPJUnformatted.Substring(0, 2)}." +
-        //    $"{CNPJUnformatted.Substring(2, 3)}." +
-        //    $"{CNPJUnformatted.Substring(5, 3)}/" +
-        //    $"{CNPJUnformatted.Substring(8, 4)}-" +
-        //    $"{CNPJUnformatted.Substring(12, 2)}";
-
-        //public string CNPJUnformatted => RemoveMasks(CNPJNumber);
-        //public long CNPJIntNumber => Convert.ToInt64(CNPJUnformatted);
-        //public string CNPJNumber { get; set; }
-        //public string Root => CNPJUnformatted.Substring(0, 8);
-
-        //public string CPF =>
-        //    $"{CPFUnformatted.Substring(0, 3)}." +
-        //    $"{CPFUnformatted.Substring(3, 3)}." +
-        //    $"{CPFUnformatted.Substring(6, 3)}-" +
-        //    $"{CPFUnformatted.Substring(9, 2)}";
-
-        //public string CPFUnformatted => RemoveMasks(CPFNumber);
-        //public long CPFIntNumber => Convert.ToInt64(CPFUnformatted);
-        //public string CPFNumber { get; set; }
-
-        //public static string RemoveMasks(string number)
-        //{
-        //    if (string.IsNullOrEmpty(number))
-        //        return string.Empty;
-
-        //    return new Regex(@"[^\d]").Replace(number, "");
-        //}
-
-        //public void RemoveMasks()
-        //{
-        //    CNPJNumber = RemoveMasks(CNPJNumber);
-        //    CPFNumber = RemoveMasks(CPFNumber);
-        //    if (ZipCode != null)
-        //        ZipCode = Regex.Replace(ZipCode, "[^0-9,]", "");
-        //}
 
         public string CPF
         {
