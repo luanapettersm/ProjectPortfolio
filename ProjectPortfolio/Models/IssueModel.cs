@@ -16,6 +16,7 @@ namespace ProjectPortfolio.Models
         public DateTimeOffset DateCreated { get; set; }
         public DateTimeOffset? DateClosed { get; set; }
         public IssueStatusEnum Status { get; set; }
+        public string Solution { get; set; }
         public ICollection<IssueNoteModel> Notes { get; set; }
     }
 }
