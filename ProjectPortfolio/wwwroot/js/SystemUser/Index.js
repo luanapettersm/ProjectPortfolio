@@ -1,12 +1,19 @@
 ﻿window.onload = function () {
-    Filter();
-};
-
-function Filter() {
-    $.get("SystemUser/Filter", function (response) {
-        $("#wrapper").html(response);
+    new DataTable('#table', {
+        ajax: 'SystemUser/Filter',
+        columns: [
+            { data: 'name' },
+            { data: 'surname' },
+            { data: 'displayName' },
+            { data: `${businessRole == 1 ? "Estagiário" : businessRole == 2 ? "Analista" : "Gestor"}` },
+            {
+                data: `
+                <button title="Editar" onclick="edit('${id}')" class="iconButton"><i class="glyphicon glyphicon-edit"></i></button>
+                <button title="Deletar" onclick="delete('${id})" class="iconButton"><i class="glyphicon glyphicon-trash"></i></button>
+            ` }
+        ]
     });
-}
+};
 
 function Edit(id) {
     var url = id == undefined ? "SystemUser/Edit" : `SystemUser/Edit/${id}`
@@ -19,7 +26,7 @@ function Edit(id) {
 function Delete(id) {
     $.get(`SystemUser/${id}/Delete`)
         .done(function (response) {
-            Filter();
+            $('#table').DataTable().ajax.reload();
             AlertDeleteSuccess();
         }).fail(function (response) {
             AlertDeleteError(response);

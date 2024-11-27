@@ -1,14 +1,22 @@
 ﻿window.onload = function () {
     $("#clientInfoId").mask("999.999.99-99");
     $("#phoneNumberId").mask("(999)99999-9999");
-    Filter();
+
+    new DataTable('#table', {
+        ajax: 'Client/Filter',
+        columns: [
+            { data: `${cnpj == null ? cpf : cnpj}` },
+            { data: 'name' },
+            { data: 'phoneNumber' },
+            { data: 'mail' },
+            { data: `
+                <button title="Editar" onclick="edit('${id}')" class="iconButton"><i class="glyphicon glyphicon-edit"></i></button>
+                <button title="Deletar" onclick="delete('${id})" class="iconButton"><i class="glyphicon glyphicon-trash"></i></button>
+            ` }
+        ]
+    });
 };
 
-function Filter() {
-    $.get("Client/Filter", function (response) {
-        $("#wrapper").html(response);
-    });
-}
 
 function Edit(id) {
     var url = id == undefined ? "Client/Edit" : `Client/Edit/${id}`
@@ -23,7 +31,7 @@ function Edit(id) {
 function Delete(id) {
     $.get(`Client/${id}/Delete`)
         .done(function (response) {
-            Filter();
+            $('#table').DataTable().ajax.reload();
             AlertDeleteSuccess();
         }).fail(function (response) {
             AlertDeleteError(response);

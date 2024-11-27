@@ -4,12 +4,11 @@
 
 function Save() {
     var fd = $("#systemUserFormId").serializeArray();
-
     $.post(`/SystemUser/Save`, fd)
         .done(function (response) {
             $('#wrapper-edit').html("");
             AlertSaveSuccess();
-            Filter();
+            $('#table').DataTable().ajax.reload();
         }).fail(function (response) {
             AlertSaveError(response);
         });

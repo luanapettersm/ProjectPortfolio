@@ -46,7 +46,7 @@ function Save() {
         .done(function (response) {
             $('#wrapper-edit').html("");
             AlertSaveSuccess();
-            Filter();
+            $('#table').DataTable().ajax.reload();
         }).fail(function (response) {
             AlertSaveError(response);
         });
