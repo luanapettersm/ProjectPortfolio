@@ -147,3 +147,17 @@ textarea:focus, input:focus{
     padding: 2px !important;
     padding-left: 4px !important;
 }
+
+.logo-menu{
+    margin-top: 4px;
+    background-size: 36px;
+    height: 36px;
+    width: 36px;
+}
+
+.logo-home {
+    margin-top: 4px;
+    background-size: 550px;
+    height: 550px;
+    width: 550px;
+}
