@@ -141,3 +141,9 @@ textarea:focus, input:focus{
     bottom: 55px;
     right: 10px;
 }
+
+.dt-input{
+    margin-bottom: 0px;
+    padding: 2px !important;
+    padding-left: 4px !important;
+}

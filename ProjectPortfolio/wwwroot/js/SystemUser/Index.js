@@ -16,6 +16,12 @@
 
     new DataTable('#table', {
         ajax: 'SystemUser/Filter',
+        language: {
+            sLengthMenu: "_MENU_",
+            search: "",
+            searchPlaceholder: "Pesquisar",
+        },
+        showNEntries: false,
         columns: gridColumns
     });
 };
