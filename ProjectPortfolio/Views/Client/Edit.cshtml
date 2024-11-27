@@ -8,7 +8,10 @@
             </div>
             <div class="modal-body">
                 <form id="clientFormId">
-                    <input id="clientId" name="client.id" hidden />
+                    @if (Model != null)
+                    {
+                        <input id="clientId" name="client.id" hidden />
+                    }
                     <div class="row">
                         <div class="col-3">
                             <div class="form-check" style="margin-top: 5px;">
@@ -68,5 +71,14 @@
         </div>
     </div>
 </div>
+
+<script>
+    if (@Model.CNPJ != null) {
+        ChangePeople(false);
+        $("#clientInfoId").val(@Model.CNPJ);
+    }else{
+        $("#clientInfoId").val(@Model.CPF);
+    }
+</script>
 
 <script src="~/js/Client/Edit.js" asp-append-version="true"></script>

@@ -18,7 +18,9 @@ namespace ProjectPortfolio.Controllers
         [HttpGet("Filter")]
         public IActionResult Filter()
         {
-            return PartialView("~/Views/Client/List.cshtml");
+            var model = new List<ClientModel>();
+
+            return PartialView("~/Views/Client/List.cshtml", model);
         }
 
         [HttpGet("Edit")]
