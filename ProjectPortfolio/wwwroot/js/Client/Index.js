@@ -4,17 +4,16 @@
 
     var gridColumns =
         [
-            { name: 'cpf/cnpj', class: 'text-left', orderable: false, render: Render(item => item.cnpj == null ? item.cpf : item.cnpj ) },
-            { name: 'name', class: 'text-left', orderable: true, render: Render(item => item.name) },
-            { name: 'phoneNumber', class: 'text-left', orderable: false, render: Render(item => item.phoneNumber) },
-            { name: 'mail', class: 'text-left', orderable: false, render: Render(item => item.mail) },
+            { name: 'cpf/cnpj', class: 'text-left', orderable: false, render: item => item.cnpj == null ? item.cpf : item.cnpj },
+            { name: 'name', class: 'text-left', orderable: true, render: item => item.name },
+            { name: 'phoneNumber', class: 'text-left', orderable: false, render: item => item.phoneNumber },
+            { name: 'mail', class: 'text-left', orderable: false, render: item => item.mail },
             {
-                name: 'action', class: 'text-left', orderable: false, render: Render(item =>
+                name: 'action', class: 'text-left', orderable: false, render: item =>
                     ` 
                         <button title="Editar" onclick="edit('${item.id}')" class="iconButton"><i class="glyphicon glyphicon-edit"></i></button>
                         <button title="Deletar" onclick="delete('${item.id})" class="iconButton"><i class="glyphicon glyphicon-trash"></i></button>
                     `
-                )
             }
         ];
 
