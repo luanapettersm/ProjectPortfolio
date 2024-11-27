@@ -20,10 +20,10 @@ namespace ProjectPortfolio.Data
                     || e.CPF.Contains(search));
             }
 
-            if (!string.IsNullOrEmpty(filter.SortColumn))
-                query = query.OrderBy($" {filter.SortColumn} {filter.SortDirection} ");
+            if (filter.SortColumn != "")
+                query = query.OrderBy($"{filter.SortColumn} {filter.SortDirection}");
 
-            var queryResult = query.Skip((filter.Page - 1) * filter.PageSize).Take(filter.PageSize).Select(e => e);
+            var queryResult = query.Skip((filter.Page - 1) * filter.PageSize).Take(filter.PageSize);
 
             var result = new FilterResponseModel<ClientModel>
             {
@@ -35,6 +35,8 @@ namespace ProjectPortfolio.Data
                                    {
                                        Id = e.Id,
                                        Name = e.Name,
+                                       PhoneNumber = e.PhoneNumber,
+                                       Mail = e.Mail,
                                        CNPJ = e.CNPJ,
                                        CPF = e.CPF,
                                        IsEnabled = e.IsEnabled
