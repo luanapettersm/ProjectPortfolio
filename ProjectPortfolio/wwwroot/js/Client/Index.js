@@ -2,18 +2,25 @@
     $("#clientInfoId").mask("999.999.99-99");
     $("#phoneNumberId").mask("(999)99999-9999");
 
+    var gridColumns =
+        [
+            { name: 'cpf/cnpj', class: 'text-left', orderable: false, render: Render(item => item.cnpj == null ? item.cpf : item.cnpj ) },
+            { name: 'name', class: 'text-left', orderable: true, render: Render(item => item.name) },
+            { name: 'phoneNumber', class: 'text-left', orderable: false, render: Render(item => item.phoneNumber) },
+            { name: 'mail', class: 'text-left', orderable: false, render: Render(item => item.mail) },
+            {
+                name: 'action', class: 'text-left', orderable: false, render: Render(item =>
+                    ` 
+                        <button title="Editar" onclick="edit('${item.id}')" class="iconButton"><i class="glyphicon glyphicon-edit"></i></button>
+                        <button title="Deletar" onclick="delete('${item.id})" class="iconButton"><i class="glyphicon glyphicon-trash"></i></button>
+                    `
+                )
+            }
+        ];
+
     new DataTable('#table', {
         ajax: 'Client/Filter',
-        columns: [
-            { data: `${cnpj == null ? cpf : cnpj}` },
-            { data: 'name' },
-            { data: 'phoneNumber' },
-            { data: 'mail' },
-            { data: `
-                <button title="Editar" onclick="edit('${id}')" class="iconButton"><i class="glyphicon glyphicon-edit"></i></button>
-                <button title="Deletar" onclick="delete('${id})" class="iconButton"><i class="glyphicon glyphicon-trash"></i></button>
-            ` }
-        ]
+        columns: gridColumns
     });
 };
 

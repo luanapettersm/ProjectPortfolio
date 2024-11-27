@@ -1,17 +1,23 @@
 ﻿window.onload = function () {
+    var gridColumns =
+        [
+            { name: 'name', class: 'text-left', orderable: true, render: Render(item => item.name) },
+            { name: 'surname', class: 'text-left', orderable: false, render: Render(item => item.surname) },
+            { name: 'displayName', class: 'text-left', orderable: false, render: Render(item => item.displayName) },
+            { name: 'businessRole', class: 'text-left', orderable: false, render: Render(item => item.businessRole == 1 ? "Estagiário" : businessRole == 2 ? "Analista" : "Gestor") },
+            {
+                name: 'action', class: 'text-left', orderable: false, render: Render(item =>
+                    ` 
+                        <button title="Editar" onclick="edit('${item.id}')" class="iconButton"><i class="glyphicon glyphicon-edit"></i></button>
+                        <button title="Deletar" onclick="delete('${item.id})" class="iconButton"><i class="glyphicon glyphicon-trash"></i></button>
+                    `
+                )
+            }
+        ];
+
     new DataTable('#table', {
         ajax: 'SystemUser/Filter',
-        columns: [
-            { data: 'name' },
-            { data: 'surname' },
-            { data: 'displayName' },
-            { data: `${businessRole == 1 ? "Estagiário" : businessRole == 2 ? "Analista" : "Gestor"}` },
-            {
-                data: `
-                <button title="Editar" onclick="edit('${id}')" class="iconButton"><i class="glyphicon glyphicon-edit"></i></button>
-                <button title="Deletar" onclick="delete('${id})" class="iconButton"><i class="glyphicon glyphicon-trash"></i></button>
-            ` }
-        ]
+        columns: gridColumns
     });
 };
 
