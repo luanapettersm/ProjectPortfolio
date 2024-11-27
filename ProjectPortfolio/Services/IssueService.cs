@@ -1,5 +1,4 @@
 ﻿using Microsoft.EntityFrameworkCore;
-using Microsoft.IdentityModel.Tokens;
 using ProjectPortfolio.Data;
 using ProjectPortfolio.Enumerators;
 using ProjectPortfolio.Models;
@@ -23,28 +22,34 @@ namespace ProjectPortfolio.Services
             return model;
         }
 
-        public async Task<IssueModel> UpdateAsync(IssueModel model)
-        {
-            if (!await ValidateIssueIsOpened(model.Id))
-                throw new Exception("Atividade encontra-se encerrada e não pode ser editada.");
-
-            var db = await repository.GetAll().AsNoTracking().Where(e => e.Id == model.Id && model.Status != IssueStatusEnum.Closed).FirstOrDefaultAsync();
-            if (db.Title != model.Title)
-                throw new Exception("Título não pode ser alterado.");
-            if (db.ClientId != model.ClientId)
-                throw new Exception("O cliente não pode ser alterado.");
-            if (model.Priority == null)
-                throw new Exception("A prioridade é obrigatória.");
-
-            return model;
-        }
-
         public async Task<bool> ValidateIssueIsOpened(Guid issueId)
         {
             var issue = await repository.GetAll().AsNoTracking().Where(e => e.Id == issueId).Select(e => new { e.DateClosed, e.Status }).FirstOrDefaultAsync();
             if (issue == null || issue.DateClosed != null || (issue.Status == IssueStatusEnum.Closed))
                 return false;
             return true;
+        }
+
+        public async Task<string> StatusChangedMessage(IssueStatusEnum firstStatus, IssueStatusEnum newerStatus)
+        {
+            var previousStatus = await repository
+                .GetAll()
+                .Where(e => e.Status == firstStatus)
+                .AsNoTracking()
+                .Select(e => e.Status)
+                .FirstOrDefaultAsync();
+            var currentStatus = await repository
+                .GetAll()
+                .Where(e => e.Status == newerStatus)
+                .AsNoTracking()
+                .Select(e => e.Status)          
+            .FirstOrDefaultAsync();
+
+            return string.Format(
+                    "O status de atendimento da atividade foi alterado de {0} para {1}.",
+                    previousStatus,
+                    currentStatus
+                );
         }
     }
 }

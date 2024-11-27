@@ -119,5 +119,22 @@ namespace ProjectPortfolio.Data
             await ct.SaveChangesAsync();
             return result.Entity;
         }
+
+        public async Task<IssueModel> GetAsync(Guid id)
+        {
+            var ct = await dbContextFactory.CreateDbContextAsync();
+            return await ct.Set<IssueModel>().Where(e => e.Id == id).FirstOrDefaultAsync();
+        }
+
+        public async Task<IEnumerable<IssueModel>> RetrieveInProgressIssuesPerAttendant(Guid attendantId)
+        {
+            var ct = await dbContextFactory.CreateDbContextAsync();
+            var tickets = await ct.Set<IssueModel>()
+                .Where(e => e.AttendantId == attendantId)
+                .Where(e => e.Status != IssueStatusEnum.Closed)
+                .Where(e => e.DateClosed == null)
+                .ToListAsync();
+            return tickets;
+        }
     }
 }

@@ -11,5 +11,6 @@ namespace ProjectPortfolio.Data
         Task DeleteAsync(Guid id);
         Task<IEnumerable<SystemUserModel>> GetListAsync(IEnumerable<Guid> ids);
         Task<IEnumerable<SystemUserModel>> GetListAsync();
+        Task<SystemUserModel> GetAsync(Guid id);
     }
 }

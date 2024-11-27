@@ -89,5 +89,11 @@ namespace ProjectPortfolio.Data
                 Name = e.DisplayName
             }).ToListAsync();
         }
+
+        public async Task<SystemUserModel> GetAsync(Guid id)
+        {
+            var ct = await dbContextFactory.CreateDbContextAsync();
+            return await ct.Set<SystemUserModel>().Where(e => e.Id == id).FirstOrDefaultAsync();
+        }
     }
 }

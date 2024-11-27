@@ -1,4 +1,5 @@
-﻿using ProjectPortfolio.Models;
+﻿using ProjectPortfolio.Enumerators;
+using ProjectPortfolio.Models;
 
 namespace ProjectPortfolio.Services
 {
@@ -6,6 +7,6 @@ namespace ProjectPortfolio.Services
     {
         Task<bool> ValidateIssueIsOpened(Guid issueId);
         Task<IssueModel> CreateAsync(IssueModel model);
-        Task<IssueModel> UpdateAsync(IssueModel model);
+        Task<string> StatusChangedMessage(IssueStatusEnum firstStatus, IssueStatusEnum newerStatus);
     }
 }
