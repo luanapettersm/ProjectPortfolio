@@ -6,9 +6,9 @@ using ProjectPortfolio.Services;
 
 namespace ProjectPortfolio.Controllers
 {
+    [Route("[controller]")]
     public class LoginController(ITokenService tokenService) : Controller
     {
-        [Route("[controller]")]
         [HttpGet]
         public async Task<IActionResult> Index()
         {
@@ -23,7 +23,7 @@ namespace ProjectPortfolio.Controllers
 
             var token = await tokenService.GetTokenAsync(login);
 
-            if(token == "" || token == null)
+            if (token == "" || token == null)
                 return Unauthorized();
             //var user = await systemUserRepository.GetByUserName(model.UserName);
 
@@ -33,7 +33,17 @@ namespace ProjectPortfolio.Controllers
 
             //user.Password = "";
 
-            return Ok(token);
+            return Ok(ViewData["Authenticated"]);
         }
+
+        [HttpGet("Logout")]
+        public async Task<IActionResult> Logout()
+        {
+            //
+            //
+
+            return Redirect("/Home");
+        }
+
     }
 }

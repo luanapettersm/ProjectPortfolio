@@ -1,4 +1,5 @@
 ﻿@using ProjectPortfolio.Services
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -23,6 +24,8 @@
                         <span class="navbar-toggler-icon"></span>
                     </button>
                     <div class="navbar-collapse collapse d-sm-inline-flex justify-content-between">
+                    @if (ViewData["Title"] != "Teste")
+                    {
                         <ul class="navbar-nav flex-grow-1">
                             <li class="nav-item">
                                 <a class="nav-link text-dark" asp-area="" asp-controller="AttendancePanel">Painel de Atendimento</a>
@@ -36,9 +39,18 @@
                         </ul>
                         <ul class="navbar-nav flex-grow-1 d-flex justify-content-end">
                             <li class="nav-item">
+                                <a class="nav-link text-dark" asp-area="" asp-controller="Login/Logout">Sair</a>
+                            </li>
+                        </ul>
+                    }
+                    else
+                    {
+                        <ul class="navbar-nav flex-grow-1 d-flex justify-content-end">
+                            <li class="nav-item">
                                 <a class="nav-link text-dark" asp-area="" asp-controller="Login">Login</a>
                             </li>
                         </ul>
+                    }
                     </div>
                 </div>
             </nav>
