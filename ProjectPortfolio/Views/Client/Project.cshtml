@@ -1,0 +1,23 @@
+﻿@model Guid;
+
+<div id="projectModal" class="modal" tabindex="-1">
+    <div class="modal-dialog modal-xl">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title">Projetos</h5>
+            </div>
+            <div class="modal-body">
+                <input id="clientId" value="@Model" hidden />
+                <div class="d-flex justify-content-end">
+                    <button onclick="ProjectEdit()" type="button" class="btn btn-primary">Adicionar</button>
+                </div>
+                <div id="wrapper-projectList"></div>
+                <div id="wrapper-projectEdit"></div>
+            </div>
+            <div class="modal-footer">
+                <button onclick="CloseProject()" type="button" class="btn btn-primary">Fechar</button>
+            </div>
+        </div>
+    </div>
+</div>
+<script src="~/js/Client/Project.js" asp-append-version="true"></script>

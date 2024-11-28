@@ -1,0 +1,35 @@
+﻿@model List<ClientProjectModel>
+
+<div class="table-overflow-client mt-4 shadow ps-3 pb-3 pe-3 bg-body rounded w-100" style="background-color: #FFFFFF !important;">
+    <table class="table table-hover">
+        <thead>
+            <tr>
+                <th scope="col">Título</th>
+                <th scope="col">Cidade</th>
+                <th scope="col">CEP</th>
+                <th scope="col">Endereço</th>           
+                <th scope="col" width="75px">Número</th>
+                <th scope="col" width="75px">Ações</th>
+            </tr>
+        </thead>
+        <tbody>
+            @if (Model != null)
+            {
+                @foreach (var item in Model)
+                {
+                    <tr>
+                        <td>@item.Title</td>
+                        <td>@item.City</td>
+                        <td>@item.ZipCode</td>
+                        <td>@item.Address</td>                   
+                        <td>@item.Number</td>
+                        <td>
+                            <button title="Editar" onclick="EditProject(@item.Id)" class="iconButton"><i class="glyphicon glyphicon-edit"></i></button>
+                            <button title="Deletar" onclick="DeleteProject(@item.Id)" class="iconButton"><i class="glyphicon glyphicon-trash"></i></button>
+                        </td>
+                    </tr>
+                }
+            }
+        </tbody>
+    </table>
+</div>

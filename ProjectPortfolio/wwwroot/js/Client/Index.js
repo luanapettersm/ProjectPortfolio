@@ -44,6 +44,9 @@
             orderable: false,
             render: function (data, type, row) {
                 return `
+                    <button title="Projetos" onclick="Project('${row.id}')" class="iconButton">
+                        <i class="glyphicon glyphicon-th-list"></i>
+                    </button>
                     <button title="Editar" onclick="Edit('${row.id}')" class="iconButton">
                         <i class="glyphicon glyphicon-edit"></i>
                     </button>
@@ -95,6 +98,14 @@ function Delete(id) {
         }).fail(function (response) {
             AlertDeleteError(response);
         });
+}
+
+function Project(clientId) {
+    $.get(`Client/Project/${clientId}`, function (response) {
+        $("#wrapper-project").html(response);
+        ProjectList();
+        $("#projectModal").show();
+    });
 }
 
 function AlertDeteleSuccess() {

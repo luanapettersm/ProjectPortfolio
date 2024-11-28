@@ -7,7 +7,9 @@ namespace ProjectPortfolio.Controllers
 {
     [Route("[controller]")]
     public class ClientController(IClientRepository repository, 
-        IClientService service) : Controller
+        IClientProjectRepository projectRepository,
+        IClientService service,
+        IClientProjectService projectService) : Controller
     {
         [HttpGet]
         public IActionResult Index()
@@ -87,6 +89,79 @@ namespace ProjectPortfolio.Controllers
 
             return Ok();
         }
+
+        [HttpGet("Project/{clientId}")]
+        public async Task<IActionResult> Project(Guid clientId)
+        { 
+            return PartialView("~/Views/Client/Project.cshtml", clientId);
+        }
+
+        [HttpGet("ProjectEdit")]
+        [HttpGet("ProjectEdit/{id}")]
+        public async Task<IActionResult> ProjectEdit(Guid? id)
+        {
+            var project = new ClientProjectModel();
+
+            //project = id.HasValue ? await projectRepository.GetAsync((Guid)id) : null;
+
+            return PartialView("~/Views/Client/ProjectEdit.cshtml", project);
+        }
+
+        [HttpGet("ProjectList/{clientId}")]
+        public async Task<IActionResult> ProjectList(Guid clientId)
+        { 
+            var model = new List<ClientProjectModel>();
+
+            //model = await projectRepository.GetProjectsByClientId(clientId);
+
+            return PartialView("~/Views/Client/ProjectList.cshtml", model);
+        }
+
+        [HttpGet("{id}/ProjectDelete")]
+        public async Task<IActionResult> ProjectDelete(Guid id)
+        {
+            //await projectService.DeleteAsync(id);
+
+            return Ok();
+        }
+
+        [HttpPost("ProjectSave")]
+        public async Task<IActionResult> ProjectSave(ClientProjectModel project)
+        {
+            try
+            {
+                var result = project.Id == Guid.Empty ? await projectService.CreateAsync(project) : await projectService.UpdateAsync(project);
+
+                if (result != null)
+                {
+                    return Ok(new
+                    {
+                        Data = result,
+                        Message = project.Id == Guid.Empty
+                            ? "Projeto salvo com sucesso."
+                            : "Projeto atualizado com sucesso.",
+                        Status = true
+                    });
+                }
+
+                return BadRequest(new
+                {
+                    Data = null as ClientProjectModel,
+                    Message = "Falha ao salvar o projeto.",
+                    Status = false
+                });
+            }
+            catch (Exception ex)
+            {
+                return BadRequest(new
+                {
+                    Data = null as ClientProjectModel,
+                    Message = $"Erro interno: {ex.Message}",
+                    Status = false
+                });
+            }
+        }
+
 
     }
 }
