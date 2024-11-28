@@ -64,7 +64,7 @@
             searchPlaceholder: "Pesquisar",
             sLoadingRecords: "Carregando...",
             sEmptyTable: "Nenhum registro encontrado",
-            sProcessing: "Processando...",
+            sProcessing: "",
             sInfo: "Mostrando de _START_ até _END_ de _TOTAL_ registros",
             sInfoEmpty: "Mostrando 0 até 0 de 0 registros"
         }
