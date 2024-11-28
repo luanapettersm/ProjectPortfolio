@@ -32,7 +32,7 @@
             class: 'text-left',
             orderable: false,
             render: function (data, type, row) {
-                return row.mailFormat;
+                return row.mail;
             }
         },
         {
