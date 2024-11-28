@@ -8,7 +8,7 @@ namespace ProjectPortfolio.Services
     {
         public async Task<ClientModel> CreateAsync(ClientModel model)
         {
-            if (string.IsNullOrWhiteSpace(model.CPF) && string.IsNullOrWhiteSpace(model.CNPJ))
+            if (string.IsNullOrEmpty(model.CPF) && string.IsNullOrEmpty(model.CNPJ))
                 throw new ArgumentException("É necessário informar o CPF ou o CNPJ.");
 
             if(model.CPF != null)
