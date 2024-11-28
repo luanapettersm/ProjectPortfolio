@@ -8,7 +8,7 @@
             class: 'text-left',
             orderable: false,
             render: function (data, type, row) {
-                return row.cNPJFormatado === "" ? row.cPFFormatado : row.cNPJFormatado;
+                return row.CNPJFormatado === "" ? row.CPFFormatado : row.CNPJFormatado;
             }
         },
         {
