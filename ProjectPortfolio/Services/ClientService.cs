@@ -2,11 +2,10 @@
 using ProjectPortfolio.Data;
 using ProjectPortfolio.Models;
 using ProjectPortfolio.Services.Exceptions;
-using System.ComponentModel.DataAnnotations;
 
 namespace ProjectPortfolio.Services
 {
-    internal class ClientService(IClientRepository repository, IIssueRepository issueRepository) : IClientService
+    public class ClientService(IClientRepository repository, IIssueRepository issueRepository) : IClientService
     {
         public async Task<ClientModel> CreateAsync(ClientModel model)
         {

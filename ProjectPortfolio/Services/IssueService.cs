@@ -5,7 +5,7 @@ using ProjectPortfolio.Models;
 
 namespace ProjectPortfolio.Services
 {
-    internal class IssueService(IIssueRepository repository) : IIssueService
+    public class IssueService(IIssueRepository repository) : IIssueService
     {
         public async Task<IssueModel> CreateAsync(IssueModel model)
         {

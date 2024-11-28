@@ -5,7 +5,7 @@ using ProjectPortfolio.Models;
 
 namespace ProjectPortfolio.Services
 {
-    internal class IssueUpdateService(ISystemUserRepository systemUserRepository, 
+    public class IssueUpdateService(ISystemUserRepository systemUserRepository, 
         IIssueRepository repository,
         IIssueNoteService issueNoteService,
         IIssueService service) : IIssueUpdateService

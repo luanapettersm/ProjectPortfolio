@@ -83,7 +83,7 @@ namespace ProjectPortfolio.Controllers
         [HttpGet("{id}/Delete")]
         public async Task<IActionResult> Delete(Guid id)
         {
-            await repository.DeleteAsync(id);
+            await service.DeleteAsync(id);
 
             return Ok();
         }

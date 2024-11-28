@@ -4,7 +4,7 @@ using ProjectPortfolio.Models;
 
 namespace ProjectPortfolio.Services
 {
-    internal class IssueClosedService(IIssueRepository repository,
+    public class IssueClosedService(IIssueRepository repository,
         IIssueNoteService issueNoteService,
         ISystemUserRepository systemUserRepository) : IIssueClosedService
     {
