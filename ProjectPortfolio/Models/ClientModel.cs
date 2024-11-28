@@ -85,7 +85,7 @@ namespace ProjectPortfolio.Models
             return !string.IsNullOrEmpty(CPF) ? cpfformatado : cnpjformatado;
         }
 
-        public List<string> Validadtor()
+        public List<string> Validator()
         {
             var messages = new List<string>();
             if (string.IsNullOrEmpty(ZipCode))

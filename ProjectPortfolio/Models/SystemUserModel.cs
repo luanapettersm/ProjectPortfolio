@@ -23,11 +23,11 @@ namespace ProjectPortfolio.Models
         public List<string> Validator()
         {
             var messages = new List<string>();
-            if (string.IsNullOrEmpty(Name) && Name.Length < 3 || Name.Length > 35)
+            if (string.IsNullOrEmpty(Name) || Name.Length < 3 || Name.Length > 35)
                 messages.Add("Nome deve ter entre 3 e 35 caracteres.");
-            if (string.IsNullOrEmpty(Surname) && Surname.Length < 3 || Surname.Length > 100)
+            if (string.IsNullOrEmpty(Surname) || Surname.Length < 3 || Surname.Length > 100)
                 messages.Add("O sobrenome deve ter entre 3 e 100 caracteres.");
-            if (string.IsNullOrEmpty(UserName) && UserName.Length < 3 || UserName.Length > 5)
+            if (string.IsNullOrEmpty(UserName) || UserName.Length < 3 || UserName.Length > 50)
                 messages.Add("O login deve ter entre 3 e 50 caracteres.");
             if (Password == null)
                 messages.Add("A senha é obrigatória.");

@@ -24,7 +24,7 @@ namespace ProjectPortfolio.Services
                     throw new Exception("Já existe cliente criado para este CNPJ.");
             }
 
-            var messages = new ResponseModel<ClientModel> { ValidationMessages = model.Validadtor() };
+            var messages = new ResponseModel<ClientModel> { ValidationMessages = model.Validator() };
 
             var result = await repository.InsertAsync(model);
             return result;
@@ -38,7 +38,7 @@ namespace ProjectPortfolio.Services
             if(model.CNPJ != dbClient.CNPJ && string.IsNullOrEmpty(model.CPF))
                 throw new Exception("O CNPJ do cliente não pode ser alterado.");
 
-            var messages = new ResponseModel<ClientModel> { ValidationMessages = model.Validadtor() };
+            var messages = new ResponseModel<ClientModel> { ValidationMessages = model.Validator() };
 
             var result = await repository.UpdateAsync(model);
             return model;

@@ -1,6 +1,6 @@
-using Microsoft.EntityFrameworkCore;
 using Moq;
 using ProjectPortfolio.Data;
+using ProjectPortfolio.Enumerators;
 using ProjectPortfolio.Models;
 using ProjectPortfolio.Services;
 
@@ -8,59 +8,46 @@ namespace ProjectPortfolio.Tests
 {
     public class ProjectPortfolioTest
     {
-        private readonly Mock<IClientRepository> _mockClientRepository;
-        private readonly Mock<IIssueRepository> _mockIssueRepository;
+        private readonly Mock<ISystemUserRepository> _systemUserRepositoryMock;
+        private readonly Mock<IIssueRepository> _issueRepositoryMock;
+        private readonly SystemUserService _systemUserService;
+        private readonly Mock<IClientRepository> _clientRepositoryMock;
         private readonly ClientService _clientService;
-        private readonly Mock<ISystemUserRepository> _mockSystemUserRepository;
+        private readonly Mock<IClientProjectRepository> _clientProjectRepositoryMock;
+        private readonly ClientProjectService _clientProjectService;
 
         public ProjectPortfolioTest()
         {
-            _mockClientRepository = new Mock<IClientRepository>();
-            _mockIssueRepository = new Mock<IIssueRepository>();
-            _clientService = new ClientService(_mockClientRepository.Object, _mockIssueRepository.Object);
-            _mockSystemUserRepository = new Mock<ISystemUserRepository>();
-        }
-
-        public static class DbSetMock
-        {
-            public static DbSet<T> SetupData<T>(params T[] items) where T : class
-            {
-                var queryable = items.AsQueryable();
-                var mockSet = new Mock<DbSet<T>>();
-                mockSet.As<IQueryable<T>>().Setup(m => m.Provider).Returns(queryable.Provider);
-                mockSet.As<IQueryable<T>>().Setup(m => m.Expression).Returns(queryable.Expression);
-                mockSet.As<IQueryable<T>>().Setup(m => m.ElementType).Returns(queryable.ElementType);
-                mockSet.As<IQueryable<T>>().Setup(m => m.GetEnumerator()).Returns(queryable.GetEnumerator());
-                return mockSet.Object;
-            }
+            _systemUserRepositoryMock = new Mock<ISystemUserRepository>();
+            _issueRepositoryMock = new Mock<IIssueRepository>();
+            _systemUserService = new SystemUserService(_systemUserRepositoryMock.Object, _issueRepositoryMock.Object);
+            _clientRepositoryMock = new Mock<IClientRepository>();
+            _clientService = new ClientService(_clientRepositoryMock.Object, _issueRepositoryMock.Object);
+            _clientProjectRepositoryMock = new Mock<IClientProjectRepository>();
+            _clientProjectService = new ClientProjectService(_clientProjectRepositoryMock.Object);
         }
 
         [Fact(DisplayName = "Given valid CPF numbers")]
         public void GivenValidCPFNumbers()
         {
-            //Arrange
             const string cpf = "12345678909"; 
             const string expectedResult = "123.456.789-09";
 
             var client = new ClientModel();
 
-            //Act
             client.CPF = cpf; 
             var actualResult = client.cpfformatado;
 
-            //Assert
             Assert.Equal(expectedResult, actualResult);
         }
 
         [Fact(DisplayName = "Given invalid CPF numbers")]
         public void GivenInvalidCPFNumbers()
         {
-            // Arrange
             const string cpf = "123";
 
             var client = new ClientModel();
 
-            // Act & Assert
             var exception = Assert.Throws<ArgumentException>(() => client.CPF = cpf);
             Assert.Equal("CPF inválido.", exception.Message);
         }
@@ -68,211 +55,397 @@ namespace ProjectPortfolio.Tests
         [Fact(DisplayName = "Given valid CNPJ numbers")]
         public void GivenValidCNPJNumbers()
         {
-            // Arrange
             const string cnpj = "12345678000195"; 
             const string expectedResult = "12.345.678/0001-95";
 
             var client = new ClientModel();
 
-            // Act
             client.CNPJ = cnpj;
             var actualFormattedCNPJ = client.cnpjformatado;
 
-            // Assert
             Assert.Equal(expectedResult, actualFormattedCNPJ);
         }
 
         [Fact(DisplayName = "Given invalid CNPJ numbers")]
         public void GivenInvalidCNPJNumbers()
         {
-            // Arrange
             const string cnpj = "123";
 
             var client = new ClientModel();
 
-            // Act & Assert
             var exception = Assert.Throws<ArgumentException>(() => client.CNPJ = cnpj);
             Assert.Equal("CNPJ inválido.", exception.Message);
         }
 
-        //[Fact(DisplayName = "Invalid delete client has active issues")]
-        //public async Task DeleteInvalidClientHasActiveIssues()
+        [Fact(DisplayName = "Should return error when ZipCode is null or empty")]
+        public void Validator_ShouldReturnError_WhenZipCodeIsNullOrEmpty()
+        {
+            var model = new ClientModel
+            {
+                Name = "John Doe",
+                PhoneNumber = "1234567890",
+                Mail = "john.doe@example.com",
+                City = "City",
+                State = "State",
+                Address = "Address",
+                ZipCode = null
+            };
+
+            var validationMessages = model.Validator();
+
+            Assert.Contains("O CEP é obrigatório.", validationMessages);
+        }
+
+        [Fact(DisplayName = "Should return error when Address is null or empty")]
+        public void Validator_ShouldReturnError_WhenAddressIsNullOrEmpty()
+        {
+            var model = new ClientModel
+            {
+                Name = "John Doe",
+                PhoneNumber = "1234567890",
+                Mail = "john.doe@example.com",
+                ZipCode = "12345",
+                City = "City",
+                State = "State",
+                Address = ""
+            };
+
+            var validationMessages = model.Validator();
+
+            Assert.Contains("O endereço é obrigatório.", validationMessages);
+        }
+
+        [Fact(DisplayName = "Should return error when PhoneNumber is null or empty")]
+        public void Validator_ShouldReturnError_WhenPhoneNumberIsNullOrEmpty()
+        {
+            var model = new ClientModel
+            {
+                Name = "John Doe",
+                Mail = "john.doe@example.com",
+                ZipCode = "12345",
+                Address = "Address",
+                City = "City",
+                State = "State",
+                PhoneNumber = null
+            };
+
+            var validationMessages = model.Validator();
+
+            Assert.Contains("O número é obrigatório.", validationMessages);
+        }
+
+        [Fact(DisplayName = "Should return error when City is null or empty")]
+        public void Validator_ShouldReturnError_WhenCityIsNullOrEmpty()
+        {
+            var model = new ClientModel
+            {
+                Name = "John Doe",
+                PhoneNumber = "1234567890",
+                Mail = "john.doe@example.com",
+                ZipCode = "12345",
+                Address = "Address",
+                State = "State",
+                City = null
+            };
+
+            var validationMessages = model.Validator();
+
+            Assert.Contains("A cidadde é obrigatória.", validationMessages);
+        }
+
+        [Fact(DisplayName = "Should return error when State is null or empty")]
+        public void Validator_ShouldReturnError_WhenStateIsNullOrEmpty()
+        {
+            var model = new ClientModel
+            {
+                Name = "John Doe",
+                PhoneNumber = "1234567890",
+                Mail = "john.doe@example.com",
+                ZipCode = "12345",
+                Address = "Address",
+                City = "City",
+                State = ""
+            };
+
+            var validationMessages = model.Validator();
+
+            Assert.Contains("O estado é obrigatório.", validationMessages);
+        }
+
+        //[Fact]
+        //public async Task CreateAsync_ShouldThrowException_WhenCPFAndCNPJAreNull()
         //{
-        //    var clientId = Guid.NewGuid();
-        //    var activeIssues = new[]
+        //    var model = new ClientModel
         //    {
-        //        new IssueModel { ClientId = clientId, Status = Enumerators.IssueStatusEnum.Opened },
-        //        new IssueModel { ClientId = clientId, Status = Enumerators.IssueStatusEnum.Pending }
+        //        Name = "John Doe",
+        //        PhoneNumber = "1234567890",
+        //        Mail = "john.doe@example.com",
+        //        ZipCode = "12345",
+        //        Address = "Address",
+        //        City = "City",
+        //        State = "State"
         //    };
 
-        //    _mockIssueRepository.Setup(r => r.GetAll())
-        //        .Returns(DbSetMock.SetupData(activeIssues));
-
-        //    var exception = await Assert.ThrowsAsync<UserFriendlyException>(() => _clientService.DeleteAsync(clientId));
-
-        //    Assert.Equal("Cliente está vinculado a atividade ativa e não pode ser excluído.", exception.Message);
+        //    await Assert.ThrowsAsync<Exception>(() => _clientService.CreateAsync(model));
         //}
 
+        [Fact(DisplayName = "Should return error when Name is null or empty")]
+        public void Validator_ShouldReturnError_WhenNameIsNullOrEmpty()
+        {
+            var model = new SystemUserModel
+            {
+                Name = "",
+                Surname = "Doe",
+                UserName = "johndoe",
+                Password = "password123",
+                BusinessRole = BusinessRoleEnum.manager
+            };
 
-        //[Fact(DisplayName = "Creating valid system user")]
-        //public async Task CreateValidSystemUser()
+            var validationMessages = model.Validator();
+
+            Assert.Contains("Nome deve ter entre 3 e 35 caracteres.", validationMessages);
+        }
+
+        [Fact(DisplayName = "Should return error when Surname is null or empty")]
+        public void Validator_ShouldReturnError_WhenSurnameIsTooShort()
+        {
+            var model = new SystemUserModel
+            {
+                Name = "John",
+                Surname = "",
+                UserName = "johndoe",
+                Password = "password123",
+                BusinessRole = BusinessRoleEnum.manager
+            };
+
+            var validationMessages = model.Validator();
+
+            Assert.Contains("O sobrenome deve ter entre 3 e 100 caracteres.", validationMessages);
+        }
+
+        [Fact(DisplayName = "Should return error when UserName is null or empty")]
+        public void Validator_ShouldReturnError_WhenUserNameIsTooLong()
+        {
+            var model = new SystemUserModel
+            {
+                Name = "John",
+                Surname = "Doe",
+                UserName = "johndoe123456johndoe123456johndoe123456johndoe123456johndoe123456",
+                Password = "password123",
+                BusinessRole = BusinessRoleEnum.manager
+            };
+
+            var validationMessages = model.Validator();
+
+            Assert.Contains("O login deve ter entre 3 e 50 caracteres.", validationMessages);
+        }
+
+        [Fact(DisplayName = "Should return error when Password is null or empty")]
+        public void Validator_ShouldReturnError_WhenPasswordIsNull()
+        {
+            var model = new SystemUserModel
+            {
+                Name = "John",
+                Surname = "Doe",
+                UserName = "johndoe",
+                Password = null,
+                BusinessRole = BusinessRoleEnum.manager
+            };
+
+            var validationMessages = model.Validator();
+
+            Assert.Contains("A senha é obrigatória.", validationMessages);
+        }
+
+
+        [Fact(DisplayName = "Should not return any error when is valid")]
+        public void Validator_ShouldReturnNoErrors_WhenModelIsValid()
+        {
+            var model = new SystemUserModel
+            {
+                Name = "John",
+                Surname = "Doe",
+                UserName = "johndoe",
+                Password = "password123",
+                BusinessRole = BusinessRoleEnum.manager
+            };
+
+            var validationMessages = model.Validator();
+
+            Assert.Empty(validationMessages);
+        }
+
+        [Fact(DisplayName = "Should return valid create SystemUser")]
+        public async Task CreateAsync_ShouldReturnSystemUser_WhenValidModel()
+        {
+            var model = new SystemUserModel
+            {
+                Name = "John",
+                Surname = "Doe",
+                UserName = "johndoe",
+                Password = "password123",
+                BusinessRole = BusinessRoleEnum.manager
+            };
+
+            var expected = new SystemUserModel { Id = Guid.NewGuid() };
+
+            _systemUserRepositoryMock.Setup(repo => repo.InsertAsync(It.IsAny<SystemUserModel>())).ReturnsAsync(expected);
+
+            var result = await _systemUserService.CreateAsync(model);
+
+            Assert.NotNull(result);
+            Assert.Equal(expected.Id, result.Id);
+            _systemUserRepositoryMock.Verify(repo => repo.InsertAsync(It.IsAny<SystemUserModel>()), Times.Once);
+        }
+
+        //[Fact(DisplayName = "Should not return any error when is valid")]
+        //public async Task DeleteAsync_ShouldThrowException_WhenUserHasActiveIssues()
         //{
-        //    // Arrange
-        //    var userModel = new SystemUserModel
-        //    {
-        //        Name = "John",
-        //        Surname = "Doe",
-        //        UserName = "johndoe",
-        //        Password = "password123",
-        //        BusinessRole = new BusinessRoleEnum() 
-        //    };
-        //    var mockRepository = new _mockSystemUserRepository;
-        //    var service = new SystemUserService(mockRepository.Object);
+        //    var userId = Guid.NewGuid();
+        //    var activeIssues = new List<IssueModel> { new IssueModel { AttendantId = userId, Status = IssueStatusEnum.Active } };
 
-        //    mockRepository.Setup(r => r.InsertAsync(It.IsAny<SystemUserModel>())).ReturnsAsync(userModel);
+        //    _issueRepositoryMock.Setup(repo => repo.GetAll().AsNoTracking().Where(It.IsAny<Expression<Func<IssueModel, bool>>>()))
+        //        .Returns(activeIssues.AsQueryable());
 
-        //    // Act
-        //    var result = await service.CreateAsync(userModel);
+        //    await Assert.ThrowsAsync<Exception>(() => _systemUserService.DeleteAsync(userId));
 
-        //    // Assert
+        //    _issueRepositoryMock.Verify(repo => repo.GetAll(), Times.Once);
+        //}
+
+        //[Fact(DisplayName = "Should not return any error when is valid")]
+        //public async Task DeleteAsync_ShouldDeleteUser_WhenNoActiveIssues()
+        //{
+        //    var userId = Guid.NewGuid();
+
+        //    _issueRepositoryMock.Setup(repo => repo.GetAll().AsNoTracking().Where(It.IsAny<Expression<Func<IssueModel, bool>>>()))
+        //        .Returns(Enumerable.Empty<IssueModel>().AsQueryable());
+
+        //    _repositoryMock.Setup(repo => repo.DeleteAsync(It.IsAny<Guid>()));
+
+        //    await _systemUserService.DeleteAsync(userId);
+
+        //    _repositoryMock.Verify(repo => repo.DeleteAsync(It.IsAny<Guid>()), Times.Once);
+        //}
+
+        [Fact(DisplayName = "Should return error when Title is null or empty")]
+        public void CreateValidator_ShouldReturnError_WhenTitleIsNullOrEmpty()
+        {
+            var model = new ClientProjectModel 
+            {
+                Title = null,
+                City = "City",
+                Address = "Address",
+                ZipCode = "12345",
+                Number = 10
+            };
+
+            var result = model.CreateValidator();
+
+            Assert.Contains("O título deve ter entre 3 e 50 caracteres.", result);
+        }
+
+        [Fact(DisplayName = "Should return error when Title is null or empty")]
+        public void CreateValidator_ShouldReturnError_WhenTitleIsTooLong()
+        {
+            var model = new ClientProjectModel 
+            { 
+                Title = new string('A', 51) 
+            };
+
+            var result = model.CreateValidator();
+
+            Assert.Contains("O título deve ter entre 3 e 50 caracteres.", result);
+        }
+
+        [Fact(DisplayName = "Should return any error when Title is valid")]
+        public void CreateValidator_ShouldNotReturnError_WhenTitleIsValid()
+        {
+            var model = new ClientProjectModel 
+            { 
+                Title = "Projeto de Teste",
+                City = "City",
+                Address = "Address",
+                ZipCode = "12345",
+                Number = 10
+            };
+
+            var result = model.CreateValidator();
+
+            Assert.Empty(result);
+        }
+
+        [Fact(DisplayName = "Should return error when Address is null or empty")]
+        public void CreateValidator_ShouldReturnError_WhenAddressIsNullOrEmpty()
+        {
+            var model = new ClientProjectModel 
+            {
+                Title = "Projeto de Teste",
+                City = "City",
+                Address = null,
+                ZipCode = "12345",
+                Number = 10
+            };
+
+            var result = model.CreateValidator();
+
+            Assert.Contains("Necessário informar o endereço da obra.", result);
+        }
+
+        [Fact(DisplayName = "Should return error when ZipCode is null or empty")]
+        public void CreateValidator_ShouldReturnError_WhenZipCodeIsNullOrEmpty()
+        {
+            var model = new ClientProjectModel 
+            {
+                Title = "Projeto de Teste",
+                City = "City",
+                Address = "Address",
+                Number = 10,
+                ZipCode = ""
+            };
+
+            var result = model.CreateValidator();
+
+            Assert.Contains("Necessário informar o CEP.", result);
+        }
+
+        [Fact(DisplayName = "Should return error when City is null or empty")]
+        public void CreateValidator_ShouldReturnError_WhenCityIsNullOrEmpty()
+        {
+            var model = new ClientProjectModel 
+            {
+                Title = "Projeto de Teste",
+                City = null,
+                Address = "Address",
+                ZipCode = "12345",
+                Number = 10
+            };
+
+            var result = model.CreateValidator();
+
+            Assert.Contains("Necessário informar a cidade em que acontecerá a obra.", result);
+        }
+
+        [Fact(DisplayName = "Should create a valid project")]
+        public async Task CreateAsync_ShouldReturnClientProject_WhenValidModel()
+        {
+            var validModel = new ClientProjectModel { Title = "Projeto A", Address = "Rua Teste", City = "Cidade", ZipCode = "12345", Number = 123 };
+            _clientProjectRepositoryMock.Setup(r => r.InsertAsync(It.IsAny<ClientProjectModel>())).ReturnsAsync(validModel);
+
+            var result = await _clientProjectService.CreateAsync(validModel);
+
+            Assert.NotNull(result);
+            Assert.Equal("Projeto A", result.Title);
+        }
+
+        //[Fact(DisplayName = "Should create an invalid project")]
+        //public async Task CreateAsync_ShouldThrowException_WhenInvalidModel()
+        //{
+        //    var invalidModel = new ClientProjectModel { Title = "AB", Address = "Rua Teste", City = "Cidade", ZipCode = "12345", Number = 123 };
+
+        //    var result = await _clientProjectService.CreateAsync(invalidModel);
+
         //    Assert.NotNull(result);
-        //    Assert.Equal("John", result.Name);
-        //    Assert.Equal("Doe", result.Surname);
+        //    Assert.Equal("O título deve ter entre 3 e 50 caracteres.", result.ValidationMessages[0]);
         //}
-
-        //[Fact(DisplayName = "Creating invalid system user name")]
-        //public async Task CreateInvalidSystemUser()
-        //{
-        //    // Arrange
-        //    var userModel = new SystemUserModel
-        //    {
-        //        Name = "Jo", 
-        //        Surname = "Doe",
-        //        UserName = "johndoe",
-        //        Password = "password123",
-        //        BusinessRole = new BusinessRoleEnum()
-        //    };
-        //    var mockRepository = new Mock<IRepository<SystemUserModel>>();
-        //    var service = new SystemUserService(mockRepository.Object);
-
-        //    // Act & Assert
-        //    await Assert.ThrowsAsync<Exception>(() => service.CreateAsync(userModel));
-        //}
-
-        //[Fact(DisplayName = "Updating valid system user")]
-        //public async Task UpdateValidSystemUser()
-        //{
-        //    // Arrange
-        //    var existingUser = new SystemUserModel
-        //    {
-        //        Id = Guid.NewGuid(),
-        //        Name = "John",
-        //        Surname = "Doe",
-        //        UserName = "johndoe",
-        //        Password = "password123",
-        //        BusinessRole = new BusinessRoleEnum(),
-        //        DateCreated = DateTimeOffset.Now.AddDays(-1)
-        //    };
-
-        //    var updatedUser = new SystemUserModel
-        //    {
-        //        Id = existingUser.Id,
-        //        Name = "John Updated",
-        //        Surname = "Doe",
-        //        UserName = "johndoe_updated",
-        //        Password = "newpassword123",
-        //        BusinessRole = new BusinessRoleEnum(),
-        //        DateCreated = existingUser.DateCreated
-        //    };
-
-        //    var mockRepository = new Mock<IRepository<SystemUserModel>>();
-        //    mockRepository.Setup(r => r.GetAll()).Returns(new List<SystemUserModel> { existingUser }.AsQueryable());
-        //    mockRepository.Setup(r => r.UpdateAsync(It.IsAny<SystemUserModel>())).ReturnsAsync(updatedUser);
-
-        //    var service = new SystemUserService(mockRepository.Object);
-
-        //    // Act
-        //    var result = await service.UpdateAsync(updatedUser);
-
-        //    // Assert
-        //    Assert.Equal("John Updated", result.Name);
-        //    Assert.Equal("johndoe_updated", result.UserName);
-        //}
-
-        //[Fact(DisplayName = "Updating valid system user name")]
-        //public async Task UpdateInvalidSystemUserName()
-        //{
-        //    // Arrange
-        //    var existingUser = new SystemUserModel
-        //    {
-        //        Id = Guid.NewGuid(),
-        //        Name = "John",
-        //        Surname = "Doe",
-        //        UserName = "johndoe",
-        //        Password = "password123",
-        //        BusinessRole = new BusinessRoleEnum(),
-        //        DateCreated = DateTimeOffset.Now.AddDays(-1)
-        //    };
-
-        //    var updatedUser = new SystemUserModel
-        //    {
-        //        Id = existingUser.Id,
-        //        Name = "Jo",  
-        //        Surname = "Doe",
-        //        UserName = "johndoe_updated",
-        //        Password = "newpassword123",
-        //        BusinessRole = new BusinessRoleEnum(),
-        //        DateCreated = existingUser.DateCreated
-        //    };
-
-        //    var mockRepository = new Mock<IRepository<SystemUserModel>>();
-        //    mockRepository.Setup(r => r.GetAll()).Returns(new List<SystemUserModel> { existingUser }.AsQueryable());
-
-        //    var service = new SystemUserService(mockRepository.Object);
-
-        //    // Act & Assert
-        //    await Assert.ThrowsAsync<Exception>(() => service.UpdateAsync(updatedUser));
-        //}
-
-        //[Fact(DisplayName = "Valid system user deleting")]
-        //public async Task DeleteValidSystemUser()
-        //{
-        //    // Arrange
-        //    var userId = Guid.NewGuid();
-        //    var mockRepository = new Mock<IRepository<SystemUserModel>>();
-        //    var mockIssueRepository = new Mock<IIssueRepository>();
-
-        //    mockRepository.Setup(r => r.GetAll()).Returns(new List<SystemUserModel> { new SystemUserModel { Id = userId } }.AsQueryable());
-        //    mockIssueRepository.Setup(r => r.GetAll()).Returns(new List<IssueModel>().AsQueryable()); 
-
-        //    var service = new SystemUserService(mockRepository.Object, mockIssueRepository.Object);
-
-        //    // Act
-        //    await service.DeleteAsync(userId);
-
-        //    // Assert
-        //    mockRepository.Verify(r => r.DeleteAsync(userId), Times.Once);
-        //}
-
-        //[Fact(DisplayName = "Invalid system user deleting")]
-        //public async Task DeleteInvalidSystemUser()
-        //{
-        //    // Arrange
-        //    var userId = Guid.NewGuid();
-        //    var mockRepository = new Mock<ISystemUserRepository<SystemUserModel>>();
-        //    var mockIssueRepository = new Mock<IIssueRepository>();
-
-        //    mockRepository.Setup(r => r.GetAll()).Returns(new List<SystemUserModel> { new SystemUserModel { Id = userId } }.AsQueryable());
-        //    mockIssueRepository.Setup(r => r.GetAll()).Returns(new List<IssueModel>().AsQueryable());
-
-        //    var service = new SystemUserService(mockRepository.Object, mockIssueRepository.Object);
-
-        //    // Act
-        //    await service.DeleteAsync(userId);
-
-        //    // Assert
-        //    mockRepository.Verify(r => r.DeleteAsync(userId), Times.Once);
-        //}
-
     }
 }
