@@ -173,6 +173,8 @@ textarea:focus, input:focus{
     font-size: 12px !important;
 }
 
-.column{
-   height: 100%
+.column {
+    height: 500px;
+    max-height: 500px;
+    overflow-y: auto;
 }

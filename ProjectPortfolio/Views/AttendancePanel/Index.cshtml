@@ -1,4 +1,5 @@
-﻿@{
+﻿@using ProjectPortfolio.Enumerators
+@{
     ViewData["Title"] = "Painel de atendimento";
 }
 
@@ -6,22 +7,30 @@
     <div class="col-3 shadow rounded" style="background-color: #FFFFFF !important;">
         <div class="head">Aberto</div>
         <hr class="mt-2 mb-2 hr-AttendancPanel" />
-        <div id="wrapper-open" class="column"></div>
+        <div id="wrapper-open" class="column">
+            <input hidden class="cardStatus" value="@IssueStatusEnum.Opened" />
+        </div>
     </div>
     <div class="col-3 shadow rounded" style="background-color: #FFFFFF !important;">
         <div class="head">Pendente</div>
         <hr class="mt-2 mb-2 hr-AttendancPanel" />
-        <div id="wrapper-pendent" class="column"></div>
+        <div id="wrapper-pendent" class="column">
+            <input hidden class="cardStatus" value="@IssueStatusEnum.Pending" />
+        </div>
     </div>
     <div class="col-3 shadow rounded" style="background-color: #FFFFFF !important;">
         <div class="head">Em progresso</div>
         <hr class="mt-2 mb-2 hr-AttendancPanel" />
-        <div id="wrapper-inProgress" class="column"></div>
+        <div id="wrapper-inProgress" class="column">
+            <input hidden class="cardStatus" value="@IssueStatusEnum.InProgress" />
+        </div>
     </div>
     <div class="col-3 shadow rounded" style="background-color: #FFFFFF !important;">
         <div class="head">Fechado</div>
         <hr class="mt-2 mb-2 hr-AttendancPanel" />
-        <div id="wrapper-close" class="column"></div>
+        <div id="wrapper-close" class="column">
+            <input hidden class="cardStatus" value="@IssueStatusEnum.Closed" />
+        </div>
     </div>
 </div>
 

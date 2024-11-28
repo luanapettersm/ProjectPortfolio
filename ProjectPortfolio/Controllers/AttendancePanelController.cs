@@ -63,5 +63,13 @@ namespace ProjectPortfolio.Controllers
 
             return PartialView("~/Views/AttendancePanel/Card.cshtml", model);
         }
+
+        [HttpGet("ChangeStatusCard/{id}/{status}")]
+        public async Task<IActionResult> Delete(Guid id, IssueStatusEnum status)
+        {
+            return Ok();
+        }
+
+
     }
 }

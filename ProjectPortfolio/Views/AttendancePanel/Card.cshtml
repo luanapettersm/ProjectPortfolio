@@ -1,19 +1,40 @@
-﻿@model AttendancePanelCardModel;
+﻿@using ProjectPortfolio.Enumerators
+@model AttendancePanelCardModel;
 
-<div class="card item" draggable="true">
-    <div class="d-flex justify-content-between">
-        <input hidden value="status"/>
-        <div>
-            <font class="sequencialId" title="Número">1698757</font>
-            <font class="client" title="Cliente">- Millium</font>
+@if (Model != null)
+{
+    @foreach (var item in Model.List)
+    {
+        <div class="card item" draggable="true">
+            <div class="d-flex justify-content-between">
+                <input hidden class="cardId" value="@item.Id" />
+                <input hidden class="statusCardId" value="@item.Status" />
+                <div>
+                    <font class="sequencialId" title="Número">@item.SequentialId</font>
+                    <font class="client" title="Cliente">- @item.ClientName</font>
+                </div>
+                <div>
+                    <font class="priority" title="Prioridade">
+                        @if (item.Priority == PriorityEnum.High)
+                        {
+                            <div>Alta</div>
+                        }
+                        else if (item.Priority == PriorityEnum.Medium)
+                        {
+                            <div>Medio</div>
+                        }
+                        else
+                        {
+                            <div>Baixa</div>
+                        }
+                    </font>
+                    <font class="dateCreated" title="Data de criação">- @item.DateCreated.ToString("dd/MM/yyyy")</font>
+                </div>
+            </div>
+            <font title="Título">@item.Title</font>
+            <font title="Descrição" class="description">@item.Description</font>
         </div>
-        <div>
-            <font class="priority" title="Prioridade">Alta</font>
-            <font class="dateCreated" title="Data de criação">- 15/11/2024</font>
-        </div>
-    </div>
-    <font title="Título">Mudança de patrimonio do gestor principal projeto</font>
-    <font title="Descrição" class="description">O obejtivo da demanda é negociar com o gestor principal do projeto
-        a real necessidade do salario que possui para ser feita a alteração.
-    </font>
-</div>
+    }
+
+}
+
