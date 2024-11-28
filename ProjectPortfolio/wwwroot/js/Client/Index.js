@@ -6,6 +6,7 @@
         {
             name: 'cpf/cnpj',
             class: 'text-left',
+            width: '200px', 
             orderable: false,
             render: function (data, type, row) {
                 return row.cnpjformatado === "" ? row.cpfformatado : row.cnpjformatado;
@@ -39,6 +40,7 @@
         {
             name: 'action',
             class: 'text-left',
+            width: '75px', 
             orderable: false,
             render: function (data, type, row) {
                 return `
