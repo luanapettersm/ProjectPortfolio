@@ -1,4 +1,6 @@
-﻿<!DOCTYPE html>
+﻿@using ProjectPortfolio.Services
+
+<!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="utf-8" />
@@ -11,8 +13,6 @@
     <link rel="stylesheet" href="~/ProjectPortfolio.styles.css" asp-append-version="true" />
 </head>
 <body>
-    @if (ViewData["Title"] != "Login")
-    {
         <header>
             <nav class="navbar navbar-expand-sm navbar-toggleable-sm navbar-light bg-white border-bottom box-shadow mb-3">
                 <div class="container-fluid">
@@ -24,6 +24,8 @@
                         <span class="navbar-toggler-icon"></span>
                     </button>
                     <div class="navbar-collapse collapse d-sm-inline-flex justify-content-between">
+                    @if (ViewData["Title"] != "Teste")
+                    {
                         <ul class="navbar-nav flex-grow-1">
                             <li class="nav-item">
                                 <a class="nav-link text-dark" asp-area="" asp-controller="AttendancePanel">Painel de Atendimento</a>
@@ -35,11 +37,24 @@
                                 <a class="nav-link text-dark" asp-area="" asp-controller="SystemUser">Usuários</a>
                             </li>
                         </ul>
+                        <ul class="navbar-nav flex-grow-1 d-flex justify-content-end">
+                            <li class="nav-item">
+                                <a class="nav-link text-dark" asp-area="" asp-controller="Logout">Sair</a>
+                            </li>
+                        </ul>
+                    }
+                    else
+                    {
+                        <ul class="navbar-nav flex-grow-1 d-flex justify-content-end">
+                            <li class="nav-item">
+                                <a class="nav-link text-dark" asp-area="" asp-controller="Login">Login</a>
+                            </li>
+                        </ul>
+                    }
                     </div>
                 </div>
             </nav>
         </header>
-    }
     <div class="container">
         <main role="main" class="pb-3">
             @RenderBody()

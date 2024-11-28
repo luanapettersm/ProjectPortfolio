@@ -6,24 +6,24 @@ using ProjectPortfolio.Services;
 
 namespace ProjectPortfolio.Controllers
 {
+    [Route("[controller]")]
     public class LoginController(ITokenService tokenService) : Controller
     {
-        [HttpPost]
-        [AllowAnonymous]
+        [HttpGet]
         public async Task<IActionResult> Index()
         {
             return View();
         }
 
         [HttpPost("Login")]
-        public async Task<IActionResult> Authenticate(AuthenticateModel model)
+        public async Task<IActionResult> Authenticate(AuthenticateModel login)
         {
-            if (string.IsNullOrEmpty(model.UserName) || string.IsNullOrEmpty(model.Password))
+            if (string.IsNullOrEmpty(login.UserName) || string.IsNullOrEmpty(login.Password))
                 return BadRequest("Necessário informar usuário e senha para realizar o login.");
 
-            var token = await tokenService.GetTokenAsync(model);
+            var token = await tokenService.GetTokenAsync(login);
 
-            if(token == "" || token == null)
+            if (token == "" || token == null)
                 return Unauthorized();
             //var user = await systemUserRepository.GetByUserName(model.UserName);
 
@@ -33,7 +33,17 @@ namespace ProjectPortfolio.Controllers
 
             //user.Password = "";
 
-            return Ok(token);
+            return Ok(ViewData["Authenticated"]);
         }
+
+        [HttpGet("Logout")]
+        public async Task<IActionResult> Logout()
+        {
+            //
+            //
+
+            return Redirect("/Home");
+        }
+
     }
 }
