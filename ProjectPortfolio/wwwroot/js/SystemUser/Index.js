@@ -16,6 +16,7 @@
 
     new DataTable('#table', {
         ajax: 'SystemUser/Filter',
+        type: 'GET',
         language: {
             sLengthMenu: "_MENU_",
             search: "",
