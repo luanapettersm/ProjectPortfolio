@@ -14,11 +14,20 @@ namespace ProjectPortfolio.Controllers
         }
 
         [HttpGet("Filter")]
-        public async Task<IActionResult> Filter([FromQuery] FilterRequestModel filter)
+        public async Task<IActionResult> Filter()
         {
-            var result = await repository.GetAllSystemUsers();
+            var users = await repository.GetAllSystemUsers();
 
-            return Json(result);
+            var result = new
+            {
+                draw = 1,
+                recordsTotal = users.Count(),
+                recordsFiltered = users.Count(),
+                data = users
+            };
+
+            return Ok(result);
+
         }
 
         [HttpGet("Edit")]
