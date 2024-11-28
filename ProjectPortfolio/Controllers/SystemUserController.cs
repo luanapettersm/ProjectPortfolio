@@ -1,11 +1,13 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using ProjectPortfolio.Data;
 using ProjectPortfolio.Models;
+using ProjectPortfolio.Services;
 
 namespace ProjectPortfolio.Controllers
 {
     [Route("[controller]")]
-    public class SystemUserController(ISystemUserRepository repository) : Controller
+    public class SystemUserController(ISystemUserRepository repository,
+        ISystemUserService service) : Controller
     {
         [HttpGet]
         public IActionResult Index()
@@ -34,23 +36,48 @@ namespace ProjectPortfolio.Controllers
         [HttpGet("Edit/{id}")]
         public async Task<IActionResult> Edit(Guid? id)
         {
-            var model = new SystemUserModel();
+            var systemUser = new SystemUserModel();
 
-            //model = id.HasValue ? await repository.GetAsync((Guid)id) : null;
+            systemUser = id.HasValue ? await repository.GetAsync((Guid)id) : null;
 
-            return PartialView("~/Views/SystemUser/Edit.cshtml", model);
+            return PartialView("~/Views/SystemUser/Edit.cshtml", systemUser);
         }
 
         [HttpPost("Save")]
         public async Task<IActionResult> Save(SystemUserModel systemUser)
         {
+            try
+            {
+                var result = systemUser.Id == Guid.Empty ? await service.CreateAsync(systemUser) : await service.UpdateAsync(systemUser);
 
-            //var result = systemUser.Id == Guid.Empty ? await repository.InsertAsync(systemUser)
-            //    : await repository.UpdateAsync(systemUser);
+                if (result != null)
+                {
+                    return Ok(new
+                    {
+                        Data = result,
+                        Message = systemUser.Id == Guid.Empty
+                            ? "Usuário salvo com sucesso."
+                            : "Usuário atualizado com sucesso.",
+                        Status = true
+                    });
+                }
 
-            //return result.Success ? Ok(result) : BadRequest(result.Error.Details ?? result.Error.Message);
-
-            return Ok();
+                return BadRequest(new
+                {
+                    Data = null as ClientModel,
+                    Message = "Falha ao salvar o usuário.",
+                    Status = false
+                });
+            }
+            catch (Exception ex)
+            {
+                return BadRequest(new
+                {
+                    Data = null as ClientModel,
+                    Message = $"Erro interno: {ex.Message}",
+                    Status = false
+                });
+            }
         }
 
         [HttpGet("{id}/Delete")]
