@@ -9,6 +9,6 @@ namespace ProjectPortfolio.Data
         Task<ClientProjectModel> UpdateAsync(ClientProjectModel model);
         Task DeleteAsync(Guid id);
         Task<IEnumerable<ClientProjectModel>> GetProjectsByClientId(Guid clientId);
-        Task<IEnumerable<ClientProjectModel>> GetAllClients();
+        Task<IEnumerable<ClientProjectModel>> GetAllClientProjects(Guid clientId);
     }
 }

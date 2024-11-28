@@ -46,10 +46,10 @@ namespace ProjectPortfolio.Data
                 }).ToListAsync();
         }
 
-        public async Task<IEnumerable<ClientProjectModel>> GetAllClients()
+        public async Task<IEnumerable<ClientProjectModel>> GetAllClientProjects(Guid clientId)
         {
             var dbContext = await dbContextFactory.CreateDbContextAsync();
-            return await dbContext.Set<ClientProjectModel>().ToListAsync();
+            return await dbContext.Set<ClientProjectModel>().Where(e => e.ClientId == clientId).ToListAsync();
         }
     }
 }

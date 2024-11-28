@@ -21,7 +21,7 @@ namespace ProjectPortfolio.Controllers
             var result = await repository.GetAllClients();
 
             //return PartialView("~/Views/Client/List.cshtml", result);
-            return Ok(result);
+            return Json(result);
         }
 
         [HttpGet("Edit")]
