@@ -49,9 +49,9 @@ namespace ProjectPortfolio.Models
             }
         }
 
-        public string CPFFormatado => !string.IsNullOrEmpty(_cpf) ? FormatCPF(_cpf) : string.Empty;
+        public string cpfformatado => !string.IsNullOrEmpty(_cpf) ? FormatCPF(_cpf) : string.Empty;
 
-        public string CNPJFormatado => !string.IsNullOrEmpty(_cnpj) ? FormatCNPJ(_cnpj) : string.Empty;
+        public string cnpjformatado => !string.IsNullOrEmpty(_cnpj) ? FormatCNPJ(_cnpj) : string.Empty;
 
         private static bool IsValidCPF(string cpf)
         {
