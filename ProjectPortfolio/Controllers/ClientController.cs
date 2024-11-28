@@ -16,28 +16,20 @@ namespace ProjectPortfolio.Controllers
         }
 
         [HttpGet("Filter")]
-        public async Task<IActionResult> Filter([FromQuery] int draw, [FromQuery] int start, [FromQuery] int length, [FromQuery] string search)
+        public async Task<IActionResult> Filter()
         {
-            var allClients = await repository.GetAllClients();
+            var clients = await repository.GetAllClients();
 
-            if (!string.IsNullOrWhiteSpace(search))
-            {
-                allClients = allClients
-                    .Where(c => c.Name.Contains(search, StringComparison.OrdinalIgnoreCase) ||
-                                c.Mail.Contains(search, StringComparison.OrdinalIgnoreCase))
-                    .ToList();
-            }
-            var filteredCount = allClients.Count;
-            var pagedClients = allClients.Skip(start).Take(length).ToList();
             var result = new
             {
-                draw = draw,
-                recordsTotal = allClients.Count,
-                recordsFiltered = filteredCount,
-                data = pagedClients
+                draw = 1,
+                recordsTotal = clients.Count(),
+                recordsFiltered = clients.Count(),          
+                data = clients
             };
 
             return Ok(result);
+
         }
 
         [HttpGet("Edit")]
