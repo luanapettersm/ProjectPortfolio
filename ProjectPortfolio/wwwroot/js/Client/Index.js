@@ -8,7 +8,7 @@
             class: 'text-left',
             orderable: false,
             render: function (data, type, row) {
-                return row.cnpj == null ? row.cpf : row.cnpj;
+                return row.cnpj == "" ? row.cPFFormatado : row.cNPJFormatado;
             }
         },
         {
@@ -32,7 +32,7 @@
             class: 'text-left',
             orderable: false,
             render: function (data, type, row) {
-                return row.mail;
+                return row.mailFormat;
             }
         },
         {
