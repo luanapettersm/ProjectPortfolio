@@ -57,7 +57,7 @@ namespace ProjectPortfolio.Data
             return await ct.Set<SystemUserModel>().Where(e => e.Id == id).FirstOrDefaultAsync();
         }
 
-        public async Task<IEnumerable<SystemUserModel>> GetAllClients()
+        public async Task<IEnumerable<SystemUserModel>> GetAllSystemUsers()
         {
             var dbContext = await dbContextFactory.CreateDbContextAsync();
             return await dbContext.Set<SystemUserModel>().ToListAsync();
