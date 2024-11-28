@@ -15,7 +15,7 @@ namespace ProjectPortfolio.Tests
 
             //Act
             client.CPF = cpf; 
-            var actualResult = client.CPFFormatado;
+            var actualResult = client.cpfformatado;
 
             //Assert
             Assert.Equal(expectedResult, actualResult);
@@ -45,7 +45,7 @@ namespace ProjectPortfolio.Tests
 
             // Act
             client.CNPJ = cnpj;
-            var actualFormattedCNPJ = client.CNPJFormatado;
+            var actualFormattedCNPJ = client.cnpjformatado;
 
             // Assert
             Assert.Equal(expectedResult, actualFormattedCNPJ);
