@@ -41,10 +41,10 @@
             orderable: false,
             render: function (data, type, row) {
                 return `
-                    <button title="Editar" onclick="edit('${row.id}')" class="iconButton">
+                    <button title="Editar" onclick="Edit('${row.id}')" class="iconButton">
                         <i class="glyphicon glyphicon-edit"></i>
                     </button>
-                    <button title="Deletar" onclick="delete('${row.id}')" class="iconButton">
+                    <button title="Deletar" onclick="Delete('${row.id}')" class="iconButton">
                         <i class="glyphicon glyphicon-trash"></i>
                     </button>`;
             }

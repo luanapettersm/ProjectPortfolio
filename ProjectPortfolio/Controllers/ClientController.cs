@@ -38,7 +38,7 @@ namespace ProjectPortfolio.Controllers
         {
             var model = new ClientModel();
 
-            //model = id.HasValue ? await repository.GetAsync((Guid)id) : null;
+            model = id.HasValue ? await repository.GetAsync((Guid)id) : null;
 
             return PartialView("~/Views/Client/Edit.cshtml", model);
         }
