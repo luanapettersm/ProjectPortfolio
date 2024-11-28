@@ -1,5 +1,4 @@
-﻿using Microsoft.AspNetCore.Authorization;
-using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Mvc;
 using ProjectPortfolio.Data;
 using ProjectPortfolio.Models;
 using ProjectPortfolio.Services;
@@ -7,7 +6,8 @@ using ProjectPortfolio.Services;
 namespace ProjectPortfolio.Controllers
 {
     [Route("[controller]")]
-    public class ClientController(IClientRepository repository) : Controller
+    public class ClientController(IClientRepository repository, 
+        IClientService service) : Controller
     {
         [HttpGet]
         public IActionResult Index()
@@ -48,7 +48,7 @@ namespace ProjectPortfolio.Controllers
         {
             try
             {
-                var result = client.Id == Guid.Empty ? await repository.InsertAsync(client) : await repository.UpdateAsync(client);
+                var result = client.Id == Guid.Empty ? await service.CreateAsync(client) : await service.UpdateAsync(client);
 
                 if (result != null)
                 {
@@ -83,7 +83,7 @@ namespace ProjectPortfolio.Controllers
         [HttpGet("{id}/Delete")]
         public async Task<IActionResult> Delete(Guid id)
         {
-            await repository.DeleteAsync(id);
+            await service.DeleteAsync(id);
 
             return Ok();
         }
