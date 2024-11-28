@@ -16,11 +16,12 @@ namespace ProjectPortfolio.Controllers
         }
 
         [HttpGet("Filter")]
-        public async Task<IActionResult> Filter([FromQuery] FilterRequestModel filter)
+        public async Task<IActionResult> Filter()
         {
-            var result = await repository.FilterAsync(filter);
+            var result = await repository.GetAllClients();
 
-            return PartialView("~/Views/Client/List.cshtml", result);
+            //return PartialView("~/Views/Client/List.cshtml", result);
+            return Ok(result);
         }
 
         [HttpGet("Edit")]

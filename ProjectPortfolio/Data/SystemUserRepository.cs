@@ -6,45 +6,6 @@ namespace ProjectPortfolio.Data
 {
     internal class SystemUserRepository(IDbContextFactory<Repository> dbContextFactory) : ISystemUserRepository
     {
-        public async Task<FilterResponseModel<SystemUserModel>> FilterAsync(FilterRequestModel filter)
-        {
-            var ct = await dbContextFactory.CreateDbContextAsync();
-            var query = ct.Set<SystemUserModel>().AsQueryable();
-
-            if (filter.Filters.ContainsKey("IsEnabled") && !String.IsNullOrEmpty(filter.Filters["IsEnabled"]))
-                query = query.Where(e => e.IsEnabled == bool.Parse(filter.Filters["IsEnabled"]));
-
-            if (filter.Filters.ContainsKey("search"))
-            {
-                var search = filter.Filters["search"];
-                query = query.Where(e => e.Name.Contains(search) || e.Surname.Contains(search)
-                                                                 || e.UserName.Contains(search));
-            }
-
-            if (filter.SortColumn != "")
-                query = query.OrderBy($" {filter.SortColumn} {filter.SortDirection} ");
-
-            var queryResult = query.Skip((filter.Page - 1) * filter.PageSize).Take(filter.PageSize).Select(e => e);
-
-            var result = new FilterResponseModel<SystemUserModel>
-            {
-                Page = filter.Page,
-                Total = query.Count()
-            };
-
-            result.Result = await (from systemUsers in queryResult
-                                   select new SystemUserModel
-                                   {
-                                       Id = systemUsers.Id,
-                                       Name = systemUsers.Name,
-                                       Surname = systemUsers.Surname,
-                                       UserName = systemUsers.UserName,
-                                       IsEnabled = systemUsers.IsEnabled,
-                                   }).ToListAsync();
-
-            return result;
-        }
-
         public IQueryable<SystemUserModel> GetAll()
         {
             var ct = dbContextFactory.CreateDbContext();
@@ -94,6 +55,12 @@ namespace ProjectPortfolio.Data
         {
             var ct = await dbContextFactory.CreateDbContextAsync();
             return await ct.Set<SystemUserModel>().Where(e => e.Id == id).FirstOrDefaultAsync();
+        }
+
+        public async Task<IEnumerable<SystemUserModel>> GetAllClients()
+        {
+            var dbContext = await dbContextFactory.CreateDbContextAsync();
+            return await dbContext.Set<SystemUserModel>().ToListAsync();
         }
     }
 }

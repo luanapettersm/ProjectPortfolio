@@ -6,45 +6,6 @@ namespace ProjectPortfolio.Data
 {
     internal class ClientRepository(IDbContextFactory<Repository> dbContextFactory) : IClientRepository
     {
-        public async Task<FilterResponseModel<ClientModel>> FilterAsync(FilterRequestModel filter)
-        {
-            var ct = await dbContextFactory.CreateDbContextAsync();
-
-            var query = ct.Set<ClientModel>().AsQueryable();
-
-            if (filter.Filters.ContainsKey("search"))
-            {
-                var search = filter.Filters["search"];
-                query = query.Where(e => e.Name.Contains(search) || e.City.Contains(search)
-                    || e.CNPJ.Contains(search)
-                    || e.CPF.Contains(search));
-            }
-
-            if (filter.SortColumn != "")
-                query = query.OrderBy($"{filter.SortColumn} {filter.SortDirection}");
-
-            var queryResult = query.Skip((filter.Page - 1) * filter.PageSize).Take(filter.PageSize);
-
-            var result = new FilterResponseModel<ClientModel>
-            {
-                Page = filter.Page,
-                Total = await query.CountAsync()
-            };
-
-            result.Result = await queryResult.Select(e => new ClientModel
-                                   {
-                                       Id = e.Id,
-                                       Name = e.Name,
-                                       PhoneNumber = e.PhoneNumber,
-                                       Mail = e.Mail,
-                                       CNPJ = e.CNPJ,
-                                       CPF = e.CPF,
-                                       IsEnabled = e.IsEnabled
-                                   }).ToListAsync();
-
-            return result;
-        }
-
         public async Task DeleteAsync(Guid id)
         {
             var ct = await dbContextFactory.CreateDbContextAsync();
@@ -95,6 +56,12 @@ namespace ProjectPortfolio.Data
         {
             var ct = await dbContextFactory.CreateDbContextAsync();
             return await ct.Set<ClientModel>().AsNoTracking().ToListAsync();
+        }
+
+        public async Task<IEnumerable<ClientModel>> GetAllClients()
+        {
+            var dbContext = await dbContextFactory.CreateDbContextAsync();
+            return await dbContext.Set<ClientModel>().ToListAsync();
         }
     }
 }

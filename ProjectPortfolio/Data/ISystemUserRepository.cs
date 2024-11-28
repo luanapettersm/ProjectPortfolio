@@ -4,7 +4,6 @@ namespace ProjectPortfolio.Data
 {
     public interface ISystemUserRepository
     {
-        Task<FilterResponseModel<SystemUserModel>> FilterAsync(FilterRequestModel model);
         IQueryable<SystemUserModel> GetAll();
         Task<SystemUserModel> InsertAsync(SystemUserModel model);
         Task<SystemUserModel> UpdateAsync(SystemUserModel model);
@@ -12,5 +11,6 @@ namespace ProjectPortfolio.Data
         Task<IEnumerable<SystemUserModel>> GetListAsync(IEnumerable<Guid> ids);
         Task<IEnumerable<SystemUserModel>> GetListAsync();
         Task<SystemUserModel> GetAsync(Guid id);
+        Task<IEnumerable<SystemUserModel>> GetAllClients();
     }
 }
