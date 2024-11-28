@@ -22,6 +22,7 @@
         {
             name: 'phoneNumber',
             class: 'text-left',
+            width: '200px', 
             orderable: false,
             render: function (data, type, row) {
                 return row.phoneNumber;
