@@ -161,3 +161,12 @@ textarea:focus, input:focus{
     height: 550px;
     width: 550px;
 }
+
+.dt-paging-button {
+    padding: 3px !important;
+    font-size: 12px !important;
+}
+
+.dt-info{
+    font-size: 12px !important;
+}
