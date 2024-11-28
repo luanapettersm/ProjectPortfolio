@@ -9,14 +9,7 @@ namespace ProjectPortfolio.Services
     {
         public async Task<IssueModel> CreateAsync(IssueModel model)
         {
-            if (model.Title.Length < 3 && model.Title.Length > 100 && !string.IsNullOrEmpty(model.Title))
-                throw new Exception("O título deve ter entre 3 e 100 caracteres.");
-            if (model.Description.Length < 3 && model.Description.Length > 2000 && !string.IsNullOrEmpty(model.Description))
-                throw new Exception("O título deve ter entre 3 e 2000 caracteres.");
-            if (model.ClientId == Guid.Empty)
-                throw new Exception("O cliente é obrigatório.");
-            if (model.Priority == null)
-                throw new Exception("A prioridade é obrigatória.");
+            var messages = new ResponseModel<IssueModel> { ValidationMessages = model.CreateValidator()  };
 
             var db = await repository.GetAll().AsNoTracking().OrderByDescending(e => e.SequentialId).LastAsync();
             return model;

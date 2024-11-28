@@ -1,5 +1,4 @@
 ﻿using Microsoft.EntityFrameworkCore;
-using Microsoft.IdentityModel.Tokens;
 using ProjectPortfolio.Data;
 using ProjectPortfolio.Models;
 
@@ -15,8 +14,9 @@ namespace ProjectPortfolio.Services
 
             model.DateCreated = DateTimeOffset.Now;
             model.Issue = null;
-            if ((model.Description.Length < 5 && model.Description.Length > 2000) || string.IsNullOrEmpty(model.Description))
-                throw new Exception("A descrição deve ter entre 5 e 2000 caracteres");
+
+            var messages = new ResponseModel<IssueNoteModel> { ValidationMessages = model.CreateValidator() };
+
             return await repository.InsertAsync(model);
         }
 

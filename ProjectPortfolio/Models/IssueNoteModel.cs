@@ -12,5 +12,14 @@ namespace ProjectPortfolio.Models
 
         [ForeignKey(nameof(IssueId))]
         public IssueModel Issue { get; set; }
+
+        public List<string> CreateValidator()
+        {
+            var messages = new List<string>();
+            if (string.IsNullOrEmpty(Description) && Description.Length < 5 && Description.Length > 2000)
+                messages.Add("A descrição deve ter entre 5 e 2000 caracteres");
+            
+            return messages;
+        }
     }
 }
