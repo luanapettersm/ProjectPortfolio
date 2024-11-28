@@ -1,5 +1,5 @@
 ﻿window.onload = function () {
-    $("#clientInfoId").mask("999.999.99-99");
+    $("#clientInfoId").mask("999.999.999-99");
     $("#phoneNumberId").mask("(999)99999-9999");
 
     var gridColumns = [
