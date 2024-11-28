@@ -78,7 +78,7 @@ function Edit(id) {
     var url = id == undefined ? "Client/Edit" : `Client/Edit/${id}`
     $.get(url, function (response) {
         $("#wrapper-edit").html(response);
-        $("#clientInfoId").mask("999.999.99-99");
+        $("#clientInfoId").mask("999.999.999-99");
         $("#phoneNumberId").mask("(999)999999999");
         $("#editModal").show();
     });
