@@ -2,23 +2,64 @@
     $("#clientInfoId").mask("999.999.99-99");
     $("#phoneNumberId").mask("(999)99999-9999");
 
-    var gridColumns =
-        [
-            { name: 'cpf/cnpj', class: 'text-left', orderable: false, render: item => item.cnpj == null ? item.cpf : item.cnpj },
-            { name: 'name', class: 'text-left', orderable: true, render: item => item.name },
-            { name: 'phoneNumber', class: 'text-left', orderable: false, render: item => item.phoneNumber },
-            { name: 'mail', class: 'text-left', orderable: false, render: item => item.mail },
-            {
-                name: 'action', class: 'text-left', orderable: false, render: item =>
-                    ` 
-                        <button title="Editar" onclick="edit('${item.id}')" class="iconButton"><i class="glyphicon glyphicon-edit"></i></button>
-                        <button title="Deletar" onclick="delete('${item.id})" class="iconButton"><i class="glyphicon glyphicon-trash"></i></button>
-                    `
+    var gridColumns = [
+        {
+            name: 'cpf/cnpj',
+            class: 'text-left',
+            orderable: false,
+            render: function (data, type, row) {
+                return row.cnpj == null ? row.cpf : row.cnpj;
             }
-        ];
+        },
+        {
+            name: 'name',
+            class: 'text-left',
+            orderable: true,
+            render: function (data, type, row) {
+                return row.name;
+            }
+        },
+        {
+            name: 'phoneNumber',
+            class: 'text-left',
+            orderable: false,
+            render: function (data, type, row) {
+                return row.phoneNumber;
+            }
+        },
+        {
+            name: 'mail',
+            class: 'text-left',
+            orderable: false,
+            render: function (data, type, row) {
+                return row.mail;
+            }
+        },
+        {
+            name: 'action',
+            class: 'text-left',
+            orderable: false,
+            render: function (data, type, row) {
+                return `
+                    <button title="Editar" onclick="edit('${row.id}')" class="iconButton">
+                        <i class="glyphicon glyphicon-edit"></i>
+                    </button>
+                    <button title="Deletar" onclick="delete('${row.id}')" class="iconButton">
+                        <i class="glyphicon glyphicon-trash"></i>
+                    </button>`;
+            }
+        }
+    ];
 
-    new DataTable('#table', {
-        ajax: 'Client/Filter',
+    $('#table').DataTable({
+        ajax: {
+            url: '/Client/Filter',
+            type: 'GET',
+            dataSrc: 'data'
+        },
+        columns: gridColumns,
+        serverSide: false,
+        processing: true,
         language: {
             sLengthMenu: "_MENU_",
             search: "",
@@ -28,10 +69,7 @@
             sProcessing: "Processando...",
             sInfo: "Mostrando de _START_ até _END_ de _TOTAL_ registros",
             sInfoEmpty: "Mostrando 0 até 0 de 0 registros"
-        },
-        columns: gridColumns,
-        searching: true
-
+        }
     });
 };
 
