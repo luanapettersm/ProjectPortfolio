@@ -40,7 +40,7 @@
         {
             name: 'action',
             class: 'text-left',
-            width: '75px', 
+            width: '150px', 
             orderable: false,
             render: function (data, type, row) {
                 return `
