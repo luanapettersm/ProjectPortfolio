@@ -82,7 +82,7 @@ namespace ProjectPortfolio.Models
 
         public override string ToString()
         {
-            return !string.IsNullOrEmpty(CPF) ? CPFFormatado : CNPJFormatado;
+            return !string.IsNullOrEmpty(CPF) ? cpfformatado : cnpjformatado;
         }
     }
 }
