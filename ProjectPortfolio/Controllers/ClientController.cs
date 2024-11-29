@@ -92,7 +92,7 @@ namespace ProjectPortfolio.Controllers
         }
 
         [HttpGet("Project/{clientId}")]
-        public async Task<IActionResult> Project(Guid clientId)
+        public IActionResult Project(Guid clientId)
         {
             var model = new ProjectClientListModel
             {
