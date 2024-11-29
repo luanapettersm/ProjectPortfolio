@@ -76,7 +76,7 @@
 <script>
     @if (Model != null)
     {
-        if (Model.CNPJ == null)
+        if (Model.CNPJ == "")
         {
             <text>$("#clientInfoId").val("@Model.CNPJ");</text>
         }
