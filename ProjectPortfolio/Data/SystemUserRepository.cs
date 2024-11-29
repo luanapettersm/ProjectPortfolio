@@ -62,5 +62,11 @@ namespace ProjectPortfolio.Data
             var dbContext = await dbContextFactory.CreateDbContextAsync();
             return await dbContext.Set<SystemUserModel>().ToListAsync();
         }
+
+        public async Task<SystemUserModel> GetUserByUserName(AuthenticateModel auth)
+        {
+            var ct = await dbContextFactory.CreateDbContextAsync();
+            return await ct.Set<SystemUserModel>().Where(e => e.UserName == auth.UserName).FirstOrDefaultAsync();
+        }
     }
 }

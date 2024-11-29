@@ -12,5 +12,6 @@ namespace ProjectPortfolio.Data
         Task<IEnumerable<SystemUserModel>> GetListAsync();
         Task<SystemUserModel> GetAsync(Guid id);
         Task<IEnumerable<SystemUserModel>> GetAllSystemUsers();
+        Task<SystemUserModel> GetUserByUserName(AuthenticateModel auth);
     }
 }

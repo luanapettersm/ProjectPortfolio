@@ -9,7 +9,6 @@ namespace ProjectPortfolio.Models
         public Guid ClientId { get; set; }
         public string ClientName { get; set; }
         public Guid? AttendantId { get; set; }
-        public string AttendantName { get; set; }
         public string Description { get; set; }
         public PriorityEnum Priority { get; set; }
         public string Title { get; set; }

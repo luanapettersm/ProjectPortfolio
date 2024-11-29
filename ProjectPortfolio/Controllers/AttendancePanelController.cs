@@ -37,7 +37,7 @@ namespace ProjectPortfolio.Controllers
         [HttpGet("GetProjectsByClient/{clientId}")]
         public async Task<IActionResult> GetProjectsByClient(Guid clientId)
         {
-            var model = new List<ClientProjectModel>();
+            var model = await clientProjectRepository.GetAllClientProjects(clientId);
 
             return Ok(model);
         }
@@ -95,7 +95,7 @@ namespace ProjectPortfolio.Controllers
         }
 
         [HttpGet("ChangeStatusCard/{id}/{status}")]
-        public async Task<IActionResult> Delete(Guid id, IssueStatusEnum status)
+        public async Task<IActionResult> ChangeStatusCard(Guid id, IssueStatusEnum status)
         {
             return Ok();
         }
@@ -106,7 +106,7 @@ namespace ProjectPortfolio.Controllers
         {
             try
             {
-                var result = ticket.Id == Guid.Empty ? await service.CreateAsync(ticket) : null; //await service.UpdateAsync(ticket);
+                var result = ticket.Id == Guid.Empty ? await service.CreateAsync(ticket) : await service.UpdateAsync(ticket);
 
                 if (result != null)
                 {
@@ -136,15 +136,6 @@ namespace ProjectPortfolio.Controllers
                     Status = false
                 });
             }
-        }
-
-
-        [HttpGet("{id}/NoteDelete")]
-        public async Task<IActionResult> Delete(Guid id)
-        {
-            //await noteService.DeleteAsync(id);
-
-            return Ok();
         }
     }
 }
