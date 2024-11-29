@@ -39,12 +39,12 @@ namespace ProjectPortfolio.Services
 
         public async Task<bool> AuthenticateAsync(string userName, string password)
         {
-            var user = await repository.GetAll().Where(e => e.UserName == userName).FirstOrDefaultAsync();
+            var systemUser = await repository.GetAll().Where(e => e.UserName == userName).FirstOrDefaultAsync();
 
-            if (user == null)
+            if (systemUser == null)
                 return false;
 
-            return user.Password == password;
+            return systemUser.Password == password;
         }
     }
 }

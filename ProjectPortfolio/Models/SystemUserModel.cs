@@ -13,7 +13,6 @@ namespace ProjectPortfolio.Models
         public string Password { get; set; }
         public DateTimeOffset DateCreated { get; set; }
         public BusinessRoleEnum BusinessRole { get; set; }
-        public SystemRoleEnum SystemRole { get; set; }
 
         public override string ToString()
         {
