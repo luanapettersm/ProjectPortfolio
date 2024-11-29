@@ -76,21 +76,19 @@
 <script>
     @if (Model != null)
     {
-        <text>
-                    $(document).ready(function () {
-                         if("@Model.CNPJ" !== "") {
-                            $("#cnpjId").prop("checked", true); 
-                            ChangePeople(false); 
-                            setTimeout(() => {
-                            $("#clientInfoId").val("@Model.CNPJ"); 
-                            }, 100); 
-                         } 
-                         else {
-                            $("#cpfId").prop("checked", true);
-                            ChangePeople(true);
-                            $("#clientInfoId").val("@Model.CPF"); 
-                         }
-                    });
-        </text>
+        if (Model.CNPJ != "")
+        {   
+            <text>ChangePeople(false);</text>
+            <text>$("#cnpjId").prop("checked", true);</text>
+            <text>
+                setTimeout(() => {
+                  $("#clientInfoId").val("@Model.CNPJ");
+                }, 1000);
+            </text>
+        }
+        else
+        {
+            <text>$("#clientInfoId").val("@Model.CPF");</text>
+        }
     }
 </script>
