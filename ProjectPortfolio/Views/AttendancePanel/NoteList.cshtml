@@ -1,0 +1,27 @@
+﻿@model List<IssueNoteModel>
+
+<div class="table-overflow-client mt-4 shadow ps-3 pb-3 pe-3 bg-body rounded w-100" style="background-color: #FFFFFF !important;">
+    <table class="table table-hover">
+        <thead>
+            <tr>
+                <th scope="col">Descrição</th>
+                <th scope="col" width="75px">Ações</th>
+            </tr>
+        </thead>
+        <tbody>
+            @if (Model != null)
+            {
+                @foreach (var item in Model)
+                {
+                    <tr>
+                        <td>@item.Description</td>
+                        <td>
+                            <button title="Editar" onclick="NoteEdit(@item.Id)" class="iconButton"><i class="glyphicon glyphicon-edit"></i></button>
+                            <button title="Deletar" onclick="NoteDelete(@item.Id)" class="iconButton"><i class="glyphicon glyphicon-trash"></i></button>
+                        </td>
+                    </tr>
+                }
+            }
+        </tbody>
+    </table>
+</div>

@@ -159,7 +159,5 @@ namespace ProjectPortfolio.Controllers
                 });
             }
         }
-
-
     }
 }

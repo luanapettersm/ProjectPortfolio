@@ -89,6 +89,28 @@ function Delete(id) {
         });
 }
 
+function AlertSaveSuccess() {
+    $("#wrapper-alert").html(`
+         <div class="alert alert-success" role="alert">
+            Salvo com sucesso!
+        </div>
+    `)
+    setTimeout(() => {
+        $("#wrapper-alert").html("");
+    }, 3000);
+}
+
+function AlertSaveError(error) {
+    $("#wrapper-alert").html(`
+         <div class="alert alert-danger" role="alert">
+            Erro ao salvar - ${error}
+        </div>
+    `)
+    setTimeout(() => {
+        $("#wrapper-alert").html("");
+    }, 3000);
+}
+
 function AlertDeteleSuccess() {
     $("#wrapper-alert").html(`
          <div class="alert alert-success" role="alert">
