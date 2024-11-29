@@ -9,11 +9,7 @@
             <div class="d-flex justify-content-between">
                 <input hidden class="cardId" value="@item.Id" />
                 <input hidden class="statusCardId" value="@item.Status" />
-                <div>
-                    <font class="sequencialId" title="Número">@item.SequentialId</font>
-                    <font class="client" title="Cliente">- @item.ClientName</font>
-                </div>
-                <div>
+                <div class="card-heade pt-1">
                     <font class="priority" title="Prioridade">
                         @if (item.Priority == PriorityEnum.High)
                         {
@@ -28,13 +24,20 @@
                             <div>Baixa</div>
                         }
                     </font>
-                    <font class="dateCreated" title="Data de criação">- @item.DateCreated.ToString("dd/MM/yyyy")</font>
+                    <font class="sequencialId" title="Número">- @item.SequentialId</font>
+                    <font class="client" title="Cliente">- @item.ClientName</font>
+                </div>
+                <div>
+                    <button title="Editar" onclick="Edit(@item.Id)" class="iconButton icon-Panel">
+                        <i class="glyphicon glyphicon-edit"></i>
+                    </button>
+                    <button title="Notas" onclick="Note(@item.Id)" class="iconButton icon-Panel">
+                        <i class="glyphicon glyphicon-book"></i>
+                    </button>
                 </div>
             </div>
-            <font title="Título">@item.Title</font>
+            <font class="card-titlePanel" title="Título">@item.Title</font>
             <font title="Descrição" class="description">@item.Description</font>
         </div>
     }
-
 }
-

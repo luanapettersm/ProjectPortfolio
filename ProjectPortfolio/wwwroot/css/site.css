@@ -178,3 +178,12 @@ textarea:focus, input:focus{
     max-height: 500px;
     overflow-y: auto;
 }
+
+.card-heade{
+    font-size: 12px
+}
+
+.card-titlePanel {
+    font-size: 16px
+}
+
