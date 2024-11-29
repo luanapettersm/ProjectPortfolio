@@ -7,7 +7,6 @@ namespace ProjectPortfolio.Models
     {
         public List<ClientModel> Clients { get; set; }
         public List<SystemUserModel> Attendants { get; set; }
-        public List<ClientProjectModel> Projects { get; set; }
         public IssueModel Issue { get; set; }
     }
 }
