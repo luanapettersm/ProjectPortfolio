@@ -28,7 +28,7 @@ namespace ProjectPortfolio.Models
                 messages.Add("O título deve ter entre 3 e 2000 caracteres.");
             if (ClientId == Guid.Empty)
                 messages.Add("O cliente é obrigatório.");
-            if (Priority == null)
+            if (Priority.GetType() == null)
                 messages.Add("A prioridade é obrigatória.");
 
             return messages;

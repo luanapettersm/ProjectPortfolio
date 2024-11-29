@@ -1,3 +1,4 @@
+using Microsoft.Extensions.Configuration;
 using Moq;
 using ProjectPortfolio.Data;
 using ProjectPortfolio.Enumerators;
@@ -172,23 +173,6 @@ namespace ProjectPortfolio.Tests
             Assert.Contains("O estado é obrigatório.", validationMessages);
         }
 
-        //[Fact]
-        //public async Task CreateAsync_ShouldThrowException_WhenCPFAndCNPJAreNull()
-        //{
-        //    var model = new ClientModel
-        //    {
-        //        Name = "John Doe",
-        //        PhoneNumber = "1234567890",
-        //        Mail = "john.doe@example.com",
-        //        ZipCode = "12345",
-        //        Address = "Address",
-        //        City = "City",
-        //        State = "State"
-        //    };
-
-        //    await Assert.ThrowsAsync<Exception>(() => _clientService.CreateAsync(model));
-        //}
-
         [Fact(DisplayName = "Should return error when Name is null or empty")]
         public void Validator_ShouldReturnError_WhenNameIsNullOrEmpty()
         {
@@ -297,35 +281,6 @@ namespace ProjectPortfolio.Tests
             Assert.Equal(expected.Id, result.Id);
             _systemUserRepositoryMock.Verify(repo => repo.InsertAsync(It.IsAny<SystemUserModel>()), Times.Once);
         }
-
-        //[Fact(DisplayName = "Should not return any error when is valid")]
-        //public async Task DeleteAsync_ShouldThrowException_WhenUserHasActiveIssues()
-        //{
-        //    var userId = Guid.NewGuid();
-        //    var activeIssues = new List<IssueModel> { new IssueModel { AttendantId = userId, Status = IssueStatusEnum.Active } };
-
-        //    _issueRepositoryMock.Setup(repo => repo.GetAll().AsNoTracking().Where(It.IsAny<Expression<Func<IssueModel, bool>>>()))
-        //        .Returns(activeIssues.AsQueryable());
-
-        //    await Assert.ThrowsAsync<Exception>(() => _systemUserService.DeleteAsync(userId));
-
-        //    _issueRepositoryMock.Verify(repo => repo.GetAll(), Times.Once);
-        //}
-
-        //[Fact(DisplayName = "Should not return any error when is valid")]
-        //public async Task DeleteAsync_ShouldDeleteUser_WhenNoActiveIssues()
-        //{
-        //    var userId = Guid.NewGuid();
-
-        //    _issueRepositoryMock.Setup(repo => repo.GetAll().AsNoTracking().Where(It.IsAny<Expression<Func<IssueModel, bool>>>()))
-        //        .Returns(Enumerable.Empty<IssueModel>().AsQueryable());
-
-        //    _repositoryMock.Setup(repo => repo.DeleteAsync(It.IsAny<Guid>()));
-
-        //    await _systemUserService.DeleteAsync(userId);
-
-        //    _repositoryMock.Verify(repo => repo.DeleteAsync(It.IsAny<Guid>()), Times.Once);
-        //}
 
         [Fact(DisplayName = "Should return error when Title is null or empty")]
         public void CreateValidator_ShouldReturnError_WhenTitleIsNullOrEmpty()
@@ -437,15 +392,68 @@ namespace ProjectPortfolio.Tests
             Assert.Equal("Projeto A", result.Title);
         }
 
-        //[Fact(DisplayName = "Should create an invalid project")]
-        //public async Task CreateAsync_ShouldThrowException_WhenInvalidModel()
-        //{
-        //    var invalidModel = new ClientProjectModel { Title = "AB", Address = "Rua Teste", City = "Cidade", ZipCode = "12345", Number = 123 };
+        [Fact(DisplayName = "Should return error when Issue Title is null or empty")]
+        public void CreateValidator_ShouldReturnError_WhenIssueTitleIsNullOrEmpty()
+        {
+            var model = new IssueModel
+            {
+                Title = "", 
+                Description = "Descrição válida",
+                ClientId = Guid.NewGuid(),
+                Priority = PriorityEnum.Low
+            };
 
-        //    var result = await _clientProjectService.CreateAsync(invalidModel);
+            var result = model.CreateValidator();
 
-        //    Assert.NotNull(result);
-        //    Assert.Equal("O título deve ter entre 3 e 50 caracteres.", result.ValidationMessages[0]);
-        //}
+            Assert.Contains("O título deve ter entre 3 e 100 caracteres.", result);
+        }
+
+        [Fact(DisplayName = "Should return error when Issue Description is too short")]
+        public void CreateValidator_ShouldReturnError_WhenIssueDescriptionIsTooShort()
+        {
+            var model = new IssueModel
+            {
+                Title = "Título válido",
+                Description = "AB",
+                ClientId = Guid.NewGuid(),
+                Priority = PriorityEnum.Low
+            };
+
+            var result = model.CreateValidator();
+
+            Assert.Contains("O título deve ter entre 3 e 2000 caracteres.", result);
+        }
+
+        [Fact(DisplayName = "Should return error when Issue ClientId is empty")]
+        public void CreateValidator_ShouldReturnError_WhenIssueClientIdIsEmpty()
+        {
+            var model = new IssueModel
+            {
+                Title = "Título válido",
+                Description = "Descrição válida",
+                ClientId = Guid.Empty,
+                Priority = PriorityEnum.Low
+            };
+
+            var result = model.CreateValidator();
+
+            Assert.Contains("O cliente é obrigatório.", result);
+        }
+
+        [Fact(DisplayName = "Should return any error when valid")]
+        public void CreateValidator_ShouldNotReturnError_WhenModelIsValid()
+        {
+            var model = new IssueModel
+            {
+                Title = "Título válido",
+                Description = "Descrição válida",
+                ClientId = Guid.NewGuid(),
+                Priority = PriorityEnum.Low
+            };
+
+            var result = model.CreateValidator();
+
+            Assert.Empty(result);
+        }
     }
 }

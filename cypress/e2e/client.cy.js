@@ -19,7 +19,7 @@ it('Criar client', () => {
 });
 
 it('Criar projeto para o client', () => {
-    cy.get(':nth-child(1) > :nth-child(5) > [title="Projetos"] > .glyphicon').click()
+    cy.get(':nth-child(1) > :nth-child(5) > [title="Projetos"]').click().should('be.visible')
     cy.get('.modal-body > .d-flex > .btn').click()
     cy.get('#projectId').click().type('Novo projeto para o cliente')
     cy.get('#descriptionId').click().type('Descrição do novo projeto do cliente')
