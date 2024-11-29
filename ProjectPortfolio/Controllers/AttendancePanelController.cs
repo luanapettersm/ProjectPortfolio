@@ -33,8 +33,6 @@ namespace ProjectPortfolio.Controllers
                 Issue = id.HasValue ? await repository.GetAsync((Guid)id) : null,
             };
 
-            // preencher campos da model CreateTicketModel
-
             return PartialView("~/Views/AttendancePanel/Edit.cshtml", model);
         }
 
