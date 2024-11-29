@@ -77,9 +77,14 @@
     @if (Model != null)
     {
         if (Model.CNPJ != "")
-        {  
+        {   
             <text>ChangePeople(false);</text>
-            <text>$("#clientInfoId").val("@Model.CNPJ");</text>
+            <text>$("#cnpjId").prop("checked", true);</text>
+            <text>
+                setTimeout(() => {
+                  $("#clientInfoId").val("@Model.CNPJ");
+                }, 1000);
+            </text>
         }
         else
         {
