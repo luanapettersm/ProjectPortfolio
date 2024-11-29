@@ -133,9 +133,15 @@
 </div>
 
 <script>
+    var isEdit = false;
+    var projectId = null; 
+
     @if (Model.Issue != null)
     {
-        <text>GetProjects();</text>
-        <text>$("#clientProjectId").val(@Model.Issue.ClientProjectId).change();</text>
+        <text>
+                projectId = @Html.Raw(Json.Serialize(Model.Issue.ClientProjectId));
+                isEdit = true;
+                GetProjects();
+        </text>
     }
 </script>
