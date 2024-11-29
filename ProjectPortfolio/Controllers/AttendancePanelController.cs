@@ -31,8 +31,6 @@ namespace ProjectPortfolio.Controllers
                 Attendants = await systemUserRepository.GetListAsync(),
                 Clients = clients,
                 Issue = id.HasValue ? await repository.GetAsync((Guid)id) : null,
-                Projects = await clientProjectRepository.GetAllClientProjects(clients.Select(e => e.Id).FirstOrDefault())
-
             };
 
             // preencher campos da model CreateTicketModel

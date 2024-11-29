@@ -7,7 +7,6 @@ namespace ProjectPortfolio.Models
     {
         public IEnumerable<ClientModel> Clients { get; set; }
         public IEnumerable<SystemUserModel> Attendants { get; set; }
-        public IEnumerable<ClientProjectModel> Projects { get; set; }
         public IssueModel Issue { get; set; }
     }
 }

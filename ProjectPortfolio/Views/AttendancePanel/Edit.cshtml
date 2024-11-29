@@ -19,16 +19,17 @@
                                 
                                 @if (Model.Clients != null)
                                 {   
+                                    if(Model.Issue == null)
+                                    {
+                                        <option selected> Cliente</option>
+                                    }
+                                    else
+                                    {
+                                        <option>Cliente</option>
+                                    }
+
                                     @foreach(var item in Model.Clients)
                                     {   
-                                        if(Model.Issue == null)
-                                        {
-                                            <option selected> Cliente</option>
-                                        }
-                                        else
-                                        {
-                                            <option>Cliente</option>
-                                        }
 
                                         if(Model.Issue != null && Model.Issue.ClientId == item.Id)
                                         {
@@ -48,19 +49,19 @@
                         </div>
                         <div class="col-6 mb-2">
                             <select class="form-select" id="attendantId" name="ticket.attendantId">
-
                                 @if (Model.Attendants != null)
-                                {
+                                {   
+                                    @if (Model.Issue == null)
+                                    {
+                                        <option selected>Atendente</option>
+                                    }
+                                    else
+                                    {
+                                        <option>Atendente</option>
+                                    }
+
                                     @foreach (var item in Model.Attendants)
                                     {
-                                        if (Model.Issue == null)
-                                        {
-                                            <option selected> Atendente</option>
-                                        }
-                                        else
-                                        {
-                                            <option>Cliente</option>
-                                        }
 
                                         if (Model.Issue != null && Model.Issue.AttendantId == item.Id)
                                         {
@@ -136,6 +137,5 @@
     {
         <text>GetProjects();</text>
         <text>$("#clientProjectId").val(@Model.Issue.ClientProjectId).change();</text>
-        
     }
 </script>
