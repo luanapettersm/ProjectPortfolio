@@ -118,9 +118,9 @@
                         <div class="col-12">
                             <input class="form-control" id="titleId" name="ticket.title" placeholder="Título" value="@(Model.Issue != null ? Model.Issue.Title : "")">
                         </div>
-                        <div class="col-12">
-                            <input class="form-control" id="descriptionId" name="ticket.description" placeholder="Descrição" value="@(Model.Issue != null ? Model.Issue.Description : "")">
-                        </div>
+                        <textarea class="form-control" id="descriptionId" name="ticket.description" placeholder="Descrição">
+                            @(Model.Issue != null ? Model.Issue.Description : "")
+                        </textarea>
                     </div>
                 </form>
             </div>
