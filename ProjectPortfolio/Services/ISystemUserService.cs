@@ -7,5 +7,6 @@ namespace ProjectPortfolio.Services
         Task<SystemUserModel> CreateAsync(SystemUserModel model);
         Task<SystemUserModel> UpdateAsync(SystemUserModel model);
         Task DeleteAsync(Guid id);
+        Task<bool> AuthenticateAsync(string userName, string password);
     }
 }

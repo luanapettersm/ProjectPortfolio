@@ -36,6 +36,16 @@ namespace ProjectPortfolio.Services
 
             await repository.DeleteAsync(id);
         }
+
+        public async Task<bool> AuthenticateAsync(string userName, string password)
+        {
+            var user = await repository.GetAll().Where(e => e.UserName == userName).FirstOrDefaultAsync();
+
+            if (user == null)
+                return false;
+
+            return user.Password == password;
+        }
     }
 }
   

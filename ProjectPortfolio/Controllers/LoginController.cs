@@ -7,31 +7,39 @@ namespace ProjectPortfolio.Controllers
 {
     [AllowAnonymous]
     [Route("[controller]")]
-    public class LoginController(ITokenService tokenService) : Controller
+    public class LoginController(ITokenService tokenService,
+        ISystemUserService service) : Controller
     {
-        [HttpGet]
-        public async Task<IActionResult> Login()
+        [HttpPost("Login")]
+        public async Task<IActionResult> Login(AuthenticateModel auth)
         {
+            if (string.IsNullOrEmpty(auth.UserName) || string.IsNullOrEmpty(auth.Password))
+                return BadRequest("Usuário e senha são obrigatórios.");
+            
+            var isValidUser = await service.AuthenticateAsync(auth.UserName, auth.Password);
+            if (!isValidUser)
+                return Unauthorized("Usuário ou senha inválidos.");
+
             return Redirect("/Home");
         }
 
-        [HttpPost("Login")]
-        public async Task<IActionResult> Authenticate(AuthenticateModel login)
-        {
-            if (string.IsNullOrEmpty(login.UserName) || string.IsNullOrEmpty(login.Password))
-                return BadRequest("Usuário e senha são obrigatórios.");
+        //[HttpPost("Login")]
+        //public async Task<IActionResult> Authenticate(AuthenticateModel login)
+        //{
+            //if (string.IsNullOrEmpty(login.UserName) || string.IsNullOrEmpty(login.Password))
+            //    return BadRequest("Usuário e senha são obrigatórios.");
 
             //var isValidUser = ValidateUser(login.UserName, login.Password);
             //if (!isValidUser)
             //    return Unauthorized("Usuário ou senha inválidos.");
 
-            var token = await tokenService.GetTokenAsync(login);
+        //    var token = await tokenService.GetTokenAsync(login);
 
-            if (string.IsNullOrEmpty(token))
-                return Unauthorized("Falha na geração do token.");
+        //    if (string.IsNullOrEmpty(token))
+        //        return Unauthorized("Falha na geração do token.");
 
-            return Ok(new { Token = token });
-        }
+        //    return Ok(new { Token = token });
+        //}
 
         [HttpGet("Logout")]
         public async Task<IActionResult> Logout()
