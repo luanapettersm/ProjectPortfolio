@@ -1,5 +1,8 @@
-﻿namespace ProjectPortfolio.Models
+﻿using System.ComponentModel.DataAnnotations.Schema;
+
+namespace ProjectPortfolio.Models
 {
+    [NotMapped]
     public class CreateTicketModel
     {
         public List<ClientModel> Clients { get; set; }
