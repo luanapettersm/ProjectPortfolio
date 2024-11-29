@@ -7,7 +7,6 @@ namespace ProjectPortfolio.Data
         IQueryable<ClientProjectModel> GetAll();
         Task<ClientProjectModel> InsertAsync(ClientProjectModel model);
         Task<ClientProjectModel> UpdateAsync(ClientProjectModel model);
-        Task DeleteAsync(Guid id);
         Task<IEnumerable<ClientProjectModel>> GetAllClientProjects(Guid clientId);
         Task<ClientProjectModel> GetAsync(Guid id);
     }

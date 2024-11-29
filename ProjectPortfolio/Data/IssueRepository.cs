@@ -4,7 +4,7 @@ using ProjectPortfolio.Models;
 
 namespace ProjectPortfolio.Data
 {
-    internal class IssueRepository(IDbContextFactory<Repository> dbContextFactory,
+    public class IssueRepository(IDbContextFactory<Repository> dbContextFactory,
         ISystemUserRepository systemUserRepository) : IIssueRepository
     {
         public IQueryable<IssueModel> GetAll()
@@ -33,17 +33,6 @@ namespace ProjectPortfolio.Data
         {
             var ct = await dbContextFactory.CreateDbContextAsync();
             return await ct.Set<IssueModel>().Where(e => e.Id == id).FirstOrDefaultAsync();
-        }
-
-        public async Task<IEnumerable<IssueModel>> RetrieveInProgressIssuesPerAttendant(Guid attendantId)
-        {
-            var ct = await dbContextFactory.CreateDbContextAsync();
-            var issues = await ct.Set<IssueModel>()
-                .Where(e => e.AttendantId == attendantId)
-                .Where(e => e.Status != IssueStatusEnum.Closed)
-                .Where(e => e.DateClosed == null)
-                .ToListAsync();
-            return issues;
         }
 
         public async Task<IEnumerable<IssueModel>> ListIssues(IssueStatusEnum status, AuthenticateModel auth)

@@ -1,5 +1,4 @@
-﻿using Microsoft.AspNetCore.Authorization;
-using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Mvc;
 using ProjectPortfolio.Data;
 using ProjectPortfolio.Models;
 using ProjectPortfolio.Services;
@@ -104,8 +103,6 @@ namespace ProjectPortfolio.Controllers
         [HttpGet("ProjectEdit/{id}")]
         public async Task<IActionResult> ProjectEdit(Guid? id)
         {
-            //var project = new ClientProjectModel();
-
             var project = id.HasValue ? await projectRepository.GetAsync((Guid)id) : null;
 
             return PartialView("~/Views/Client/ProjectEdit.cshtml", project);
@@ -114,8 +111,6 @@ namespace ProjectPortfolio.Controllers
         [HttpGet("ProjectList/{clientId}")]
         public async Task<IActionResult> ProjectList(Guid clientId)
         { 
-            //var model = new List<ClientProjectModel>();
-
             var model = await projectRepository.GetAllClientProjects(clientId);
 
             return PartialView("~/Views/Client/ProjectList.cshtml", model);

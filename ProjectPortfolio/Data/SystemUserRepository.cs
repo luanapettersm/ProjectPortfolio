@@ -4,7 +4,7 @@ using System.Linq.Dynamic.Core;
 
 namespace ProjectPortfolio.Data
 {
-    internal class SystemUserRepository(IDbContextFactory<Repository> dbContextFactory) : ISystemUserRepository
+    public class SystemUserRepository(IDbContextFactory<Repository> dbContextFactory) : ISystemUserRepository
     {
         public IQueryable<SystemUserModel> GetAll()
         {
@@ -33,12 +33,6 @@ namespace ProjectPortfolio.Data
             var ct = await dbContextFactory.CreateDbContextAsync();
             await ct.Set<SystemUserModel>().Where(e => e.Id == id).ExecuteDeleteAsync();
             await ct.SaveChangesAsync();
-        }
-
-        public async Task<IEnumerable<SystemUserModel>> GetListAsync(IEnumerable<Guid> ids)
-        {
-            var ct = await dbContextFactory.CreateDbContextAsync();
-            return await ct.Set<SystemUserModel>().AsNoTracking().ToListAsync();
         }
 
         public async Task<IEnumerable<SystemUserModel>> GetListAsync()

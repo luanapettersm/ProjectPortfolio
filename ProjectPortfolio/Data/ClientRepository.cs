@@ -4,7 +4,7 @@ using System.Linq.Dynamic.Core;
 
 namespace ProjectPortfolio.Data
 {
-    internal class ClientRepository(IDbContextFactory<Repository> dbContextFactory) : IClientRepository
+    public class ClientRepository(IDbContextFactory<Repository> dbContextFactory) : IClientRepository
     {
         public async Task DeleteAsync(Guid id)
         {
@@ -50,12 +50,6 @@ namespace ProjectPortfolio.Data
         {
             var ct = await dbContextFactory.CreateDbContextAsync();
             return await ct.Set<ClientModel>().Where(e => e.Id == id).FirstOrDefaultAsync();
-        }
-
-        public async Task<IEnumerable<ClientModel>> GetListAsync(IEnumerable<Guid> ids)
-        {
-            var ct = await dbContextFactory.CreateDbContextAsync();
-            return await ct.Set<ClientModel>().AsNoTracking().ToListAsync();
         }
 
         public async Task<IEnumerable<ClientModel>> GetAllClients()

@@ -1,4 +1,3 @@
-using Microsoft.Extensions.Configuration;
 using Moq;
 using ProjectPortfolio.Data;
 using ProjectPortfolio.Enumerators;

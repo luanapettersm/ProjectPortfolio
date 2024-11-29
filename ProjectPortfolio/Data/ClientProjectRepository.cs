@@ -4,15 +4,8 @@ using System.Linq.Dynamic.Core;
 
 namespace ProjectPortfolio.Data
 {
-    internal class ClientProjectRepository(IDbContextFactory<Repository> dbContextFactory) : IClientProjectRepository
+    public class ClientProjectRepository(IDbContextFactory<Repository> dbContextFactory) : IClientProjectRepository
     {
-        public async Task DeleteAsync(Guid id)
-        {
-            var ct = await dbContextFactory.CreateDbContextAsync();
-            await ct.Set<ClientProjectModel>().Where(e => e.Id == id).ExecuteDeleteAsync();
-            await ct.SaveChangesAsync();
-        }
-
         public IQueryable<ClientProjectModel> GetAll()
         {
             var ct = dbContextFactory.CreateDbContext();
