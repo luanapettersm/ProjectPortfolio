@@ -30,6 +30,14 @@ namespace ProjectPortfolio.Controllers
             return PartialView("~/Views/AttendancePanel/Edit.cshtml", model);
         }
 
+        [HttpGet("GetProjectsByClient/{clientId}")]
+        public async Task<IActionResult> GetProjectsByClient(Guid clientId)
+        {
+            var model = new List<ClientProjectModel>();
+
+            return Ok(model);
+        }
+
         [HttpGet("ListCardOpen")]
         public IActionResult ListCardOpen()
         {

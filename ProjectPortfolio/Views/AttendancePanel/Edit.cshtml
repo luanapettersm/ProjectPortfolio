@@ -15,7 +15,7 @@
                     }
                     <div class="row">
                         <div class="col-6 mb-2">
-                            <select class="form-select" id="clientId" name="ticket.clientId">
+                            <select class="form-select" id="clientId" name="ticket.clientId" onclick="GetProjects()">
                                 
                                 @if (Model.Clients != null)
                                 {   
@@ -42,6 +42,9 @@
                                                                      
                                 }
                             </select>
+                        </div>
+                        <div class="col-6 mb-2">
+                            <select class="form-select" id="clientProjectId" name="ticket.clientProjectId"></select>
                         </div>
                         <div class="col-6 mb-2">
                             <select class="form-select" id="attendantId" name="ticket.attendantId">
@@ -72,51 +75,51 @@
                                 }
                             </select>
                         </div>
-                    </div>
-                    <div class="col-12">
-                        <input class="form-control" id="titleId" name="ticket.title" placeholder="Título" value="@(Model.Issue != null ? Model.Issue.Title : "")">
-                    </div>
-                    <div class="col-12">
-                        <input class="form-control" id="descriptionId" name="ticket.description" placeholder="Descrição" value="@(Model.Issue != null ? Model.Issue.Description : "")">
-                    </div>
-                    <div class="col-6">
-                        <select class="form-select" id="priorityId" name="ticket.priority">
-                            @if(Model.Issue == null)
-                            {
-                                <option selected>Prioridade</option>
-                                <option value="0">Alta</option>
-                                <option value="1">Média</option>
-                                <option value="2">Baixa</option>
-                            }
-                            else
-                            {
-                                <option>Função empresarial</option>
-                                @if (Model.Issue.Priority == PriorityEnum.High)
+                        <div class="col-6">
+                            <select class="form-select" id="priorityId" name="ticket.priority">
+                                @if (Model.Issue == null)
                                 {
-                                    <option selected value="0">Alta</option>
-                                }
-                                else
-                                {
+                                    <option selected>Prioridade</option>
                                     <option value="0">Alta</option>
-                                }
-                                @if (Model.Issue.Priority == PriorityEnum.Medium)
-                                {
-                                    <option selected value="1">Média</option>
-                                }
-                                else
-                                {
                                     <option value="1">Média</option>
-                                }
-                                @if (Model.Issue.Priority == PriorityEnum.Low)
-                                {
-                                    <option selected value="2">Baixa</option>
-                                }
-                                else
-                                {
                                     <option value="2">Baixa</option>
                                 }
-                            }
-                        </select>
+                                else
+                                {
+                                    <option>Função empresarial</option>
+                                    @if (Model.Issue.Priority == PriorityEnum.High)
+                                    {
+                                        <option selected value="0">Alta</option>
+                                    }
+                                    else
+                                    {
+                                        <option value="0">Alta</option>
+                                    }
+                                    @if (Model.Issue.Priority == PriorityEnum.Medium)
+                                    {
+                                        <option selected value="1">Média</option>
+                                    }
+                                    else
+                                    {
+                                        <option value="1">Média</option>
+                                    }
+                                    @if (Model.Issue.Priority == PriorityEnum.Low)
+                                    {
+                                        <option selected value="2">Baixa</option>
+                                    }
+                                    else
+                                    {
+                                        <option value="2">Baixa</option>
+                                    }
+                                }
+                            </select>
+                        </div>
+                        <div class="col-12">
+                            <input class="form-control" id="titleId" name="ticket.title" placeholder="Título" value="@(Model.Issue != null ? Model.Issue.Title : "")">
+                        </div>
+                        <div class="col-12">
+                            <input class="form-control" id="descriptionId" name="ticket.description" placeholder="Descrição" value="@(Model.Issue != null ? Model.Issue.Description : "")">
+                        </div>
                     </div>
                 </form>
             </div>
@@ -127,3 +130,12 @@
         </div>
     </div>
 </div>
+
+<script>
+    @if (Model.Issue != null)
+    {
+        <text>GetProjects();</text>
+        <text>$("#clientProjectId").val(@Model.Issue.ClientProjectId).change();</text>
+        
+    }
+</script>
