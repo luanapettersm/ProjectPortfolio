@@ -3,11 +3,12 @@ using Microsoft.AspNetCore.Mvc;
 using ProjectPortfolio.Data;
 using ProjectPortfolio.Enumerators;
 using ProjectPortfolio.Models;
+using ProjectPortfolio.Services;
 
 namespace ProjectPortfolio.Controllers
 {
     [Route("[controller]")]
-    public class AttendancePanelController : Controller
+    public class AttendancePanelController(IIssueService service) : Controller
     {
         [HttpGet]
         public IActionResult Index()
@@ -20,6 +21,8 @@ namespace ProjectPortfolio.Controllers
         public async Task<IActionResult> Edit(Guid? id)
         {
             var model = new CreateTicketModel();
+
+            // preencher campos da model CreateTicketModel
 
             //client = id.HasValue ? await repository.GetAsync((Guid)id) : null;
 
@@ -83,6 +86,43 @@ namespace ProjectPortfolio.Controllers
             return Ok();
         }
 
+
+        [HttpPost("Save")]
+        public async Task<IActionResult> Save(IssueModel ticket)
+        {
+            try
+            {
+                var result = ticket.Id == Guid.Empty ? await service.CreateAsync(ticket) : null; //await service.UpdateAsync(ticket);
+
+                if (result != null)
+                {
+                    return Ok(new
+                    {
+                        Data = result,
+                        Message = ticket.Id == Guid.Empty
+                            ? "Chamado salvo com sucesso."
+                            : "Chamado atualizado com sucesso.",
+                        Status = true
+                    });
+                }
+
+                return BadRequest(new
+                {
+                    Data = null as IssueModel,
+                    Message = "Falha ao salvar o chamado.",
+                    Status = false
+                });
+            }
+            catch (Exception ex)
+            {
+                return BadRequest(new
+                {
+                    Data = null as IssueModel,
+                    Message = $"Erro interno: {ex.Message}",
+                    Status = false
+                });
+            }
+        }
 
     }
 }

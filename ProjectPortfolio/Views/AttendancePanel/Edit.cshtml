@@ -14,7 +14,7 @@
                         <input id="ticketId" name="ticket.id" value="@Model.Issue.Id" hidden />
                     }
                     <div class="row">
-                        <div class="col-6">
+                        <div class="col-6 mb-2">
                             <select class="form-select" id="clientId" name="ticket.clientId">
                                 
                                 @if (Model.Clients != null)
@@ -43,7 +43,7 @@
                                 }
                             </select>
                         </div>
-                        <div class="col-6">
+                        <div class="col-6 mb-2">
                             <select class="form-select" id="attendantId" name="ticket.attendantId">
 
                                 @if (Model.Attendants != null)

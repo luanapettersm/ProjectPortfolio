@@ -1,10 +1,13 @@
 ﻿window.onload = function () {
+    LoadColumns();
+};
+
+function LoadColumns() {
     CardListOpen();
     CardListPendent();
     CardListInProgress();
     CardListInClose();
-};
-
+}
 
 function CardListOpen() {
     $.get("AttendancePanel/ListCardOpen", function (response) {
@@ -84,5 +87,54 @@ function executeOnDrop(card, column) {
         card.querySelector(".d-flex .statusCardId").value = columsStatus;
         $.get(`AttendancePanel/ChangeStatusCard/${cardId}/${columsStatus}`, function (response) {});
     }
+
+}
+
+function Edit(id) {
+    var url = id == undefined ? "AttendancePanel/Edit" : `AttendancePanel/Edit/${id}`
+    $.get(url, function (response) {
+        $("#wrapper-edit").html(response);
+        $("#editModal").show();
+    });
+}
+
+function AlertDeteleSuccess() {
+    $("#wrapper-alert").html(`
+         <div class="alert alert-success" role="alert">
+            Deletado com sucesso!
+        </div>
+    `)
+    setTimeout(() => {
+        $("#wrapper-alert").html("");
+    }, 3000);
+}
+
+function AlertDeleteError(error) {
+    $("#wrapper-alert").html(`
+         <div class="alert alert-danger" role="alert">
+            Erro ao deletar - ${error}
+        </div>
+    `)
+    setTimeout(() => {
+        $("#wrapper-alert").html("");
+    }, 3000);
+}
+
+function Close() {
+    $("#wrapper-edit").html("");
+}
+
+function Save() {
+    var fd = $("#ticketFormId").serializeArray();
+
+    $.post(`/AttendancePanel/Save`, fd)
+        .done(function (response) {
+            $('#wrapper-edit').html("");
+            AlertSaveSuccess();
+            LoadColumns();
+            
+        }).fail(function (response) {
+            AlertSaveError(response);
+        });
 
 }
