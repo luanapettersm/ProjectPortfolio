@@ -3,6 +3,7 @@ using Microsoft.IdentityModel.Tokens;
 using ProjectPortfolio.Data;
 using ProjectPortfolio.Enumerators;
 using ProjectPortfolio.Models;
+using System.ComponentModel.DataAnnotations;
 
 namespace ProjectPortfolio.Services
 {
@@ -11,7 +12,7 @@ namespace ProjectPortfolio.Services
         public async Task<SystemUserModel> CreateAsync(SystemUserModel model)
         {
             var messages = new ResponseModel<SystemUserModel> { ValidationMessages = model.Validator() };
-
+         
             model.DateCreated = DateTimeOffset.Now;
 
             var result = await repository.InsertAsync(model);

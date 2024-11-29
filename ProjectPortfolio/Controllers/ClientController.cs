@@ -39,8 +39,6 @@ namespace ProjectPortfolio.Controllers
         [HttpGet("Edit/{id}")]
         public async Task<IActionResult> Edit(Guid? id)
         {
-            //var client = new ClientModel();
-
             var client = id.HasValue ? await repository.GetAsync((Guid)id) : null;
 
             return PartialView("~/Views/Client/Edit.cshtml", client);

@@ -1,6 +1,5 @@
 ﻿using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
-using ProjectPortfolio.Data;
 using ProjectPortfolio.Models;
 using ProjectPortfolio.Services;
 
@@ -37,9 +36,6 @@ namespace ProjectPortfolio.Controllers
         [HttpGet("Logout")]
         public async Task<IActionResult> Logout()
         {
-            //
-            //
-
             return Redirect("/Home");
         }
 

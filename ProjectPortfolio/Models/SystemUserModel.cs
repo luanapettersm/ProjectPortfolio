@@ -1,7 +1,4 @@
-﻿using Microsoft.AspNetCore.Cryptography.KeyDerivation;
-using ProjectPortfolio.Enumerators;
-using System.Security.Cryptography;
-using System.Text;
+﻿using ProjectPortfolio.Enumerators;
 
 namespace ProjectPortfolio.Models
 {
@@ -38,26 +35,6 @@ namespace ProjectPortfolio.Models
                 messages.Add("O cargo é obrigatório.");
 
             return messages;
-        }
-
-        public string HashPassword(string password)
-        {
-            using SHA256 sha256Hash = SHA256.Create();
-            byte[] bytes = sha256Hash.ComputeHash(Encoding.UTF8.GetBytes(password));
-
-            StringBuilder builder = new();
-            foreach (byte b in bytes)
-            {
-                builder.Append(b.ToString("x2"));
-            }
-            return builder.ToString();
-        }
-
-        public bool VerifyPassword(string enteredPassword, string storedHash)
-        {
-            string hashOfInput = HashPassword(enteredPassword);
-
-            return hashOfInput.Equals(storedHash, StringComparison.OrdinalIgnoreCase);
         }
     }
 }
