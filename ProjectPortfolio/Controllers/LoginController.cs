@@ -6,34 +6,32 @@ using ProjectPortfolio.Services;
 
 namespace ProjectPortfolio.Controllers
 {
+    [AllowAnonymous]
     [Route("[controller]")]
     public class LoginController(ITokenService tokenService) : Controller
     {
         [HttpGet]
-        public async Task<IActionResult> Index()
+        public async Task<IActionResult> Login()
         {
-            return View();
+            return Redirect("/Home");
         }
 
         [HttpPost("Login")]
         public async Task<IActionResult> Authenticate(AuthenticateModel login)
         {
             if (string.IsNullOrEmpty(login.UserName) || string.IsNullOrEmpty(login.Password))
-                return BadRequest("Necessário informar usuário e senha para realizar o login.");
+                return BadRequest("Usuário e senha são obrigatórios.");
+
+            var isValidUser = ValidateUser(login.UserName, login.Password);
+            if (!isValidUser)
+                return Unauthorized("Usuário ou senha inválidos.");
 
             var token = await tokenService.GetTokenAsync(login);
 
-            if (token == "" || token == null)
-                return Unauthorized();
-            //var user = await systemUserRepository.GetByUserName(model.UserName);
+            if (string.IsNullOrEmpty(token))
+                return Unauthorized("Falha na geração do token.");
 
-            //if (user == null)
-            //    return NotFound(new { message = "Usuário ou senha inválidos" });
-
-
-            //user.Password = "";
-
-            return Ok(ViewData["Authenticated"]);
+            return Ok(new { Token = token });
         }
 
         [HttpGet("Logout")]
