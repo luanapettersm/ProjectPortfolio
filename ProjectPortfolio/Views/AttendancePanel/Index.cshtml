@@ -3,13 +3,12 @@
     ViewData["Title"] = "Painel de atendimento";
 }
 
-<div class="d-flex justify-content-end mb-2">
-    <button onclick="Edit()" type="button" class="btn btn-primary">Criar chamado</button>
-</div>
-
 <div class="row attendant ps-2 pe-2">
     <div class="col-3 shadow rounded" style="background-color: #FFFFFF !important;">
-        <div class="head">Aberto</div>
+        <div class="head d-flex justify-content-between">
+            Aberto
+            <button onclick="Edit()" type="button" class="btn btn-primary" style="height: 23px; background-size: 23px; width: 23px; padding: 0px; font-size: 14px;">+</button>
+        </div>
         <hr class="mt-2 mb-2 hr-AttendancPanel" />
         <div id="wrapper-open" class="column">
             <input hidden class="cardStatus" value="@IssueStatusEnum.Opened" />
