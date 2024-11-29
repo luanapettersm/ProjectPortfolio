@@ -287,7 +287,7 @@ namespace ProjectPortfolio.Tests
         {
             var model = new ClientProjectModel 
             {
-                Title = null,
+                Title = "",
                 City = "City",
                 Address = "Address",
                 ZipCode = "12345",
