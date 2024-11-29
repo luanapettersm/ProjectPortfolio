@@ -25,7 +25,7 @@ jobs:
       run: dotnet build --configuration Release --no-restore
 
     - name: Publish the project
-      run: dotnet publish -c Release -o ./publish
+      run: dotnet publish -c Release -r win-x86 -o ./publish
 
     - name: Deploy to Azure App Service
       uses: azure/webapps-deploy@v2
