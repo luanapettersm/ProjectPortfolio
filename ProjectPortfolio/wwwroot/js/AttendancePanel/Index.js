@@ -169,3 +169,22 @@ function Note(ticketId) {
     });
 }
 
+function GetProjects() {
+    var clientId = $("#clientId").val()
+    $.get(`AttendancePanel/GetProjectsByClient/${clientId}`, function (response) {
+
+        $("#clientProjectId").empty();
+
+        $("#clientProjectId").append('<option selected>Projeto</option>');
+        if (response && response.length > 0) {
+            response.forEach(function (project) {
+                $("#clientProjectId").append(
+                    `<option value="${project.id}">${project.title}</option>`
+                );
+            });
+        }
+    });
+}
+
+
+
