@@ -21,9 +21,9 @@ namespace ProjectPortfolio.Controllers
             if (string.IsNullOrEmpty(login.UserName) || string.IsNullOrEmpty(login.Password))
                 return BadRequest("Usuário e senha são obrigatórios.");
 
-            var isValidUser = ValidateUser(login.UserName, login.Password);
-            if (!isValidUser)
-                return Unauthorized("Usuário ou senha inválidos.");
+            //var isValidUser = ValidateUser(login.UserName, login.Password);
+            //if (!isValidUser)
+            //    return Unauthorized("Usuário ou senha inválidos.");
 
             var token = await tokenService.GetTokenAsync(login);
 

@@ -8,7 +8,6 @@ namespace ProjectPortfolio.Data
         public DbSet<ClientModel> Clients { get; set; }
         public DbSet<SystemUserModel> SystemUsers { get; set; }
         public DbSet<IssueModel> Issues { get; set; }
-        public DbSet<IssueNoteModel> IssueNotes { get; set; }
         public DbSet<ClientProjectModel> ClientProjects { get; set; }
     }
 }

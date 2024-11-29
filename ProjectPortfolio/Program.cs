@@ -1,10 +1,8 @@
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.EntityFrameworkCore;
-using Microsoft.IdentityModel.Tokens;
 using Microsoft.OpenApi.Models;
 using ProjectPortfolio.Data;
 using ProjectPortfolio.Services;
-using System.Text;
 
 namespace ProjectPortfolio
 {
@@ -20,12 +18,10 @@ namespace ProjectPortfolio
             builder.Services.AddTransient<IClientProjectService, ClientProjectService>();
             builder.Services.AddTransient<ISystemUserService, SystemUserService>();
             builder.Services.AddTransient<IIssueService, IssueService>();
-            builder.Services.AddTransient<IIssueNoteService, IssueNoteService>();
             builder.Services.AddTransient<ITokenService, TokenService>();
             builder.Services.AddTransient<ISystemUserRepository, SystemUserRepository>();
             builder.Services.AddTransient<IClientRepository, ClientRepository>();
             builder.Services.AddTransient<IIssueRepository, IssueRepository>();
-            builder.Services.AddTransient<IIssueNoteRepository, IssueNoteRepository>();
             builder.Services.AddTransient<IClientProjectRepository, ClientProjectRepository>();
 
             builder.Services.AddDbContextFactory<Repository>(options =>

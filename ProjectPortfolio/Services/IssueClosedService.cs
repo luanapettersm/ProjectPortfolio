@@ -5,7 +5,6 @@ using ProjectPortfolio.Models;
 namespace ProjectPortfolio.Services
 {
     public class IssueClosedService(IIssueRepository repository,
-        IIssueNoteService issueNoteService,
         ISystemUserRepository systemUserRepository) : IIssueClosedService
     {
         public async Task<IssueClosedModel> Closed(IssueClosedModel issueClosed)
@@ -24,15 +23,6 @@ namespace ProjectPortfolio.Services
                 throw new Exception("A solução da atividade deve ter entre 20 e 4000 caracteres.");
 
             db.DateClosed = DateTimeOffset.Now;
-
-            await issueNoteService.CreateAsync(
-                new IssueNoteModel
-                {
-                    Description = $"Atividade finalizada: {db.Solution}",
-                    DateCreated = DateTimeOffset.Now,
-                    SystemUserId = systemUser.Id,
-                    IssueId = db.Id
-                });
 
             await repository.UpdateAsync(db);
             return issueClosed;

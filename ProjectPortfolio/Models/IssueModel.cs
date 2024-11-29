@@ -18,7 +18,6 @@ namespace ProjectPortfolio.Models
         public IssueStatusEnum Status { get; set; }
         public string Solution { get; set; }
         public Guid ClientProjectId {get; set;}
-        public ICollection<IssueNoteModel> Notes { get; set; }
 
         public List<string> CreateValidator()
         {

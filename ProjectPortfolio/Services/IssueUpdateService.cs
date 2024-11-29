@@ -7,7 +7,6 @@ namespace ProjectPortfolio.Services
 {
     public class IssueUpdateService(ISystemUserRepository systemUserRepository, 
         IIssueRepository repository,
-        IIssueNoteService issueNoteService,
         IIssueService service) : IIssueUpdateService
     {
         public async Task<IssueCardSaveModel> UpdateAsync(IssueCardSaveModel issueCard)
@@ -32,18 +31,6 @@ namespace ProjectPortfolio.Services
 
             var issueStatus = issue.Status;
             var issueCardStatus = issueCard.Status;
-            if (issueStatus != issueCardStatus)
-            {
-                var changeStatusMessage = await service.StatusChangedMessage(issueStatus, issueCardStatus);
-                var newNote = new IssueNoteModel
-                {
-                    Description = changeStatusMessage,
-                    DateCreated = DateTimeOffset.Now,
-                    SystemUserId = systemUser.Id,
-                    IssueId = issueCard.Id
-                };
-                await issueNoteService.CreateAsync(newNote);
-            }
 
             issue.AttendantId = issueCard.AttendantId;
 
@@ -88,22 +75,6 @@ namespace ProjectPortfolio.Services
             return db;
         }
 
-        //public async Task<IEnumerable<IssueModel>> DetachTicketsFromSystemUser(Guid attendantId)
-        //{
-        //    var issues = (await repository.RetrieveInProgressIssuesPerAttendant(attendantId)).ToList();
-
-        //    if (issues.Count == 0)
-        //        return null;
-
-        //    foreach (var t in issues)
-        //    {
-        //        t.AttendantId = null;
-        //        t.Status = IssueStatusEnum.Opened;
-        //    }
-
-        //    return await repository.UpdateRangeAsync(issues);
-        //}
-
         public async Task<IssueModel> UpdateAsync(IssueForwardingModel issueForwarding)
         {
             //var systemUserId = await cookie.GetSystemUserId();
@@ -116,16 +87,6 @@ namespace ProjectPortfolio.Services
             db.AttendantId = issueForwarding.AttendantId;
             db.Status = IssueStatusEnum.Pending;
             db = await repository.UpdateAsync(db);
-
-            var note = string.Format("A atividada foi encaminhada para o atendente {0}, observação:", issueForwarding.AttendantId.ToString(), issueForwarding.Description);
-
-            await issueNoteService.CreateAsync(new IssueNoteModel
-            {
-                IssueId = db.Id,
-                Description = note,
-                DateCreated = DateTimeOffset.Now,
-                //SystemUserId = await cookie.GetSystemUserId()
-            });
 
             return db;
         }

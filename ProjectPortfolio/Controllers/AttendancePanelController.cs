@@ -1,5 +1,4 @@
-﻿using Microsoft.AspNetCore.Authorization;
-using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Mvc;
 using ProjectPortfolio.Data;
 using ProjectPortfolio.Enumerators;
 using ProjectPortfolio.Models;
@@ -10,7 +9,6 @@ namespace ProjectPortfolio.Controllers
     [Route("[controller]")]
     public class AttendancePanelController(IIssueService service,
         IIssueRepository repository,
-        IIssueNoteService noteService,
         ISystemUserRepository systemUserRepository,
         IClientRepository clientRepository,
         IClientProjectRepository clientProjectRepository) : Controller
@@ -140,74 +138,6 @@ namespace ProjectPortfolio.Controllers
             }
         }
 
-        [HttpGet("Note/{ticketId}")]
-        public IActionResult Project(Guid ticketId)
-        {
-            var model = new NotePanelModel
-            {
-                Id = ticketId,
-            };
-
-            return PartialView("~/Views/AttendancePanel/Note.cshtml", model);
-        }
-
-        [HttpGet("NoteEdit")]
-        [HttpGet("NoteEdit/{id}")]
-        public async Task<IActionResult> NoteEdit(Guid? id)
-        {
-            var model = new IssueNoteModel();
-
-            //var model = id.HasValue ? await noteService.GetAsync((Guid)id) : null;
-
-            return PartialView("~/Views/AttendancePanel/NoteEdit.cshtml", model);
-        }
-
-        [HttpGet("NoteList/{ticketId}")]
-        public async Task<IActionResult> NoteList(Guid ticketId)
-        {
-            var model = new List<IssueNoteModel>();
-
-            //var model = await noteService.GetAllClientProjects(clientId);
-
-            return PartialView("~/Views/AttendancePanel/NoteList.cshtml", model);
-        }
-
-        [HttpPost("NoteSave")]
-        public async Task<IActionResult> NoteSave(IssueNoteModel note)
-        {
-            try
-            {
-                var result = note.Id == Guid.Empty ? await noteService.CreateAsync(note) : null; //await noteService.UpdateAsync(note);
-
-                if (result != null)
-                {
-                    return Ok(new
-                    {
-                        Data = result,
-                        Message = note.Id == Guid.Empty
-                            ? "Nota salva com sucesso."
-                            : "Nota atualizada com sucesso.",
-                        Status = true
-                    });
-                }
-
-                return BadRequest(new
-                {
-                    Data = null as IssueNoteModel,
-                    Message = "Falha ao salvar a nota.",
-                    Status = false
-                });
-            }
-            catch (Exception ex)
-            {
-                return BadRequest(new
-                {
-                    Data = null as IssueNoteModel,
-                    Message = $"Erro interno: {ex.Message}",
-                    Status = false
-                });
-            }
-        }
 
         [HttpGet("{id}/NoteDelete")]
         public async Task<IActionResult> Delete(Guid id)
