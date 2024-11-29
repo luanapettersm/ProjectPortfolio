@@ -9,12 +9,9 @@ namespace ProjectPortfolio.Services
         public async Task<ClientProjectModel> CreateAsync(ClientProjectModel model)
         {
            var messages = new ResponseModel<ClientProjectModel> { ValidationMessages = model.CreateValidator() };
-            if (messages.IsError)
-                return null;
 
             model.Client = null;
-            var result = await repository.InsertAsync(model);
-            return result;
+            return await repository.InsertAsync(model);
         }
 
         public async Task<ClientProjectModel> UpdateAsync(ClientProjectModel model)

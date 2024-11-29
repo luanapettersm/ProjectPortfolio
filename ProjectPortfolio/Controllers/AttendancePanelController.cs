@@ -9,6 +9,7 @@ namespace ProjectPortfolio.Controllers
 {
     [Route("[controller]")]
     public class AttendancePanelController(IIssueService service,
+        IIssueRepository repository,
         IIssueNoteService noteService) : Controller
     {
         [HttpGet]
@@ -21,13 +22,13 @@ namespace ProjectPortfolio.Controllers
         [HttpGet("Edit/{id}")]
         public async Task<IActionResult> Edit(Guid? id)
         {
-            var model = new CreateTicketModel();
+            //var client = new CreateTicketModel();
 
             // preencher campos da model CreateTicketModel
 
-            //client = id.HasValue ? await repository.GetAsync((Guid)id) : null;
+            var client = id.HasValue ? await repository.GetAsync((Guid)id) : null;
 
-            return PartialView("~/Views/AttendancePanel/Edit.cshtml", model);
+            return PartialView("~/Views/AttendancePanel/Edit.cshtml", client);
         }
 
         [HttpGet("GetProjectsByClient/{clientId}")]
@@ -44,7 +45,7 @@ namespace ProjectPortfolio.Controllers
             var model = new AttendancePanelCardModel{
 
                 State = IssueStatusEnum.Opened,
-                List = new List<IssueModel>() // listagem dos opens
+                List = new List<IssueModel>() 
             };
 
             return PartialView("~/Views/AttendancePanel/Card.cshtml", model);
@@ -57,7 +58,7 @@ namespace ProjectPortfolio.Controllers
             {
 
                 State = IssueStatusEnum.Pending,
-                List = new List<IssueModel>() // listagem dos Pending
+                List = new List<IssueModel>() 
             };
 
             return PartialView("~/Views/AttendancePanel/Card.cshtml", model);
@@ -70,7 +71,7 @@ namespace ProjectPortfolio.Controllers
             {
 
                 State = IssueStatusEnum.InProgress,
-                List = new List<IssueModel>() // listagem dos InProgress
+                List = new List<IssueModel>() 
             };
 
             return PartialView("~/Views/AttendancePanel/Card.cshtml", model);
@@ -83,7 +84,7 @@ namespace ProjectPortfolio.Controllers
             {
 
                 State = IssueStatusEnum.Closed,
-                List = new List<IssueModel>() // listagem dos close
+                List = new List<IssueModel>() 
             };
 
             return PartialView("~/Views/AttendancePanel/Card.cshtml", model);
