@@ -20,7 +20,7 @@ namespace ProjectPortfolio.Services
             var descriptor = new SecurityTokenDescriptor
             {
                 Issuer = configuration["Authentication:JwtSettings:Issuer"],
-                Audience = configuration["Authentication:JwtSettings:Audiance"],
+                Audience = configuration["Authentication:JwtSettings:Audience"],
                 Subject = GenerateClaims(authenticate),
                 SigningCredentials = credentials,
                 Expires = expires
