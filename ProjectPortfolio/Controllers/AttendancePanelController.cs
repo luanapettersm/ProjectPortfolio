@@ -1,4 +1,6 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Mvc;
+using ProjectPortfolio.Data;
 using ProjectPortfolio.Enumerators;
 using ProjectPortfolio.Models;
 
@@ -11,6 +13,17 @@ namespace ProjectPortfolio.Controllers
         public IActionResult Index()
         {
             return View();
+        }
+
+        [HttpGet("Edit")]
+        [HttpGet("Edit/{id}")]
+        public async Task<IActionResult> Edit(Guid? id)
+        {
+            var model = new CreateTicketModel();
+
+            //client = id.HasValue ? await repository.GetAsync((Guid)id) : null;
+
+            return PartialView("~/Views/AttendancePanel/Edit.cshtml", model);
         }
 
         [HttpGet("ListCardOpen")]

@@ -1,4 +1,4 @@
-﻿@model Guid;
+﻿@model ProjectClientListModel;
 
 <div id="projectModal" class="modal" tabindex="-1">
     <div class="modal-dialog modal-xl">
@@ -7,7 +7,7 @@
                 <h5 class="modal-title">Projetos</h5>
             </div>
             <div class="modal-body">
-                <input id="clientId" value="@Model" hidden />
+                <input id="clientId" value="@Model.Id" hidden />
                 <div class="d-flex justify-content-end">
                     <button onclick="ProjectEdit()" type="button" class="btn btn-primary">Adicionar</button>
                 </div>

@@ -1,0 +1,129 @@
+﻿@using ProjectPortfolio.Enumerators
+@model CreateTicketModel;
+
+<div id="editModal" class="modal" tabindex="-1">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title">Chamado</h5>
+            </div>
+            <div class="modal-body">
+                <form id="ticketFormId">
+                    @if (Model.Issue != null)
+                    {
+                        <input id="ticketId" name="ticket.id" value="@Model.Issue.Id" hidden />
+                    }
+                    <div class="row">
+                        <div class="col-6">
+                            <select class="form-select" id="clientId" name="ticket.clientId">
+                                
+                                @if (Model.Clients != null)
+                                {   
+                                    @foreach(var item in Model.Clients)
+                                    {   
+                                        if(Model.Issue == null)
+                                        {
+                                            <option selected> Cliente</option>
+                                        }
+                                        else
+                                        {
+                                            <option>Cliente</option>
+                                        }
+
+                                        if(Model.Issue != null && Model.Issue.ClientId == item.Id)
+                                        {
+                                            <option selected value="@item.Id">@item.Name</option>
+                                        }
+                                        else
+                                        {
+                                            <option value="@item.Id">@item.Name</option>
+                                        }
+                                    }
+                                                                     
+                                }
+                            </select>
+                        </div>
+                        <div class="col-6">
+                            <select class="form-select" id="attendantId" name="ticket.attendantId">
+
+                                @if (Model.Attendants != null)
+                                {
+                                    @foreach (var item in Model.Attendants)
+                                    {
+                                        if (Model.Issue == null)
+                                        {
+                                            <option selected> Atendente</option>
+                                        }
+                                        else
+                                        {
+                                            <option>Cliente</option>
+                                        }
+
+                                        if (Model.Issue != null && Model.Issue.AttendantId == item.Id)
+                                        {
+                                            <option selected value="@item.Id">@item.Name</option>
+                                        }
+                                        else
+                                        {
+                                            <option value="@item.Id">@item.Name</option>
+                                        }
+                                    }
+
+                                }
+                            </select>
+                        </div>
+                    </div>
+                    <div class="col-12">
+                        <input class="form-control" id="titleId" name="ticket.title" placeholder="Título" value="@(Model.Issue != null ? Model.Issue.Title : "")">
+                    </div>
+                    <div class="col-12">
+                        <input class="form-control" id="descriptionId" name="ticket.description" placeholder="Descrição" value="@(Model.Issue != null ? Model.Issue.Description : "")">
+                    </div>
+                    <div class="col-6">
+                        <select class="form-select" id="priorityId" name="ticket.priority">
+                            @if(Model.Issue == null)
+                            {
+                                <option selected>Prioridade</option>
+                                <option value="0">Alta</option>
+                                <option value="1">Média</option>
+                                <option value="2">Baixa</option>
+                            }
+                            else
+                            {
+                                <option>Função empresarial</option>
+                                @if (Model.Issue.Priority == PriorityEnum.High)
+                                {
+                                    <option selected value="0">Alta</option>
+                                }
+                                else
+                                {
+                                    <option value="0">Alta</option>
+                                }
+                                @if (Model.Issue.Priority == PriorityEnum.Medium)
+                                {
+                                    <option selected value="1">Média</option>
+                                }
+                                else
+                                {
+                                    <option value="1">Média</option>
+                                }
+                                @if (Model.Issue.Priority == PriorityEnum.Low)
+                                {
+                                    <option selected value="2">Baixa</option>
+                                }
+                                else
+                                {
+                                    <option value="2">Baixa</option>
+                                }
+                            }
+                        </select>
+                    </div>
+                </form>
+            </div>
+            <div class="modal-footer">
+                <button onclick="Close()" type="button" class="btn btn-primary">Fechar</button>
+                <button onclick="Save()" type="button" class="btn btn-primary mb-1">Salvar</button>
+            </div>
+        </div>
+    </div>
+</div>

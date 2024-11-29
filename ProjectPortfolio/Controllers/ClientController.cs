@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Mvc;
 using ProjectPortfolio.Data;
 using ProjectPortfolio.Models;
 using ProjectPortfolio.Services;
@@ -92,17 +93,22 @@ namespace ProjectPortfolio.Controllers
 
         [HttpGet("Project/{clientId}")]
         public async Task<IActionResult> Project(Guid clientId)
-        { 
-            return PartialView("~/Views/Client/Project.cshtml", clientId);
+        {
+            var model = new ProjectClientListModel
+            {
+                Id = clientId,
+            };
+
+            return PartialView("~/Views/Client/Project.cshtml", model);
         }
 
         [HttpGet("ProjectEdit")]
         [HttpGet("ProjectEdit/{id}")]
         public async Task<IActionResult> ProjectEdit(Guid? id)
         {
-            var project = new ClientProjectModel();
+            //var project = new ClientProjectModel();
 
-            //project = id.HasValue ? await projectRepository.GetAsync((Guid)id) : null;
+            var project = id.HasValue ? await projectRepository.GetAsync((Guid)id) : null;
 
             return PartialView("~/Views/Client/ProjectEdit.cshtml", project);
         }
@@ -110,19 +116,11 @@ namespace ProjectPortfolio.Controllers
         [HttpGet("ProjectList/{clientId}")]
         public async Task<IActionResult> ProjectList(Guid clientId)
         { 
-            var model = new List<ClientProjectModel>();
+            //var model = new List<ClientProjectModel>();
 
-            //model = await projectRepository.GetProjectsByClientId(clientId);
+            var model = await projectRepository.GetAllClientProjects(clientId);
 
             return PartialView("~/Views/Client/ProjectList.cshtml", model);
-        }
-
-        [HttpGet("{id}/ProjectDelete")]
-        public async Task<IActionResult> ProjectDelete(Guid id)
-        {
-            //await projectService.DeleteAsync(id);
-
-            return Ok();
         }
 
         [HttpPost("ProjectSave")]

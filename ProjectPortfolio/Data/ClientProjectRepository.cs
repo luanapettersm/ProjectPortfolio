@@ -35,21 +35,16 @@ namespace ProjectPortfolio.Data
             return result.Entity;
         }
 
-        public async Task<IEnumerable<ClientProjectModel>> GetProjectsByClientId(Guid clientId)
-        {
-            var ct = await dbContextFactory.CreateDbContextAsync();
-            return await ct.Set<ClientProjectModel>().Where(e => e.ClientId == clientId && e.IsEnabled)
-                .Select(e => new ClientProjectModel
-                {
-                    Id = e.Id,
-                    Title = e.Title
-                }).ToListAsync();
-        }
-
         public async Task<IEnumerable<ClientProjectModel>> GetAllClientProjects(Guid clientId)
         {
-            var dbContext = await dbContextFactory.CreateDbContextAsync();
-            return await dbContext.Set<ClientProjectModel>().Where(e => e.ClientId == clientId).ToListAsync();
+            var ct = await dbContextFactory.CreateDbContextAsync();
+            return await ct.Set<ClientProjectModel>().Where(e => e.ClientId == clientId).ToListAsync();
+        }
+
+        public async Task<ClientProjectModel> GetAsync(Guid id)
+        {
+            var ct = await dbContextFactory.CreateDbContextAsync();
+            return await ct.Set<ClientProjectModel>().Where(e => e.Id == id).FirstOrDefaultAsync();
         }
     }
 }

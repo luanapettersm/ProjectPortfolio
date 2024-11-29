@@ -8,7 +8,8 @@ function CloseProjectEdit() {
 
 
 function ProjectList() {
-    $.get("Client/ProjectList", function (response) {
+    var clientId = $("#clientId").val();
+    $.get(`Client/ProjectList/${clientId}`, function (response) {
         $("#wrapper-projectList").html(response);
     });
 }
@@ -38,14 +39,4 @@ function SaveProjectEdit() {
             AlertSaveError(response);
         });
 
-}
-
-function DeleteProject(id) {
-    $.get(`Client/${id}/ProjectDelete`)
-        .done(function (response) {
-            ProjectList();
-            AlertDeleteSuccess();
-        }).fail(function (response) {
-            AlertDeleteError(response);
-        });
 }
