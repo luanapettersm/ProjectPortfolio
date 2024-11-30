@@ -18,11 +18,11 @@ jobs:
       with:
         dotnet-version: '8.0.x'
 
-    - name: Set UTF-8 encoding
+    - name: Set .NET culture to pt-BR
       run: |
-        echo "DOTNET_SYSTEM_GLOBALIZATION_INVARIANT=false" >> $GITHUB_ENV
-        echo "LC_ALL=en_US.UTF-8" >> $GITHUB_ENV
-        echo "LANG=en_US.UTF-8" >> $GITHUB_ENV
+        setx DOTNET_SYSTEM_GLOBALIZATION_INVARIANT false
+        setx DOTNET_CLI_HOME %USERPROFILE%
+        setx DOTNET_SYSTEM_GLOBALIZATION_CULTURE pt-BR
 
     - name: Restore dependencies
       run: dotnet restore
