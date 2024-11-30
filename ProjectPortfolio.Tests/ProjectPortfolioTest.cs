@@ -49,7 +49,7 @@ namespace ProjectPortfolio.Tests
             var client = new ClientModel();
 
             var exception = Assert.Throws<ArgumentException>(() => client.CPF = cpf);
-            Assert.Equal("CPF inválido.", exception.Message);
+            Assert.Equal("CPF invalido.", exception.Message);
         }
 
         [Fact(DisplayName = "Given valid CNPJ numbers")]
@@ -74,7 +74,7 @@ namespace ProjectPortfolio.Tests
             var client = new ClientModel();
 
             var exception = Assert.Throws<ArgumentException>(() => client.CNPJ = cnpj);
-            Assert.Equal("CNPJ inválido.", exception.Message);
+            Assert.Equal("CNPJ invalido.", exception.Message);
         }
 
         [Fact(DisplayName = "Should return error when ZipCode is null or empty")]
@@ -93,7 +93,7 @@ namespace ProjectPortfolio.Tests
 
             var validationMessages = model.Validator();
 
-            Assert.Contains("O CEP é obrigatório.", validationMessages);
+            Assert.Contains("O CEP e obrigatorio.", validationMessages);
         }
 
         [Fact(DisplayName = "Should return error when Address is null or empty")]
@@ -112,7 +112,7 @@ namespace ProjectPortfolio.Tests
 
             var validationMessages = model.Validator();
 
-            Assert.Contains("O endereço é obrigatório.", validationMessages);
+            Assert.Contains("O endereco e obrigatorio.", validationMessages);
         }
 
         [Fact(DisplayName = "Should return error when PhoneNumber is null or empty")]
@@ -131,7 +131,7 @@ namespace ProjectPortfolio.Tests
 
             var validationMessages = model.Validator();
 
-            Assert.Contains("O número é obrigatório.", validationMessages);
+            Assert.Contains("O numero e obrigatorio.", validationMessages);
         }
 
         [Fact(DisplayName = "Should return error when City is null or empty")]
@@ -150,7 +150,7 @@ namespace ProjectPortfolio.Tests
 
             var validationMessages = model.Validator();
 
-            Assert.Contains("A cidadde é obrigatória.", validationMessages);
+            Assert.Contains("A cidadde e obrigatoria.", validationMessages);
         }
 
         [Fact(DisplayName = "Should return error when State is null or empty")]
@@ -169,7 +169,7 @@ namespace ProjectPortfolio.Tests
 
             var validationMessages = model.Validator();
 
-            Assert.Contains("O estado é obrigatório.", validationMessages);
+            Assert.Contains("O estado e obrigatorio.", validationMessages);
         }
 
         [Fact(DisplayName = "Should return error when Name is null or empty")]
@@ -237,7 +237,7 @@ namespace ProjectPortfolio.Tests
 
             var validationMessages = model.Validator();
 
-            Assert.Contains("A senha é obrigatória.", validationMessages);
+            Assert.Contains("A senha e obrigatoria.", validationMessages);
         }
 
 
@@ -295,7 +295,7 @@ namespace ProjectPortfolio.Tests
 
             var result = model.CreateValidator();
 
-            Assert.Contains("O título deve ter entre 3 e 50 caracteres.", result);
+            Assert.Contains("O titulo deve ter entre 3 e 50 caracteres.", result);
         }
 
         [Fact(DisplayName = "Should return error when Title is null or empty")]
@@ -308,7 +308,7 @@ namespace ProjectPortfolio.Tests
 
             var result = model.CreateValidator();
 
-            Assert.Contains("O título deve ter entre 3 e 50 caracteres.", result);
+            Assert.Contains("O titulo deve ter entre 3 e 50 caracteres.", result);
         }
 
         [Fact(DisplayName = "Should return any error when Title is valid")]
@@ -342,7 +342,7 @@ namespace ProjectPortfolio.Tests
 
             var result = model.CreateValidator();
 
-            Assert.Contains("Necessário informar o endereço da obra.", result);
+            Assert.Contains("Necessário informar o endereco da obra.", result);
         }
 
         [Fact(DisplayName = "Should return error when ZipCode is null or empty")]
@@ -397,14 +397,14 @@ namespace ProjectPortfolio.Tests
             var model = new IssueModel
             {
                 Title = "", 
-                Description = "Descrição válida",
+                Description = "Descricao valida",
                 ClientId = Guid.NewGuid(),
                 Priority = PriorityEnum.Low
             };
 
             var result = model.CreateValidator();
 
-            Assert.Contains("O título deve ter entre 3 e 100 caracteres.", result);
+            Assert.Contains("O titulo deve ter entre 3 e 100 caracteres.", result);
         }
 
         [Fact(DisplayName = "Should return error when Issue Description is too short")]
@@ -412,7 +412,7 @@ namespace ProjectPortfolio.Tests
         {
             var model = new IssueModel
             {
-                Title = "Título válido",
+                Title = "titulo valido",
                 Description = "AB",
                 ClientId = Guid.NewGuid(),
                 Priority = PriorityEnum.Low
@@ -420,7 +420,7 @@ namespace ProjectPortfolio.Tests
 
             var result = model.CreateValidator();
 
-            Assert.Contains("O título deve ter entre 3 e 2000 caracteres.", result);
+            Assert.Contains("O titulo deve ter entre 3 e 2000 caracteres.", result);
         }
 
         [Fact(DisplayName = "Should return error when Issue ClientId is empty")]
@@ -428,15 +428,15 @@ namespace ProjectPortfolio.Tests
         {
             var model = new IssueModel
             {
-                Title = "Título válido",
-                Description = "Descrição válida",
+                Title = "titulo valido",
+                Description = "Descricao valida",
                 ClientId = Guid.Empty,
                 Priority = PriorityEnum.Low
             };
 
             var result = model.CreateValidator();
 
-            Assert.Contains("O cliente é obrigatório.", result);
+            Assert.Contains("O cliente e obrigatorio.", result);
         }
 
         [Fact(DisplayName = "Should return any error when valid")]
@@ -444,8 +444,8 @@ namespace ProjectPortfolio.Tests
         {
             var model = new IssueModel
             {
-                Title = "Título válido",
-                Description = "Descrição válida",
+                Title = "titulo valido",
+                Description = "Descricao valida",
                 ClientId = Guid.NewGuid(),
                 Priority = PriorityEnum.Low
             };
