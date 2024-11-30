@@ -1,17 +1,25 @@
 name: SonarCloud
+
 on:
   push:
     branches:
       - master
+
 jobs:
   sonarcloud:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v3
+
       - name: Setup .NET
         uses: actions/setup-dotnet@v3
         with:
           dotnet-version: 6.0
+
+      - name: Run Tests with Coverage
+        run: |
+          dotnet build
+          dotnet test /p:CollectCoverage=true /p:CoverletOutputFormat=opencover /p:CoverletOutput=TestResults/
 
       - name: SonarCloud Scan
         uses: SonarSource/sonarcloud-github-action@master
@@ -19,15 +27,7 @@ jobs:
           args: >
             -Dsonar.projectKey=luanapettersm_ProjectPortfolio
             -Dsonar.organization=luanapettersm
-            -Dsonar.cs.opencover.reportsPaths=TestResults/coverage.opencover.xml 
-      - name: Install SonarCloud Scanner
-        run: dotnet tool install --global dotnet-sonarscanner
-      - name: SonarCloud Analysis
+            -Dsonar.cs.opencover.reportsPaths=TestResults/coverage.opencover.xml
         env:
           SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-        run: |
-            dotnet sonarscanner begin /k:"luanapettersm_ProjectPortfolio" /o:"luanapettersm" /d:sonar.login=${{ secrets.SONAR_TOKEN }} /d:sonar.cs.opencover.reportsPaths="TestResults/coverage.opencover.xml"
-            dotnet test /p:CollectCoverage=true /p:CoverletOutputFormat=opencover /p:CoverletOutput=TestResults/
-            dotnet build
-            dotnet sonarscanner end /d:sonar.login=${{ secrets.SONAR_TOKEN }}
