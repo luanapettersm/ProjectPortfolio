@@ -1,4 +1,5 @@
 <h1 align="center"> ProjectPortfolio - NP Interiores </h1>
+<l2>Acesso da aplicação em produção: <b>project-portfolio-api-byehbnbjajecgwdu.brazilsouth-01.azurewebsites.net</b></l2>
 Aplicação Web, sistema de gerenciamento de cliente + Kanban para escritório de Design de Interiores.
 
 Esta aplicação é projetada para que o sistema possua tanto uma aplicação web, onde qualquer usuário possa acessar e visualizar informações pertinentes ao escritório, quanto alguns dos projetos executados por ele. Em contrapartida, o sistema contará com o gerenciamento de clientes, bem como os projetos acordados e as atividades a serem desenvolvidas para cada projeto, que estarão disponíveis em um quadro Kanban.
@@ -28,4 +29,3 @@ Esta aplicação é projetada para que o sistema possua tanto uma aplicação we
 <h2 tabindex="-1" class="heading-element" dir="auto">✔️ Infaestrutura</h2>
 <li>Front-end, Back-end e Banco de Dados: Azure</li>
 <li>CI/CD: Github Actions</li>
-<l2>Acesso da aplicação em produção: <b>project-portfolio-api-byehbnbjajecgwdu.brazilsouth-01.azurewebsites.net</b></l2>
