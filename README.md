@@ -6,7 +6,7 @@ Esta aplicação é projetada para que o sistema possua tanto uma aplicação we
 
 <h2 tabindex="-1" class="heading-element" dir="auto">✔️ Links de acesso:</h2>
 <li><a href="project-portfolio-api-byehbnbjajecgwdu.brazilsouth-01.azurewebsites.net">Link app publicado</li>
-<li><a href="https://sonarcloud.io/summary/new_code?id=luanapettersm_ProjectPortfolio"/>SonarCloud</li>
+<li><a href="https://sonarcloud.io/project/overview?id=luanapettersm_ProjectPortfolio"/>SonarCloud</li>
 <li><a href="https://www.canva.com/design/DAGVutWa9AE/y_11Ovegy8uoG6L6_mYKhw/edit?utm_content=DAGVutWa9AE&utm_campaign=designshare&utm_medium=link2&utm_source=sharebutton">Apresentação (ppt)</li>
   
 <b>Obs:</b> Devido limite do tempo de uso diário para manter iniciada por conta da licença, a aplicação é pausada de tempos em tempos. Caso esteja fora quando for acessar, pode entrar em contato comigo que eu inicio.
