@@ -13,8 +13,8 @@ namespace ProjectPortfolio.Controllers
             return View();
         }
 
-        [HttpPost]
-        public async Task<IActionResult> Login(AuthenticateModel auth)
+        [HttpPost("Authentication")]
+        public async Task<IActionResult> Authentication(AuthenticateModel auth)
         {
             if (auth == null || string.IsNullOrEmpty(auth.UserName) || string.IsNullOrEmpty(auth.Password))
                 return BadRequest("usuario e senha sao obrigatorios.");
