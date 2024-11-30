@@ -43,52 +43,52 @@ namespace ProjectPortfolio.Controllers
         }
 
         [HttpGet("ListCardOpen")]
-        public IActionResult ListCardOpen()
+        public async Task<IActionResult> ListCardOpen([FromQuery] IssueStatusEnum status = IssueStatusEnum.Opened)
         {
             var model = new AttendancePanelCardModel
             {
 
                 State = IssueStatusEnum.Opened,
-                List = new List<IssueModel>()
+                List = await repository.ListIssues(status)
             };
 
             return PartialView("~/Views/AttendancePanel/Card.cshtml", model);
         }
 
         [HttpGet("ListCardPending")]
-        public IActionResult ListCardPending()
+        public async Task<IActionResult> ListCardPending([FromQuery] IssueStatusEnum status = IssueStatusEnum.Pending)
         {
             var model = new AttendancePanelCardModel
             {
 
                 State = IssueStatusEnum.Pending,
-                List = new List<IssueModel>()
+                List = await repository.ListIssues(status)
             };
 
             return PartialView("~/Views/AttendancePanel/Card.cshtml", model);
         }
 
         [HttpGet("ListCardInProgress")]
-        public IActionResult ListCardInProgress()
+        public async Task<IActionResult> ListCardInProgress([FromQuery] IssueStatusEnum status = IssueStatusEnum.InProgress)
         {
             var model = new AttendancePanelCardModel
             {
 
                 State = IssueStatusEnum.InProgress,
-                List = new List<IssueModel>()
+                List = await repository.ListIssues(status)
             };
 
             return PartialView("~/Views/AttendancePanel/Card.cshtml", model);
         }
 
         [HttpGet("ListCardClose")]
-        public IActionResult ListCardClose()
+        public async Task<IActionResult> ListCardClose([FromQuery] IssueStatusEnum status = IssueStatusEnum.Closed)
         {
             var model = new AttendancePanelCardModel
             {
 
                 State = IssueStatusEnum.Closed,
-                List = new List<IssueModel>()
+                List = await repository.ListIssues(status)
             };
 
             return PartialView("~/Views/AttendancePanel/Card.cshtml", model);

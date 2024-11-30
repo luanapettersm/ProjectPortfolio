@@ -8,7 +8,7 @@ function CloseProjectEdit() {
 
 
 function ProjectList() {
-    var clientId = $("#clientId").val();
+    let clientId = $("#clientId").val();
     $.get(`Client/ProjectList/${clientId}`, function (response) {
         $("#wrapper-projectList").html(response);
     });
@@ -16,7 +16,7 @@ function ProjectList() {
 
 
 function ProjectEdit(id) {
-    var url = id == undefined ? "Client/ProjectEdit" : `Client/ProjectEdit/${id}`
+    let url = id == undefined ? "Client/ProjectEdit" : `Client/ProjectEdit/${id}`
     $.get(url, function (response) {
         $("#wrapper-projectEdit").html(response);
         $("#projectEditModal").show();
@@ -26,7 +26,7 @@ function ProjectEdit(id) {
 
 
 function SaveProjectEdit() {
-    var fd = $("#projectFormId").serializeArray();
+    let fd = $("#projectFormId").serializeArray();
 
     fd.push({ name: 'project.ClientId', value: $("#clientId").val() });
 

@@ -79,9 +79,9 @@ function getNewPosition(column, posY) {
 }
 
 function executeOnDrop(card, column) {
-    var columsStatus = column.querySelector(".cardStatus").value;
-    var cardId = card.querySelector(".d-flex .cardId").value;
-    var cardStatus = card.querySelector(".d-flex .statusCardId").value;
+    let columsStatus = column.querySelector(".cardStatus").value;
+    let cardId = card.querySelector(".d-flex .cardId").value;
+    let cardStatus = card.querySelector(".d-flex .statusCardId").value;
 
     if (columsStatus != cardStatus) {
         card.querySelector(".d-flex .statusCardId").value = columsStatus;
@@ -91,7 +91,7 @@ function executeOnDrop(card, column) {
 }
 
 function Edit(id) {
-    var url = id == undefined ? "AttendancePanel/Edit" : `AttendancePanel/Edit/${id}`
+    let url = id == undefined ? "AttendancePanel/Edit" : `AttendancePanel/Edit/${id}`
     $.get(url, function (response) {
         $("#wrapper-edit").html(response);
         $("#editModal").show();
@@ -147,7 +147,7 @@ function Close() {
 }
 
 function Save() {
-    var fd = $("#ticketFormId").serializeArray();
+    let fd = $("#ticketFormId").serializeArray();
 
     $.post(`/AttendancePanel/Save`, fd)
         .done(function (response) {
@@ -170,7 +170,7 @@ function Note(ticketId) {
 }
 
 function GetProjects() {
-    var clientId = $("#clientId").val();
+    let clientId = $("#clientId").val();
 
     $.get(`AttendancePanel/GetProjectsByClient/${clientId}`, function (response) {
         $("#clientProjectId").empty();

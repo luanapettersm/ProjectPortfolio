@@ -54,8 +54,8 @@ namespace ProjectPortfolio.Data
 
         public async Task<IEnumerable<ClientModel>> GetAllClients()
         {
-            var dbContext = await dbContextFactory.CreateDbContextAsync();
-            return await dbContext.Set<ClientModel>().ToListAsync();
+            var ct = await dbContextFactory.CreateDbContextAsync();
+            return await ct.Set<ClientModel>().AsNoTracking().ToListAsync();
         }
     }
 }

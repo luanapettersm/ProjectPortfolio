@@ -7,14 +7,14 @@ namespace ProjectPortfolio.Controllers
     [Route("[controller]")]
     public class LoginController(ISystemUserService service) : Controller
     {
-        [HttpPost("Login")]
+        [HttpGet]
         public IActionResult Index()
         {
-            return View("/Index");
+            return View();
         }
 
-        [HttpPost]
-        public async Task<IActionResult> Login(AuthenticateModel auth)
+        [HttpPost("Authentication")]
+        public async Task<IActionResult> Authentication(AuthenticateModel auth)
         {
             if (auth == null || string.IsNullOrEmpty(auth.UserName) || string.IsNullOrEmpty(auth.Password))
                 return BadRequest("usuario e senha sao obrigatorios.");
