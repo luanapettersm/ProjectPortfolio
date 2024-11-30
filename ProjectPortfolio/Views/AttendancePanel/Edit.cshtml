@@ -82,12 +82,12 @@
                                 {
                                     <option selected>Prioridade</option>
                                     <option value="0">Alta</option>
-                                    <option value="1">Média</option>
+                                    <option value="1">Media</option>
                                     <option value="2">Baixa</option>
                                 }
                                 else
                                 {
-                                    <option>Função empresarial</option>
+                                    <option>Funcao empresarial</option>
                                     @if (Model.Issue.Priority == PriorityEnum.High)
                                     {
                                         <option selected value="0">Alta</option>
@@ -98,11 +98,11 @@
                                     }
                                     @if (Model.Issue.Priority == PriorityEnum.Medium)
                                     {
-                                        <option selected value="1">Média</option>
+                                        <option selected value="1">Media</option>
                                     }
                                     else
                                     {
-                                        <option value="1">Média</option>
+                                        <option value="1">Media</option>
                                     }
                                     @if (Model.Issue.Priority == PriorityEnum.Low)
                                     {
@@ -118,7 +118,7 @@
                         <div class="col-12">
                             <input class="form-control" id="titleId" name="ticket.title" placeholder="Título" value="@(Model.Issue != null ? Model.Issue.Title : "")">
                         </div>
-                        <textarea class="form-control" id="descriptionId" name="ticket.description" placeholder="Descrição">
+                        <textarea class="form-control" id="descriptionId" name="ticket.description" placeholder="Descricao">
                             @(Model.Issue != null ? Model.Issue.Description : "")
                         </textarea>
                     </div>

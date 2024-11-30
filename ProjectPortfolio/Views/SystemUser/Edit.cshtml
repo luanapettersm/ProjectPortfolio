@@ -4,7 +4,7 @@
     <div class="modal-dialog">
         <div class="modal-content">
             <div class="modal-header">
-                <h5 class="modal-title">Usuário</h5>
+                <h5 class="modal-title">usuario</h5>
             </div>
             <div class="modal-body">
                 <form id="systemUserFormId">
@@ -20,7 +20,7 @@
                             <input class="form-control" id="surnameId" name="systemUser.surname" placeholder="Sobrenome" value="@(Model != null ? Model.Surname : "")">
                         </div>
                         <div class="col-6">
-                            <input class="form-control" id="userNameId" name="systemUser.userName" placeholder="Nome do usuário" value="@(Model != null ? Model.UserName : "")">
+                            <input class="form-control" id="userNameId" name="systemUser.userName" placeholder="Nome do usuario" value="@(Model != null ? Model.UserName : "")">
                         </div>
                         <div class="col-6">
                             <input class="form-control" id="passwordId" name="systemUser.password" type="password" placeholder="Senha" value="@(Model != null ? Model.Password : "")">
@@ -29,29 +29,29 @@
                             <select class="form-select" id="businessRoleId" name="systemUser.businessRole">
                                 @if(Model == null)
                                 {
-                                    <option selected>Função empresarial</option>
-                                    <option value="1">Estágiario</option>
-                                    <option value="2">Análista</option>
+                                    <option selected>Funcao empresarial</option>
+                                    <option value="1">Estagiario</option>
+                                    <option value="2">Analista</option>
                                     <option value="3">Gestor</option>
                                 }
                                 else
                                 {
-                                    <option>Função empresarial</option>
+                                    <option>Funcao empresarial</option>
                                     @if (Model.BusinessRole == ProjectPortfolio.Enumerators.BusinessRoleEnum.trainee)
                                     {
-                                        <option selected value="1">Estágiario</option>
+                                        <option selected value="1">Estagiario</option>
                                     }
                                     else
                                     {
-                                        <option value="1">Estágiario</option>
+                                        <option value="1">Estagiario</option>
                                     }
                                     @if (Model.BusinessRole == ProjectPortfolio.Enumerators.BusinessRoleEnum.analyst)
                                     {
-                                        <option selected value="2">Análista</option>
+                                        <option selected value="2">Analista</option>
                                     }
                                     else
                                     {
-                                        <option value="2">Análista</option>
+                                        <option value="2">Analista</option>
                                     }
                                     @if (Model.BusinessRole == ProjectPortfolio.Enumerators.BusinessRoleEnum.manager)
                                     {

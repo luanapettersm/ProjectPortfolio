@@ -17,10 +17,10 @@ namespace ProjectPortfolio.Services
             db.Status = Enumerators.IssueStatusEnum.Closed;
 
             if (db.DateClosed != null)
-                throw new Exception("Atividade encerrada não pode ser editada.");
+                throw new Exception("Atividade encerrada Nao pode ser editada.");
 
             if (issueClosed.Solution != null && issueClosed.Solution.Length < 20 || issueClosed.Solution.Length > 4000)
-                throw new Exception("A solução da atividade deve ter entre 20 e 4000 caracteres.");
+                throw new Exception("A solucao da atividade deve ter entre 20 e 4000 caracteres.");
 
             db.DateClosed = DateTimeOffset.Now;
 

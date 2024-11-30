@@ -56,8 +56,8 @@ namespace ProjectPortfolio.Controllers
                     {
                         Data = result,
                         Message = systemUser.Id == Guid.Empty
-                            ? "Usuário salvo com sucesso."
-                            : "Usuário atualizado com sucesso.",
+                            ? "usuario salvo com sucesso."
+                            : "usuario atualizado com sucesso.",
                         Status = true
                     });
                 }
@@ -65,7 +65,7 @@ namespace ProjectPortfolio.Controllers
                 return BadRequest(new
                 {
                     Data = null as ClientModel,
-                    Message = "Falha ao salvar o usuário.",
+                    Message = "Falha ao salvar o usuario.",
                     Status = false
                 });
             }

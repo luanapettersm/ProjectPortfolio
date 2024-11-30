@@ -9,7 +9,7 @@ namespace ProjectPortfolio.Models
         private string _cnpj;
         public Guid Id { get; set; }
 
-        [Required(ErrorMessage = "O nome é obrigatório.")]
+        [Required(ErrorMessage = "O nome e obrigatorio.")]
         [StringLength(100, MinimumLength = 3, ErrorMessage = "O nome deve ter entre 3 e 100 caracteres.")]
         public string Name { get; set; }
         
@@ -17,13 +17,13 @@ namespace ProjectPortfolio.Models
         
         public string Mail { get; set; }
         
-        [Required(ErrorMessage = "O CEP é obrigatório.")]
+        [Required(ErrorMessage = "O CEP e obrigatorio.")]
         public string ZipCode { get; set; }
 
-        [Required(ErrorMessage = "O endereço é obrigatório.")]
+        [Required(ErrorMessage = "O endereco e obrigatorio.")]
         public string Address { get; set; }
 
-        [Required(ErrorMessage = "A cidade é obrigatória.")]
+        [Required(ErrorMessage = "A cidade e obrigatoria.")]
         public string City { get; set; }
         
         public string State { get; set; }
@@ -32,7 +32,7 @@ namespace ProjectPortfolio.Models
         
         public ICollection<ClientProjectModel> Projects { get; set; }
 
-        [Required(ErrorMessage = "O CPF é obrigatório.")]
+        [Required(ErrorMessage = "O CPF e obrigatorio.")]
         [StringLength(11, MinimumLength = 11, ErrorMessage = "O CPF deve ter 11 caracteres.")]
         public string CPF
         {
@@ -40,7 +40,7 @@ namespace ProjectPortfolio.Models
             set
             {
                 if (!string.IsNullOrEmpty(value) && !IsValidCPF(value))
-                    throw new ArgumentException("CPF inválido.");
+                    throw new ArgumentException("CPF invalido.");
                 _cpf = RemoveFormatting(value);
             }
         }
@@ -51,7 +51,7 @@ namespace ProjectPortfolio.Models
             set
             {
                 if (!string.IsNullOrEmpty(value) && !IsValidCNPJ(value))
-                    throw new ArgumentException("CNPJ inválido.");
+                    throw new ArgumentException("CNPJ invalido.");
                 _cnpj = RemoveFormatting(value);
             }
         }

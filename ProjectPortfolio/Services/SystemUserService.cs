@@ -42,7 +42,7 @@ namespace ProjectPortfolio.Services
         {
             var issues = await issueRepository.GetAll().AsNoTracking().Where(e => e.AttendantId == id && e.Status != IssueStatusEnum.Closed).ToListAsync();
             if (issues.Count > 0)
-                throw new Exception("Usuário está vinculado a atividade ativa e não pode ser deletado.");
+                throw new Exception("usuario esta vinculado a atividade ativa e Nao pode ser deletado.");
 
             await repository.DeleteAsync(id);
         }
@@ -67,9 +67,9 @@ namespace ProjectPortfolio.Services
             if (string.IsNullOrEmpty(model.UserName) || model.UserName.Length < 3 || model.UserName.Length > 50)
                 messages.Add("O login deve ter entre 3 e 50 caracteres.");
             if (model.Password == null)
-                messages.Add("A senha é obrigatória.");
+                messages.Add("A senha e obrigatoria.");
             if (model.BusinessRole.GetType() == null)
-                messages.Add("O cargo é obrigatório.");
+                messages.Add("O cargo e obrigatorio.");
 
             return messages;
         }

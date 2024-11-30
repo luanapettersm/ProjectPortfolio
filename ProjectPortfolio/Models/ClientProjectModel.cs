@@ -10,26 +10,26 @@ namespace ProjectPortfolio.Models
         public Guid ClientId { get; set; }
 
 
-        [Required(ErrorMessage = "O endereço é obrigatório.")]
+        [Required(ErrorMessage = "O endereco e obrigatorio.")]
         public string Address { get; set; }
 
 
-        [Required(ErrorMessage = "O CEP é obrigatório.")]
+        [Required(ErrorMessage = "O CEP e obrigatorio.")]
         public string ZipCode { get; set; }
 
 
-        [Range(1, int.MaxValue, ErrorMessage = "O número deve ser um valor válido e maior que zero.")]
+        [Range(1, int.MaxValue, ErrorMessage = "O numero deve ser um valor valido e maior que zero.")]
         public int Number { get; set; }
 
 
-        [Required(ErrorMessage = "A cidade é obrigatória.")]
+        [Required(ErrorMessage = "A cidade e obrigatoria.")]
         public string City { get; set; }
 
         public bool IsEnabled { get; set; }
 
         public string Description { get; set; }
 
-        [Required(ErrorMessage = "O título é obrigatório.")]
+        [Required(ErrorMessage = "O título e obrigatorio.")]
         [StringLength(50, MinimumLength = 3, ErrorMessage = "O título deve ter entre 3 e 50 caracteres.")]
         public string Title { get; set; }
         

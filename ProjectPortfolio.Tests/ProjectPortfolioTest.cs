@@ -19,7 +19,7 @@ namespace ProjectPortfolio.Tests
         }
 
         #region SystemUser
-        [Fact(DisplayName = "Nome não pode ser nulo ou vazio")]
+        [Fact(DisplayName = "Nome nao pode ser nulo ou vazio")]
         public void ShouldHaveValidationErrors_WhenNameIsEmpty()
         {
             var model = new SystemUserModel
@@ -34,7 +34,7 @@ namespace ProjectPortfolio.Tests
 
             var validationResults = ValidateModel(model);
 
-            Assert.Contains(validationResults, r => r.ErrorMessage == "O campo Nome é obrigatório.");
+            Assert.Contains(validationResults, r => r.ErrorMessage == "O campo Nome e obrigatorio.");
         }
 
         [Fact(DisplayName = "Sobrenome deve ter entre 3 e 100 caracteres")]
@@ -91,7 +91,7 @@ namespace ProjectPortfolio.Tests
             Assert.Contains(validationResults, r => r.ErrorMessage == "O login deve ter entre 3 e 50 caracteres.");
         }
 
-        [Fact(DisplayName = "Senha não pode ser nula ou vazia")]
+        [Fact(DisplayName = "Senha nao pode ser nula ou vazia")]
         public void ShouldHave_ValidationErrors_WhenPasswordIsEmpty()
         {
             var model = new SystemUserModel
@@ -106,10 +106,10 @@ namespace ProjectPortfolio.Tests
 
             var validationResults = ValidateModel(model);
 
-            Assert.Contains(validationResults, r => r.ErrorMessage == "O campo Senha é obrigatório.");
+            Assert.Contains(validationResults, r => r.ErrorMessage == "O campo Senha e obrigatorio.");
         }
 
-        [Fact(DisplayName = "Deve criar um novo usuário com senha criptografada")]
+        [Fact(DisplayName = "Deve criar um novo usuario com senha criptografada")]
         public async Task CreateAsync_ShouldHashPasswordAndCreateUser()
         {
             var systemUserMockRepository = new Mock<ISystemUserRepository>();
@@ -135,7 +135,7 @@ namespace ProjectPortfolio.Tests
             Assert.Equal(model.DateCreated.Date, DateTimeOffset.Now.Date);
         }
 
-        //[Fact(DisplayName = "Deve lançar exceção se o usuário estiver vinculado a atividades ativas")]
+        //[Fact(DisplayName = "Deve lancar excecao se o usuario estiver vinculado a atividades ativas")]
         //public async Task DeleteAsync_Should_Throw_Exception_When_User_Has_Active_Issues()
         //{
         //    var mockRepository = new Mock<ISystemUserRepository>();
@@ -145,16 +145,16 @@ namespace ProjectPortfolio.Tests
         //    var userId = Guid.NewGuid();
         //    var issues = new List<IssueModel>
         //    {
-        //        new IssueModel { AttendantId = userId, Status = IssueStatusEnum.Opened }  
+        //        new IssueModel { AttendantId = userId, Status = IssueStatusEnum.Opened }
         //    };
 
         //    mockIssueRepository.Setup(r => r.GetAll()).ReturnsAsync(issues);
 
         //    var exception = await Assert.ThrowsAsync<Exception>(() => service.DeleteAsync(userId));
-        //    Assert.Equal("Usuário está vinculado a atividade ativa e não pode ser deletado.", exception.Message);
+        //    Assert.Equal("usuario esta vinculado a atividade ativa e Nao pode ser deletado.", exception.Message);
         //}
 
-        [Fact(DisplayName = "Deve autenticar o usuário corretamente")]
+        [Fact(DisplayName = "Deve autenticar o usuario corretamente")]
         public async Task AuthenticateAsync_ShouldReturnTrue_WhenPasswordIsValid()
         {
             var mockRepository = new Mock<ISystemUserRepository>();
@@ -174,7 +174,7 @@ namespace ProjectPortfolio.Tests
             Assert.True(result); 
         }
 
-        [Fact(DisplayName = "Não deve autenticar o usuário com senha inválida")]
+        [Fact(DisplayName = "Nao deve autenticar o usuario com senha invalida")]
         public async Task AuthenticateAsync_ShouldReturnFalse_WhenPasswordIsInvalid()
         {
             var mockRepository = new Mock<ISystemUserRepository>();
@@ -197,7 +197,7 @@ namespace ProjectPortfolio.Tests
 
 
         #region Client
-        [Fact(DisplayName = "CPF válido")]
+        [Fact(DisplayName = "CPF valido")]
         public void GivenValidCPFNumbers()
         {
             const string cpf = "12345678909";
@@ -211,7 +211,7 @@ namespace ProjectPortfolio.Tests
             Assert.Equal(expectedResult, actualResult);
         }
 
-        [Fact(DisplayName = "CPF inválido")]
+        [Fact(DisplayName = "CPF invalido")]
         public void GivenInvalidCPFNumbers()
         {
             const string cpf = "123";
@@ -219,10 +219,10 @@ namespace ProjectPortfolio.Tests
             var client = new ClientModel();
 
             var exception = Assert.Throws<ArgumentException>(() => client.CPF = cpf);
-            Assert.Equal("CPF inválido.", exception.Message);
+            Assert.Equal("CPF invalido.", exception.Message);
         }
 
-        [Fact(DisplayName = "CNPJ válido")]
+        [Fact(DisplayName = "CNPJ valido")]
         public void GivenValidCNPJNumbers()
         {
             const string cnpj = "12345678000195";
@@ -236,7 +236,7 @@ namespace ProjectPortfolio.Tests
             Assert.Equal(expectedResult, actualFormattedCNPJ);
         }
 
-        [Fact(DisplayName = "CNPJ inválido")]
+        [Fact(DisplayName = "CNPJ invalido")]
         public void GivenInvalidCNPJNumbers()
         {
             const string cnpj = "123";
@@ -244,10 +244,10 @@ namespace ProjectPortfolio.Tests
             var client = new ClientModel();
 
             var exception = Assert.Throws<ArgumentException>(() => client.CNPJ = cnpj);
-            Assert.Equal("CNPJ inválido.", exception.Message);
+            Assert.Equal("CNPJ invalido.", exception.Message);
         }
 
-        //[Fact(DisplayName = "Deve validar o campo 'Name' como obrigatório e com comprimento entre 3 e 100 caracteres")]
+        //[Fact(DisplayName = "Deve validar o campo 'Name' como obrigatorio e com comprimento entre 3 e 100 caracteres")]
         //public void ClientModel_NameValidation_ShouldBeValid()
         //{
         //    var client = new ClientModel();
@@ -258,7 +258,7 @@ namespace ProjectPortfolio.Tests
         //    var isValid = Validator.TryValidateObject(client, validationContext, validationResults, true);
 
         //    Assert.False(isValid); 
-        //    Assert.Contains(validationResults, v => v.ErrorMessage == "O nome é obrigatório.");
+        //    Assert.Contains(validationResults, v => v.ErrorMessage == "O nome e obrigatorio.");
 
         //    client.Name = "John";
 
@@ -267,7 +267,7 @@ namespace ProjectPortfolio.Tests
         //    Assert.True(isValid); 
         //}
 
-        //[Fact(DisplayName = "Deve validar o campo 'ZipCode' como obrigatório e com 8 caracteres")]
+        //[Fact(DisplayName = "Deve validar o campo 'ZipCode' como obrigatorio e com 8 caracteres")]
         //public void ClientModel_ZipCodeValidation_ShouldBeValid()
         //{
         //    var client = new ClientModel();
@@ -278,7 +278,7 @@ namespace ProjectPortfolio.Tests
         //    var isValid = Validator.TryValidateObject(client, validationContext, validationResults, true);
 
         //    Assert.False(isValid); 
-        //    Assert.Contains(validationResults, v => v.ErrorMessage == "O CEP é obrigatório.");
+        //    Assert.Contains(validationResults, v => v.ErrorMessage == "O CEP e obrigatorio.");
 
         //    client.ZipCode = "12345678"; 
 
@@ -287,7 +287,7 @@ namespace ProjectPortfolio.Tests
         //    Assert.True(isValid);  
         //}
 
-        //[Fact(DisplayName = "Deve validar o campo 'Address' como obrigatório")]
+        //[Fact(DisplayName = "Deve validar o campo 'Address' como obrigatorio")]
         //public void ClientModel_AddressValidation_ShouldBeValid()
         //{
         //    var client = new ClientModel();
@@ -298,7 +298,7 @@ namespace ProjectPortfolio.Tests
         //    var isValid = Validator.TryValidateObject(client, validationContext, validationResults, true);
 
         //    Assert.False(isValid);  
-        //    Assert.Contains(validationResults, v => v.ErrorMessage == "O endereço é obrigatório.");
+        //    Assert.Contains(validationResults, v => v.ErrorMessage == "O endereco e obrigatorio.");
 
         //    client.Address = "Rua Exemplo, 123";  
 
@@ -307,7 +307,7 @@ namespace ProjectPortfolio.Tests
         //    Assert.True(isValid); 
         //}
 
-        //[Fact(DisplayName = "Deve validar o campo 'City' como obrigatório")]
+        //[Fact(DisplayName = "Deve validar o campo 'City' como obrigatorio")]
         //public void ClientModel_CityValidation_ShouldBeValid()
         //{
         //    var client = new ClientModel();
@@ -318,9 +318,9 @@ namespace ProjectPortfolio.Tests
         //    var isValid = Validator.TryValidateObject(client, validationContext, validationResults, true);
 
         //    Assert.False(isValid);  
-        //    Assert.Contains(validationResults, v => v.ErrorMessage == "A cidade é obrigatória.");
+        //    Assert.Contains(validationResults, v => v.ErrorMessage == "A cidade e obrigatoria.");
 
-        //    client.City = "São Paulo";  
+        //    client.City = "Sao Paulo";  
         //    isValid = Validator.TryValidateObject(client, validationContext, validationResults, true);
         //    Assert.True(isValid); 
         //}
@@ -346,7 +346,7 @@ namespace ProjectPortfolio.Tests
         //    Assert.False(isValid);  
         //}
 
-        //[Fact(DisplayName = "Deve lançar exceção se o número do projeto for inválido")]
+        //[Fact(DisplayName = "Deve lancar excecao se o numero do projeto for invalido")]
         //public async Task ClientProjectService_CreateAsync_Should_Throw_Exception_When_Number_Is_Invalid()
         //{
         //    var project = new ClientProjectModel
@@ -362,10 +362,10 @@ namespace ProjectPortfolio.Tests
         //    var service = new ClientProjectService(mockRepository.Object);
 
         //    var exception = await Assert.ThrowsAsync<ValidationException>(() => service.CreateAsync(project));
-        //    Assert.Contains("O número deve ser um valor válido e maior que zero.", exception.Message);
+        //    Assert.Contains("O numero deve ser um valor valido e maior que zero.", exception.Message);
         //}
 
-        [Fact(DisplayName = "Deve lançar exceção se CPF ou CNPJ não forem informados ao criar um cliente")]
+        [Fact(DisplayName = "Deve lancar excecao se CPF ou CNPJ Nao forem informados ao criar um cliente")]
         public async Task ClientService_CreateAsyncShouldThrowException_WhenNoCPFOrCNPJ()
         {
             var client = new ClientModel { Name = "Client Test", ZipCode = "12345678", Address = "Rua Teste", City = "Cidade Teste" };
@@ -378,7 +378,7 @@ namespace ProjectPortfolio.Tests
         #endregion
 
         #region ClientProjects
-        //[Fact(DisplayName = "Deve lançar exceção se campos obrigatórios não forem preenchidos ao criar um projeto")]
+        //[Fact(DisplayName = "Deve lancar excecao se campos obrigatorios Nao forem preenchidos ao criar um projeto")]
         //public async Task ClientProjectService_CreateAsyncShouldThrowException_WhenRequiredFieldsAreMissing()
         //{
         //    var project = new ClientProjectModel { Address = "", ZipCode = "", City = "", Title = "" };
@@ -386,13 +386,13 @@ namespace ProjectPortfolio.Tests
         //    var service = new ClientProjectService(mockRepository.Object);
 
         //    var exception = await Assert.ThrowsAsync<ValidationException>(() => service.CreateAsync(project));
-        //    Assert.Contains("O endereço é obrigatório.", exception.Message);
-        //    Assert.Contains("O CEP é obrigatório.", exception.Message);
-        //    Assert.Contains("A cidade é obrigatória.", exception.Message);
-        //    Assert.Contains("O título é obrigatório.", exception.Message);
+        //    Assert.Contains("O endereco e obrigatorio.", exception.Message);
+        //    Assert.Contains("O CEP e obrigatorio.", exception.Message);
+        //    Assert.Contains("A cidade e obrigatoria.", exception.Message);
+        //    Assert.Contains("O título e obrigatorio.", exception.Message);
         //}
 
-        //[Fact(DisplayName = "Deve lançar exceção se o título tiver comprimento inválido")]
+        //[Fact(DisplayName = "Deve lancar excecao se o título tiver comprimento invalido")]
         //public async Task ClientProjectService_CreateAsync_Should_Throw_Exception_When_Title_Length_Is_Invalid()
         //{
         //    var project = new ClientProjectModel { Address = "Rua Teste", ZipCode = "12345678", City = "Cidade Teste", Title = "A" };
@@ -430,7 +430,7 @@ namespace ProjectPortfolio.Tests
             mockRepository.Verify(r => r.InsertAsync(It.Is<ClientProjectModel>(p => p.Title == "Projeto Teste")), Times.Once);
         }
 
-        //[Fact(DisplayName = "Deve lançar exceção se os campos obrigatórios não forem preenchidos")]
+        //[Fact(DisplayName = "Deve lancar excecao se os campos obrigatorios Nao forem preenchidos")]
         //public async Task ClientProjectService_CreateAsync_Should_Throw_Validation_Exception_When_Required_Fields_Are_Missing()
         //{
         //    var project = new ClientProjectModel
@@ -447,10 +447,10 @@ namespace ProjectPortfolio.Tests
         //    var service = new ClientProjectService(mockRepository.Object);
 
         //    var exception = await Assert.ThrowsAsync<ValidationException>(() => service.CreateAsync(project));
-        //    Assert.Contains("O endereço é obrigatório.", exception.Message);
-        //    Assert.Contains("O CEP é obrigatório.", exception.Message);
-        //    Assert.Contains("A cidade é obrigatória.", exception.Message);
-        //    Assert.Contains("O título é obrigatório.", exception.Message);
+        //    Assert.Contains("O endereco e obrigatorio.", exception.Message);
+        //    Assert.Contains("O CEP e obrigatorio.", exception.Message);
+        //    Assert.Contains("A cidade e obrigatoria.", exception.Message);
+        //    Assert.Contains("O título e obrigatorio.", exception.Message);
         //}
         #endregion
 

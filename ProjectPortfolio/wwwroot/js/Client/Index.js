@@ -73,8 +73,8 @@
             sLoadingRecords: "Carregando...",
             sEmptyTable: "Nenhum registro encontrado",
             sProcessing: "",
-            sInfo: "Mostrando de _START_ até _END_ de _TOTAL_ registros",
-            sInfoEmpty: "Mostrando 0 até 0 de 0 registros"
+            sInfo: "Mostrando de _START_ ate _END_ de _TOTAL_ registros",
+            sInfoEmpty: "Mostrando 0 ate 0 de 0 registros"
         }
     });
 };

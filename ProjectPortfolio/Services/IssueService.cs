@@ -34,13 +34,13 @@ namespace ProjectPortfolio.Services
                 var allowedToBeMoved = DateTimeOffset.Now.AddDays(-7);
 
                 if (issue.DateClosed != null && issue.DateClosed <= allowedToBeMoved)
-                    throw new Exception("Atividade encerrada não pode ser editada.");
+                    throw new Exception("Atividade encerrada Nao pode ser editada.");
 
                 issue.DateClosed = null;
             }
 
             if (issueCard.IsMovedInAttendancePanel && issue.AttendantId != null && issue.AttendantId != systemUser.Id)
-                throw new Exception("Atividade já possui atendente.");
+                throw new Exception("Atividade ja possui atendente.");
 
             var issueStatus = issue.Status;
             var issueCardStatus = issueCard.Status;
@@ -69,13 +69,13 @@ namespace ProjectPortfolio.Services
             var systemUser = await systemUserRepository.GetAsync((Guid)model.AttendantId);
 
             if (!await ValidateIssueIsOpened(db.Id))
-                throw new Exception("Atividade encontra-se encerrada e não pode ser editada.");
+                throw new Exception("Atividade encontra-se encerrada e Nao pode ser editada.");
             if (db.Title != model.Title)
-                throw new Exception("Título não pode ser alterado.");
+                throw new Exception("Título Nao pode ser alterado.");
             if (db.ClientId != model.ClientId)
-                throw new Exception("O cliente não pode ser alterado.");
+                throw new Exception("O cliente Nao pode ser alterado.");
             if (model.Priority.GetType() == null)
-                throw new Exception("A prioridade é obrigatória.");
+                throw new Exception("A prioridade e obrigatoria.");
 
             await repository.UpdateAsync(db);
 
@@ -90,9 +90,9 @@ namespace ProjectPortfolio.Services
             if (string.IsNullOrEmpty(model.Description) || model.Description.Length < 3 || model.Description.Length > 2000)
                 messages.Add("O título deve ter entre 3 e 2000 caracteres.");
             if (model.ClientId == Guid.Empty)
-                messages.Add("O cliente é obrigatório.");
+                messages.Add("O cliente e obrigatorio.");
             if (model.Priority.GetType() == null)
-                messages.Add("A prioridade é obrigatória.");
+                messages.Add("A prioridade e obrigatoria.");
 
             return messages;
         }

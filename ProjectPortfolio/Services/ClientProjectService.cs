@@ -18,7 +18,7 @@ namespace ProjectPortfolio.Services
         {
             var db = await repository.GetAll().AsNoTracking().Where(e => e.Id == model.Id).FirstOrDefaultAsync();
             if(db.Address != model.Address || db.Number != model.Number || db.City != model.City || db.ZipCode != model.ZipCode)
-                throw new Exception("Detalhes do endereço não podem ser alterados.");
+                throw new Exception("Detalhes do endereco Nao podem ser alterados.");
 
             return model;
         }
@@ -29,13 +29,13 @@ namespace ProjectPortfolio.Services
             if (string.IsNullOrEmpty(model.Title) && model.Title.Length < 3 || model.Title.Length > 50)
                 messages.Add("O título deve ter entre 3 e 50 caracteres.");
             if (string.IsNullOrEmpty(model.Address))
-                messages.Add("Necessário informar o endereço da obra.");
+                messages.Add("Necessario informar o endereco da obra.");
             if (model.Number.ToString() == null)
-                messages.Add("Necessário informar o número.");
+                messages.Add("Necessario informar o numero.");
             if (string.IsNullOrEmpty(model.City))
-                messages.Add("Necessário informar a cidade em que acontecerá a obra.");
+                messages.Add("Necessario informar a cidade em que acontecera a obra.");
             if (string.IsNullOrEmpty(model.ZipCode))
-                messages.Add("Necessário informar o CEP.");
+                messages.Add("Necessario informar o CEP.");
 
             return messages;
         }
