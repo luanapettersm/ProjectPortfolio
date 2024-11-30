@@ -7,6 +7,6 @@ it('Criar usuário', () => {
     cy.get('#surnameId').click().type('Silva')
     cy.get('#userNameId').click().type('joao.silva')
     cy.get('#passwordId').click().type('Joinville@2024')
-    cy.get('#businessRoleId').click().eq(0)
+    cy.get('#businessRoleId').select().eq(0)
     cy.get('#isEnabledId').click()
 });

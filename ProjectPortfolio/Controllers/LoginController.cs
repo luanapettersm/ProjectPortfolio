@@ -7,10 +7,11 @@ namespace ProjectPortfolio.Controllers
     [Route("[controller]")]
     public class LoginController(ISystemUserService service) : Controller
     {
-        //public IActionResult Index()
-        //{
-        //    return View("/Index");
-        //}
+        [HttpPost("Login")]
+        public IActionResult Index()
+        {
+            return View("/Index");
+        }
 
         [HttpPost]
         public async Task<IActionResult> Login(AuthenticateModel auth)
@@ -23,12 +24,6 @@ namespace ProjectPortfolio.Controllers
                 return Unauthorized("usuario ou senha invalidos.");
 
             return Ok("/Home");
-        }
-
-        [HttpGet("Logout")]
-        public IActionResult Logout()
-        {
-            return Redirect("/Home");
         }
     }
 }
