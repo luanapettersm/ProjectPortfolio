@@ -26,7 +26,7 @@ namespace ProjectPortfolio.Controllers
         }
 
         [HttpGet("Logout")]
-        public async Task<IActionResult> Logout()
+        public IActionResult Logout()
         {
             return Redirect("/Home");
         }

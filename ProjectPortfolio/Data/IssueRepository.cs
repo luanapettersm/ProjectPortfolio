@@ -43,5 +43,16 @@ namespace ProjectPortfolio.Data
                 .Where(e => e.AttendantId == userLogged.Id && e.Status == status)
                 .ToListAsync();
         }
+
+        public async Task<bool> ChangeStatusCard(Guid id, IssueStatusEnum status)
+        {
+            var ct = await dbContextFactory.CreateDbContextAsync();
+            var issue = await ct.Set<IssueModel>().Where(e => e.Id == id).FirstOrDefaultAsync();
+
+            if (issue.Status == status)
+                return false;
+
+            return true;
+        }
     }
 }

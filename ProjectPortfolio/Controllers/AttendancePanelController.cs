@@ -97,6 +97,7 @@ namespace ProjectPortfolio.Controllers
         [HttpGet("ChangeStatusCard/{id}/{status}")]
         public async Task<IActionResult> ChangeStatusCard(Guid id, IssueStatusEnum status)
         {
+            await repository.ChangeStatusCard(id, status);
             return Ok();
         }
 

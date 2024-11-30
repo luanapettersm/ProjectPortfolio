@@ -23,28 +23,6 @@ namespace ProjectPortfolio.Services
             return true;
         }
 
-        public async Task<string> StatusChangedMessage(IssueStatusEnum firstStatus, IssueStatusEnum newerStatus)
-        {
-            var previousStatus = await repository
-                .GetAll()
-                .Where(e => e.Status == firstStatus)
-                .AsNoTracking()
-                .Select(e => e.Status)
-                .FirstOrDefaultAsync();
-            var currentStatus = await repository
-                .GetAll()
-                .Where(e => e.Status == newerStatus)
-                .AsNoTracking()
-                .Select(e => e.Status)          
-            .FirstOrDefaultAsync();
-
-            return string.Format(
-                    "O status de atendimento da atividade foi alterado de {0} para {1}.",
-                    previousStatus,
-                    currentStatus
-                );
-        }
-
         public async Task<IssueCardSaveModel> UpdateAsync(IssueCardSaveModel issueCard)
         {
             var systemUser = await systemUserRepository.GetAsync((Guid)issueCard.AttendantId);

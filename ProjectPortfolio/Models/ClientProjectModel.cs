@@ -24,7 +24,7 @@ namespace ProjectPortfolio.Models
                 messages.Add("O título deve ter entre 3 e 50 caracteres.");
             if (string.IsNullOrEmpty(Address))
                 messages.Add("Necessário informar o endereço da obra.");
-            if (Number == null)
+            if (Number.ToString() == null)
                 messages.Add("Necessário informar o número.");
             if (string.IsNullOrEmpty(City))
                 messages.Add("Necessário informar a cidade em que acontecerá a obra.");
