@@ -1,4 +1,5 @@
-﻿using System.Text.RegularExpressions;
+﻿using System.ComponentModel.DataAnnotations;
+using System.Text.RegularExpressions;
 
 namespace ProjectPortfolio.Models
 {
@@ -7,25 +8,32 @@ namespace ProjectPortfolio.Models
         private string _cpf;
         private string _cnpj;
         public Guid Id { get; set; }
+
+        [Required(ErrorMessage = "O nome é obrigatório.")]
+        [StringLength(100, MinimumLength = 3, ErrorMessage = "O nome deve ter entre 3 e 100 caracteres.")]
         public string Name { get; set; }
+        
         public string PhoneNumber { get; set; }
+        
         public string Mail { get; set; }
-        public bool MailFormat => ValidateMailAddress(Mail);
+        
+        [Required(ErrorMessage = "O CEP é obrigatório.")]
         public string ZipCode { get; set; }
+
+        [Required(ErrorMessage = "O endereço é obrigatório.")]
         public string Address { get; set; }
+
+        [Required(ErrorMessage = "A cidade é obrigatória.")]
         public string City { get; set; }
+        
         public string State { get; set; }
+        
         public bool IsEnabled { get; set; }
+        
         public ICollection<ClientProjectModel> Projects { get; set; }
 
-        public bool ValidateMailAddress(string input)
-        {
-            if (string.IsNullOrEmpty(input))
-                return true;
-
-            return Regex.IsMatch(input, @"\A(?:[a-z0-9!#$%&'+/=?^_`{|}~-]+(?:\.[a-z0-9!#$%&'+/=?^_`{|}~-]+)@(?:[a-z0-9](?:[a-z0-9-][a-z0-9])?\.)+[a-z0-9](?:[a-z0-9-]*[a-z0-9])?)\Z", RegexOptions.IgnoreCase);
-        }
-
+        [Required(ErrorMessage = "O CPF é obrigatório.")]
+        [StringLength(11, MinimumLength = 11, ErrorMessage = "O CPF deve ter 11 caracteres.")]
         public string CPF
         {
             get => _cpf;

@@ -1,7 +1,9 @@
-﻿using Microsoft.EntityFrameworkCore;
+﻿using Microsoft.AspNetCore.Mvc.ModelBinding;
+using Microsoft.EntityFrameworkCore;
 using ProjectPortfolio.Data;
 using ProjectPortfolio.Enumerators;
 using ProjectPortfolio.Models;
+using System.ComponentModel.DataAnnotations;
 
 namespace ProjectPortfolio.Services
 {
@@ -9,10 +11,14 @@ namespace ProjectPortfolio.Services
     {
         public async Task<SystemUserModel> CreateAsync(SystemUserModel model)
         {
-            List<string> msg = Validator(model);
+            //var messages = new ResponseModel<SystemUserModel> { ValidationMessages = model.Validator() };
 
-            string hashedPassword = BCrypt.Net.BCrypt.HashPassword(model.Password);
-            model.Password = hashedPassword;
+            if (!string.IsNullOrEmpty(model.Password))
+            {
+                string hashedPassword = BCrypt.Net.BCrypt.HashPassword(model.Password);
+                model.Password = hashedPassword;
+            }
+            
             model.DateCreated = DateTimeOffset.Now;
 
             return await repository.InsertAsync(model);
@@ -21,7 +27,13 @@ namespace ProjectPortfolio.Services
         public async Task<SystemUserModel> UpdateAsync(SystemUserModel model)
         {
             var db = await repository.GetAll().AsNoTracking().Where(e => e.Id == model.Id).FirstOrDefaultAsync();
-            List<string> msg = Validator(model);
+            //List<string> msg = Validator(model);
+
+            if(model.Password != db.Password && !string.IsNullOrEmpty(model.Password))
+            {
+                string hashedPassword = BCrypt.Net.BCrypt.HashPassword(model.Password);
+                model.Password = hashedPassword;
+            }
 
             model.DateCreated = db.DateCreated;
 
