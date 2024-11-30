@@ -18,12 +18,6 @@ jobs:
       with:
         dotnet-version: '8.0.x'
 
-    - name: Set .NET culture to pt-BR
-      run: |
-        setx DOTNET_SYSTEM_GLOBALIZATION_INVARIANT false
-        setx DOTNET_CLI_HOME %USERPROFILE%
-        setx DOTNET_SYSTEM_GLOBALIZATION_CULTURE pt-BR
-
     - name: Restore dependencies
       run: dotnet restore
 
