@@ -1,4 +1,5 @@
 ﻿using Microsoft.EntityFrameworkCore;
+using Microsoft.EntityFrameworkCore.Migrations.Internal;
 using ProjectPortfolio.Data;
 using ProjectPortfolio.Enumerators;
 using ProjectPortfolio.Models;
@@ -10,8 +11,7 @@ namespace ProjectPortfolio.Services
     {
         public async Task<IssueModel> CreateAsync(IssueModel model)
         {
-            List<string> msgs = Validator(model);
-            
+            model.DateCreated = DateTimeOffset.Now;
             return await repository.InsertAsync(model);
         }
 
@@ -80,21 +80,6 @@ namespace ProjectPortfolio.Services
             await repository.UpdateAsync(db);
 
             return db;
-        }
-
-        public List<string> Validator(IssueModel model)
-        {
-            var messages = new List<string>();
-            if (string.IsNullOrEmpty(model.Title) || model.Title.Length < 3 || model.Title.Length > 100)
-                messages.Add("O título deve ter entre 3 e 100 caracteres.");
-            if (string.IsNullOrEmpty(model.Description) || model.Description.Length < 3 || model.Description.Length > 2000)
-                messages.Add("O título deve ter entre 3 e 2000 caracteres.");
-            if (model.ClientId == Guid.Empty)
-                messages.Add("O cliente e obrigatorio.");
-            if (model.Priority.GetType() == null)
-                messages.Add("A prioridade e obrigatoria.");
-
-            return messages;
         }
     }
 }

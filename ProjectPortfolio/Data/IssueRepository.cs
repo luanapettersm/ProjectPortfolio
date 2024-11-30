@@ -35,12 +35,11 @@ namespace ProjectPortfolio.Data
             return await ct.Set<IssueModel>().Where(e => e.Id == id).FirstOrDefaultAsync();
         }
 
-        public async Task<IEnumerable<IssueModel>> ListIssues(IssueStatusEnum status, string userName)
+        public async Task<IEnumerable<IssueModel>> ListIssues(IssueStatusEnum status)
         {
-            var userLogged = await systemUserRepository.GetUserByUserName(userName);
             var ct = await dbContextFactory.CreateDbContextAsync();
             return await ct.Set<IssueModel>()
-                .Where(e => e.AttendantId == userLogged.Id && e.Status == status)
+                .Where(e => e.Status == status)
                 .ToListAsync();
         }
 

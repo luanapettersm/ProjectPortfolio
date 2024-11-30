@@ -24,20 +24,17 @@
                             <div>Baixa</div>
                         }
                     </font>
-                    <font class="sequencialId" title="Numero">- @item.SequentialId</font>
+                    <font class="sequencialId" title="Número">- @item.SequentialId</font>
                     <font class="client" title="Cliente">- @item.ClientName</font>
                 </div>
                 <div>
                     <button title="Editar" onclick="Edit(@item.Id)" class="iconButton icon-Panel">
                         <i class="glyphicon glyphicon-edit"></i>
                     </button>
-                    <button title="Notas" onclick="Note(@item.Id)" class="iconButton icon-Panel">
-                        <i class="glyphicon glyphicon-book"></i>
-                    </button>
                 </div>
             </div>
             <font class="card-titlePanel" title="Título">@item.Title</font>
-            <font title="Descricao" class="description">@item.Description</font>
+            <font title="Descrição" class="description">@item.Description</font>
         </div>
     }
 }
