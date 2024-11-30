@@ -19,7 +19,8 @@ jobs:
         env:
           SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
         run: |
-          dotnet sonarscanner begin /k:"luanapettersm_ProjectPortfolio" /o:"luanapettersm" /d:sonar.login=${{ secrets.SONAR_TOKEN }}
+          dotnet sonarscanner begin /k:"luanapettersm_ProjectPortfolio" /o:"luanapettersm" /d:sonar.login=${{ secrets.SONAR_TOKEN }} 
+          dotnet test /p:CollectCoverage=true /p:CoverletOutputFormat=opencover /p:CoverletOutput=TestResults/
           dotnet build
           dotnet test --collect:"XPlat Code Coverage"
           dotnet sonarscanner end /d:sonar.login=${{ secrets.SONAR_TOKEN }}
