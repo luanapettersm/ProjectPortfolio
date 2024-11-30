@@ -13,14 +13,21 @@ jobs:
         with:
           dotnet-version: 6.0
 
+      - name: SonarCloud Scan
+        uses: SonarSource/sonarcloud-github-action@master
+        with:
+          args: >
+            -Dsonar.projectKey=luanapettersm_ProjectPortfolio
+            -Dsonar.organization=luanapettersm
+            -Dsonar.cs.opencover.reportsPaths=TestResults/coverage.opencover.xml 
       - name: Install SonarCloud Scanner
         run: dotnet tool install --global dotnet-sonarscanner
       - name: SonarCloud Analysis
         env:
           SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         run: |
-          dotnet sonarscanner begin /k:"luanapettersm_ProjectPortfolio" /o:"luanapettersm" /d:sonar.login=${{ secrets.SONAR_TOKEN }} 
-          dotnet test /p:CollectCoverage=true /p:CoverletOutputFormat=opencover /p:CoverletOutput=TestResults/
-          dotnet build
-          # dotnet test --collect:"XPlat Code Coverage"
-          dotnet sonarscanner end /d:sonar.login=${{ secrets.SONAR_TOKEN }}
+            dotnet sonarscanner begin /k:"luanapettersm_ProjectPortfolio" /o:"luanapettersm" /d:sonar.login=${{ secrets.SONAR_TOKEN }} /d:sonar.cs.opencover.reportsPaths="TestResults/coverage.opencover.xml"
+            dotnet test /p:CollectCoverage=true /p:CoverletOutputFormat=opencover /p:CoverletOutput=TestResults/
+            dotnet build
+            dotnet sonarscanner end /d:sonar.login=${{ secrets.SONAR_TOKEN }}
