@@ -2,7 +2,7 @@
     $("#clientInfoId").mask("999.999.999-99");
     $("#phoneNumberId").mask("(999)99999-9999");
 
-    var gridColumns = [
+    let gridColumns = [
         {
             name: 'cpf/cnpj',
             class: 'text-left',
@@ -81,7 +81,7 @@
 
 
 function Edit(id) {
-    var url = id == undefined ? "Client/Edit" : `Client/Edit/${id}`
+    let url = id == undefined ? "Client/Edit" : `Client/Edit/${id}`
     $.get(url, function (response) {
         $("#wrapper-edit").html(response);
         $("#clientInfoId").mask("999.999.999-99");

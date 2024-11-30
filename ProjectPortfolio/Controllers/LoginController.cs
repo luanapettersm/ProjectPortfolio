@@ -7,10 +7,10 @@ namespace ProjectPortfolio.Controllers
     [Route("[controller]")]
     public class LoginController(ISystemUserService service) : Controller
     {
-        [HttpPost("Login")]
+        [HttpGet]
         public IActionResult Index()
         {
-            return View("/Index");
+            return View();
         }
 
         [HttpPost]

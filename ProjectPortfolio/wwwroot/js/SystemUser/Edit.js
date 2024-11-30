@@ -3,7 +3,7 @@
 }
 
 function Save() {
-    var fd = $("#systemUserFormId").serializeArray();
+    let fd = $("#systemUserFormId").serializeArray();
     $.post(`/SystemUser/Save`, fd)
         .done(function (response) {
             $('#wrapper-edit').html("");

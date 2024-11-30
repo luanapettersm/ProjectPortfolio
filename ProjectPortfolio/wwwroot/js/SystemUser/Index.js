@@ -1,5 +1,5 @@
 ﻿window.onload = function () {
-    var gridColumns = [
+    let gridColumns = [
         {
             name: 'name',
             class: 'text-left',
@@ -72,7 +72,7 @@
 };
 
 function Edit(id) {
-    var url = id == undefined ? "SystemUser/Edit" : `SystemUser/Edit/${id}`
+    let url = id == undefined ? "SystemUser/Edit" : `SystemUser/Edit/${id}`
     $.get(url, function (response) {
         $("#wrapper-edit").html(response);
         $("#editModal").show();
