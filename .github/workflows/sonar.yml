@@ -20,4 +20,5 @@ jobs:
         run: |
           dotnet sonarscanner begin /k:"luanapettersm_ProjectPortfolio" /o:"luanapettersm" /d:sonar.login=${{ secrets.SONAR_TOKEN }}
           dotnet build
+          dotnet test --collect:"XPlat Code Coverage"
           dotnet sonarscanner end /d:sonar.login=${{ secrets.SONAR_TOKEN }}
