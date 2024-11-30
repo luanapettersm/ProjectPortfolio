@@ -10,7 +10,7 @@
                 <input hidden class="cardId" value="@item.Id" />
                 <input hidden class="statusCardId" value="@item.Status" />
                 <div class="card-heade pt-1">
-                    <font class="priority" title="Prioridade">
+                    <div class="priority" title="Prioridade">
                         @if (item.Priority == PriorityEnum.High)
                         {
                             <div>Alta</div>
@@ -23,9 +23,9 @@
                         {
                             <div>Baixa</div>
                         }
-                    </font>
-                    <font class="sequencialId" title="Número">- @item.SequentialId</font>
-                    <font class="client" title="Cliente">- @item.ClientName</font>
+                    </div>
+                    <div class="sequencialId" title="Número">- @item.SequentialId</div>
+                    <div class="client" title="Cliente">- @item.ClientName</div>
                 </div>
                 <div>
                     <button title="Editar" onclick="Edit(@item.Id)" class="iconButton icon-Panel">
