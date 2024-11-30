@@ -1,5 +1,4 @@
-﻿using System.ComponentModel.DataAnnotations.Schema;
-using System.Text.RegularExpressions;
+﻿using System.Text.RegularExpressions;
 
 namespace ProjectPortfolio.Models
 {
@@ -83,23 +82,6 @@ namespace ProjectPortfolio.Models
         public override string ToString()
         {
             return !string.IsNullOrEmpty(CPF) ? cpfformatado : cnpjformatado;
-        }
-
-        public List<string> Validator()
-        {
-            var messages = new List<string>();
-            if (string.IsNullOrEmpty(ZipCode))
-                messages.Add("O CEP é obrigatório.");
-            if (string.IsNullOrEmpty(Address))
-                messages.Add("O endereço é obrigatório.");
-            if (string.IsNullOrEmpty(PhoneNumber))
-                messages.Add("O número é obrigatório.");
-            if (string.IsNullOrEmpty(City))
-                messages.Add("A cidadde é obrigatória.");
-            if (string.IsNullOrEmpty(State))
-                messages.Add("O estado é obrigatório.");
-
-            return messages;
         }
     }
 }

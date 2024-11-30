@@ -1,6 +1,8 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using ProjectPortfolio.Data;
 using ProjectPortfolio.Models;
+using System.Net;
+using System.Reflection.Emit;
 
 namespace ProjectPortfolio.Services
 {
@@ -24,7 +26,7 @@ namespace ProjectPortfolio.Services
                     throw new Exception("Já existe cliente criado para este CNPJ.");
             }
 
-            var messages = new ResponseModel<ClientModel> { ValidationMessages = model.Validator() };
+            List<string> msgs = Validator(model);
 
             var result = await repository.InsertAsync(model);
             return result;
@@ -38,7 +40,7 @@ namespace ProjectPortfolio.Services
             if(model.CNPJ != dbClient.CNPJ && string.IsNullOrEmpty(model.CPF))
                 throw new Exception("O CNPJ do cliente não pode ser alterado.");
 
-            var messages = new ResponseModel<ClientModel> { ValidationMessages = model.Validator() };
+            List<string> msgs = Validator(model);
 
             var result = await repository.UpdateAsync(model);
             return model;
@@ -93,6 +95,23 @@ namespace ProjectPortfolio.Services
                 }
             }
             return model;
+        }
+
+        public List<string> Validator(ClientModel model)
+        {
+            var messages = new List<string>();
+            if (string.IsNullOrEmpty(model.ZipCode))
+                messages.Add("O CEP é obrigatório.");
+            if (string.IsNullOrEmpty(model.Address))
+                messages.Add("O endereço é obrigatório.");
+            if (string.IsNullOrEmpty(model.PhoneNumber))
+                messages.Add("O número é obrigatório.");
+            if (string.IsNullOrEmpty(model.City))
+                messages.Add("A cidade é obrigatória.");
+            if (string.IsNullOrEmpty(model.State))
+                messages.Add("O estado é obrigatório.");
+
+            return messages;
         }
     }
 }

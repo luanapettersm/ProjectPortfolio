@@ -8,7 +8,7 @@ namespace ProjectPortfolio.Services
     {
         public async Task<ClientProjectModel> CreateAsync(ClientProjectModel model)
         {
-           var messages = new ResponseModel<ClientProjectModel> { ValidationMessages = model.CreateValidator() };
+           List<string> msgs = Validator(model);
 
             model.Client = null;
             return await repository.InsertAsync(model);
@@ -21,6 +21,23 @@ namespace ProjectPortfolio.Services
                 throw new Exception("Detalhes do endereço não podem ser alterados.");
 
             return model;
+        }
+
+        public List<string> Validator(ClientProjectModel model)
+        {
+            var messages = new List<string>();
+            if (string.IsNullOrEmpty(model.Title) && model.Title.Length < 3 || model.Title.Length > 50)
+                messages.Add("O título deve ter entre 3 e 50 caracteres.");
+            if (string.IsNullOrEmpty(model.Address))
+                messages.Add("Necessário informar o endereço da obra.");
+            if (model.Number.ToString() == null)
+                messages.Add("Necessário informar o número.");
+            if (string.IsNullOrEmpty(model.City))
+                messages.Add("Necessário informar a cidade em que acontecerá a obra.");
+            if (string.IsNullOrEmpty(model.ZipCode))
+                messages.Add("Necessário informar o CEP.");
+
+            return messages;
         }
     }
 }

@@ -7,10 +7,6 @@ jobs:
   sonarcloud:
     runs-on: ubuntu-latest
     steps:
-      - name: Set environment variable for UTF-8
-        run: |
-          export LANG="en_US.UTF-8"
-          export LC_ALL="en_US.UTF-8"
       - uses: actions/checkout@v3
       - name: Setup .NET
         uses: actions/setup-dotnet@v3
