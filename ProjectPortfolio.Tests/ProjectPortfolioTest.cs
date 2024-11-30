@@ -38,7 +38,7 @@ namespace ProjectPortfolio.Tests
             client.CPF = cpf; 
             var actualResult = client.cpfformatado;
 
-            Assert.Equal(expectedResult, actualResult, StringComparer.InvariantCulture);
+            Assert.Equal(expectedResult, actualResult);
         }
 
         [Fact(DisplayName = "Given invalid CPF numbers")]
@@ -49,7 +49,7 @@ namespace ProjectPortfolio.Tests
             var client = new ClientModel();
 
             var exception = Assert.Throws<ArgumentException>(() => client.CPF = cpf);
-            Assert.Equal("CPF invalido.", exception.Message, StringComparer.InvariantCulture);
+            Assert.Equal("CPF inválido.", exception.Message);
         }
 
         [Fact(DisplayName = "Given valid CNPJ numbers")]
@@ -63,7 +63,7 @@ namespace ProjectPortfolio.Tests
             client.CNPJ = cnpj;
             var actualFormattedCNPJ = client.cnpjformatado;
 
-            Assert.Equal(expectedResult, actualFormattedCNPJ, StringComparer.InvariantCulture);
+            Assert.Equal(expectedResult, actualFormattedCNPJ);
         }
 
         [Fact(DisplayName = "Given invalid CNPJ numbers")]
@@ -74,7 +74,7 @@ namespace ProjectPortfolio.Tests
             var client = new ClientModel();
 
             var exception = Assert.Throws<ArgumentException>(() => client.CNPJ = cnpj);
-            Assert.Equal("CNPJ invalido.", exception.Message, StringComparer.InvariantCulture);
+            Assert.Equal("CNPJ inválido.", exception.Message);
         }
 
         [Fact(DisplayName = "Should return error when ZipCode is null or empty")]
@@ -93,7 +93,7 @@ namespace ProjectPortfolio.Tests
 
             var validationMessages = model.Validator();
 
-            Assert.Contains("O CEP e obrigatorio.", validationMessages, StringComparer.InvariantCulture);
+            Assert.Contains("O CEP é obrigatório.", validationMessages);
         }
 
         [Fact(DisplayName = "Should return error when Address is null or empty")]
@@ -112,7 +112,7 @@ namespace ProjectPortfolio.Tests
 
             var validationMessages = model.Validator();
 
-            Assert.Contains("O endereco e obrigatorio.", validationMessages, StringComparer.InvariantCulture);
+            Assert.Contains("O endereço é obrigatório.", validationMessages);
         }
 
         [Fact(DisplayName = "Should return error when PhoneNumber is null or empty")]
@@ -131,7 +131,7 @@ namespace ProjectPortfolio.Tests
 
             var validationMessages = model.Validator();
 
-            Assert.Contains("O numero e obrigatorio.", validationMessages, StringComparer.InvariantCulture);
+            Assert.Contains("O número é obrigatório.", validationMessages);
         }
 
         [Fact(DisplayName = "Should return error when City is null or empty")]
@@ -150,7 +150,7 @@ namespace ProjectPortfolio.Tests
 
             var validationMessages = model.Validator();
 
-            Assert.Contains("A cidadde e obrigatoria.", validationMessages, StringComparer.InvariantCulture);
+            Assert.Contains("A cidadde é obrigatória.", validationMessages);
         }
 
         [Fact(DisplayName = "Should return error when State is null or empty")]
@@ -169,7 +169,7 @@ namespace ProjectPortfolio.Tests
 
             var validationMessages = model.Validator();
 
-            Assert.Contains("O estado e obrigatorio.", validationMessages, StringComparer.InvariantCulture);
+            Assert.Contains("O estado é obrigatório.", validationMessages);
         }
 
         [Fact(DisplayName = "Should return error when Name is null or empty")]
@@ -186,7 +186,7 @@ namespace ProjectPortfolio.Tests
 
             var validationMessages = model.Validator();
 
-            Assert.Contains("Nome deve ter entre 3 e 35 caracteres.", validationMessages, StringComparer.InvariantCulture);
+            Assert.Contains("Nome deve ter entre 3 e 35 caracteres.", validationMessages);
         }
 
         [Fact(DisplayName = "Should return error when Surname is null or empty")]
@@ -203,7 +203,7 @@ namespace ProjectPortfolio.Tests
 
             var validationMessages = model.Validator();
 
-            Assert.Contains("O sobrenome deve ter entre 3 e 100 caracteres.", validationMessages, StringComparer.InvariantCulture);
+            Assert.Contains("O sobrenome deve ter entre 3 e 100 caracteres.", validationMessages);
         }
 
         [Fact(DisplayName = "Should return error when UserName is null or empty")]
@@ -220,7 +220,7 @@ namespace ProjectPortfolio.Tests
 
             var validationMessages = model.Validator();
 
-            Assert.Contains("O login deve ter entre 3 e 50 caracteres.", validationMessages, StringComparer.InvariantCulture);
+            Assert.Contains("O login deve ter entre 3 e 50 caracteres.", validationMessages);
         }
 
         [Fact(DisplayName = "Should return error when Password is null or empty")]
@@ -237,7 +237,7 @@ namespace ProjectPortfolio.Tests
 
             var validationMessages = model.Validator();
 
-            Assert.Contains("A senha e obrigatoria.", validationMessages, StringComparer.InvariantCulture);
+            Assert.Contains("A senha é obrigatória.", validationMessages);
         }
 
 
@@ -295,7 +295,7 @@ namespace ProjectPortfolio.Tests
 
             var result = model.CreateValidator();
 
-            Assert.Contains("O titulo deve ter entre 3 e 50 caracteres.", result, StringComparer.InvariantCulture);
+            Assert.Contains("O título deve ter entre 3 e 50 caracteres.", result);
         }
 
         [Fact(DisplayName = "Should return error when Title is null or empty")]
@@ -308,7 +308,7 @@ namespace ProjectPortfolio.Tests
 
             var result = model.CreateValidator();
 
-            Assert.Contains("O titulo deve ter entre 3 e 50 caracteres.", result, StringComparer.InvariantCulture);
+            Assert.Contains("O título deve ter entre 3 e 50 caracteres.", result);
         }
 
         [Fact(DisplayName = "Should return any error when Title is valid")]
@@ -342,7 +342,7 @@ namespace ProjectPortfolio.Tests
 
             var result = model.CreateValidator();
 
-            Assert.Contains("Necessário informar o endereco da obra.", result, StringComparer.InvariantCulture);
+            Assert.Contains("Necessário informar o endereço da obra.", result);
         }
 
         [Fact(DisplayName = "Should return error when ZipCode is null or empty")]
@@ -359,7 +359,7 @@ namespace ProjectPortfolio.Tests
 
             var result = model.CreateValidator();
 
-            Assert.Contains("Necessário informar o CEP.", result, StringComparer.InvariantCulture);
+            Assert.Contains("Necessário informar o CEP.", result);
         }
 
         [Fact(DisplayName = "Should return error when City is null or empty")]
@@ -376,7 +376,7 @@ namespace ProjectPortfolio.Tests
 
             var result = model.CreateValidator();
 
-            Assert.Contains("Necessário informar a cidade em que acontecerá a obra.", result, StringComparer.InvariantCulture);
+            Assert.Contains("Necessário informar a cidade em que acontecerá a obra.", result);
         }
 
         [Fact(DisplayName = "Should create a valid project")]
@@ -388,7 +388,7 @@ namespace ProjectPortfolio.Tests
             var result = await _clientProjectService.CreateAsync(validModel);
 
             Assert.NotNull(result);
-            Assert.Equal("Projeto A", result.Title, StringComparer.InvariantCulture);
+            Assert.Equal("Projeto A", result.Title);
         }
 
         [Fact(DisplayName = "Should return error when Issue Title is null or empty")]
@@ -397,14 +397,14 @@ namespace ProjectPortfolio.Tests
             var model = new IssueModel
             {
                 Title = "", 
-                Description = "Descricao valida",
+                Description = "Descrição válida",
                 ClientId = Guid.NewGuid(),
                 Priority = PriorityEnum.Low
             };
 
             var result = model.CreateValidator();
 
-            Assert.Contains("O titulo deve ter entre 3 e 100 caracteres.", result, StringComparer.InvariantCulture);
+            Assert.Contains("O título deve ter entre 3 e 100 caracteres.", result);
         }
 
         [Fact(DisplayName = "Should return error when Issue Description is too short")]
@@ -412,7 +412,7 @@ namespace ProjectPortfolio.Tests
         {
             var model = new IssueModel
             {
-                Title = "titulo valido",
+                Title = "Título válido",
                 Description = "AB",
                 ClientId = Guid.NewGuid(),
                 Priority = PriorityEnum.Low
@@ -420,7 +420,7 @@ namespace ProjectPortfolio.Tests
 
             var result = model.CreateValidator();
 
-            Assert.Contains("O titulo deve ter entre 3 e 2000 caracteres.", result, StringComparer.InvariantCulture);
+            Assert.Contains("O título deve ter entre 3 e 2000 caracteres.", result);
         }
 
         [Fact(DisplayName = "Should return error when Issue ClientId is empty")]
@@ -428,15 +428,15 @@ namespace ProjectPortfolio.Tests
         {
             var model = new IssueModel
             {
-                Title = "titulo valido",
-                Description = "Descricao valida",
+                Title = "Título válido",
+                Description = "Descrição válida",
                 ClientId = Guid.Empty,
                 Priority = PriorityEnum.Low
             };
 
             var result = model.CreateValidator();
 
-            Assert.Contains("O cliente e obrigatorio.", result, StringComparer.InvariantCulture);
+            Assert.Contains("O cliente é obrigatório.", result);
         }
 
         [Fact(DisplayName = "Should return any error when valid")]
@@ -444,8 +444,8 @@ namespace ProjectPortfolio.Tests
         {
             var model = new IssueModel
             {
-                Title = "titulo valido",
-                Description = "Descricao valida",
+                Title = "Título válido",
+                Description = "Descrição válida",
                 ClientId = Guid.NewGuid(),
                 Priority = PriorityEnum.Low
             };

@@ -4,6 +4,8 @@
 		<TargetFramework>net8.0</TargetFramework>
 		<ImplicitUsings>enable</ImplicitUsings>
 		<UserSecretsId>a945fa83-da00-46fc-bf41-32968dfe5b59</UserSecretsId>
+		<GenerateRuntimeConfigurationFiles>true</GenerateRuntimeConfigurationFiles>
+		<InvariantGlobalization>false</InvariantGlobalization>
 	</PropertyGroup>
 
 	<ItemGroup>
