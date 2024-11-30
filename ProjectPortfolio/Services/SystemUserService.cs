@@ -10,11 +10,12 @@ namespace ProjectPortfolio.Services
         public async Task<SystemUserModel> CreateAsync(SystemUserModel model)
         {
             var messages = new ResponseModel<SystemUserModel> { ValidationMessages = model.Validator() };
-         
+
+            string hashedPassword = BCrypt.Net.BCrypt.HashPassword(model.Password);
+            model.Password = hashedPassword;
             model.DateCreated = DateTimeOffset.Now;
 
-            var result = await repository.InsertAsync(model);
-            return result;
+            return await repository.InsertAsync(model);
         }
 
         public async Task<SystemUserModel> UpdateAsync(SystemUserModel model)
@@ -24,7 +25,7 @@ namespace ProjectPortfolio.Services
 
             model.DateCreated = db.DateCreated;
 
-            var result = await repository.UpdateAsync(model);   
+            var result = await repository.UpdateAsync(model);
             return result;
         }
 
@@ -39,13 +40,12 @@ namespace ProjectPortfolio.Services
 
         public async Task<bool> AuthenticateAsync(string userName, string password)
         {
-            var systemUser = await repository.GetAll().Where(e => e.UserName == userName).FirstOrDefaultAsync();
+            var systemUser = await repository.GetUserByUserName(userName);
 
             if (systemUser == null)
                 return false;
 
-            return systemUser.Password == password;
+            return BCrypt.Net.BCrypt.Verify(password, systemUser.Password);
         }
     }
 }
-  
