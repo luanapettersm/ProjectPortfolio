@@ -11,8 +11,6 @@ namespace ProjectPortfolio.Services
     {
         public async Task<SystemUserModel> CreateAsync(SystemUserModel model)
         {
-            //var messages = new ResponseModel<SystemUserModel> { ValidationMessages = model.Validator() };
-
             if (!string.IsNullOrEmpty(model.Password))
             {
                 string hashedPassword = BCrypt.Net.BCrypt.HashPassword(model.Password);
@@ -27,7 +25,6 @@ namespace ProjectPortfolio.Services
         public async Task<SystemUserModel> UpdateAsync(SystemUserModel model)
         {
             var db = await repository.GetAll().AsNoTracking().Where(e => e.Id == model.Id).FirstOrDefaultAsync();
-            //List<string> msg = Validator(model);
 
             if(model.Password != db.Password && !string.IsNullOrEmpty(model.Password))
             {
