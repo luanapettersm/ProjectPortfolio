@@ -1,51 +1,34 @@
-﻿using Microsoft.AspNetCore.Authorization;
-using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Mvc;
 using ProjectPortfolio.Models;
 using ProjectPortfolio.Services;
 
 namespace ProjectPortfolio.Controllers
 {
-    [AllowAnonymous]
     [Route("[controller]")]
-    public class LoginController(ITokenService tokenService,
-        ISystemUserService service) : Controller
+    public class LoginController(ISystemUserService service) : Controller
     {
-        [HttpPost("Login")]
+        //public IActionResult Index()
+        //{
+        //    return View("/Index");
+        //}
+
+        [HttpPost]
         public async Task<IActionResult> Login(AuthenticateModel auth)
         {
-            if (string.IsNullOrEmpty(auth.UserName) || string.IsNullOrEmpty(auth.Password))
+            if (auth == null || string.IsNullOrEmpty(auth.UserName) || string.IsNullOrEmpty(auth.Password))
                 return BadRequest("Usuário e senha são obrigatórios.");
-            
+
             var isValidUser = await service.AuthenticateAsync(auth.UserName, auth.Password);
             if (!isValidUser)
                 return Unauthorized("Usuário ou senha inválidos.");
 
-            return Redirect("/Home");
+            return Ok("/Home");
         }
-
-        //[HttpPost("Login")]
-        //public async Task<IActionResult> Authenticate(AuthenticateModel login)
-        //{
-            //if (string.IsNullOrEmpty(login.UserName) || string.IsNullOrEmpty(login.Password))
-            //    return BadRequest("Usuário e senha são obrigatórios.");
-
-            //var isValidUser = ValidateUser(login.UserName, login.Password);
-            //if (!isValidUser)
-            //    return Unauthorized("Usuário ou senha inválidos.");
-
-        //    var token = await tokenService.GetTokenAsync(login);
-
-        //    if (string.IsNullOrEmpty(token))
-        //        return Unauthorized("Falha na geração do token.");
-
-        //    return Ok(new { Token = token });
-        //}
 
         [HttpGet("Logout")]
         public async Task<IActionResult> Logout()
         {
             return Redirect("/Home");
         }
-
     }
 }

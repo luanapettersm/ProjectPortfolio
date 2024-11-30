@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="utf-8"?>
+<SonarProjectConfig xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns="http://www.sonarsource.com/msbuild/analyzer/2021/1">
+  <AnalysisConfigPath>C:\Repos\ProjectPortfolio\.sonarqube\conf\SonarQubeAnalysisConfig.xml</AnalysisConfigPath>
+  <ProjectPath>C:\Repos\ProjectPortfolio\ProjectPortfolio.Tests\ProjectPortfolio.Tests.csproj</ProjectPath>
+  <FilesToAnalyzePath>C:\Repos\ProjectPortfolio\.sonarqube\conf\1\FilesToAnalyze.txt</FilesToAnalyzePath>
+  <OutPath>C:\Repos\ProjectPortfolio\.sonarqube\out\1</OutPath>
+  <ProjectType>Test</ProjectType>
+  <TargetFramework>net8.0</TargetFramework>
+</SonarProjectConfig>

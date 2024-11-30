@@ -9,6 +9,6 @@ namespace ProjectPortfolio.Data
         Task<IssueModel> InsertAsync(IssueModel model);
         Task<IssueModel> UpdateAsync(IssueModel model);
         Task<IssueModel> GetAsync(Guid id);
-        Task<IEnumerable<IssueModel>> ListIssues(IssueStatusEnum status, AuthenticateModel auth);
+        Task<IEnumerable<IssueModel>> ListIssues(IssueStatusEnum status, string userName);
     }
 }

@@ -18,7 +18,6 @@ namespace ProjectPortfolio
             builder.Services.AddTransient<IClientProjectService, ClientProjectService>();
             builder.Services.AddTransient<ISystemUserService, SystemUserService>();
             builder.Services.AddTransient<IIssueService, IssueService>();
-            builder.Services.AddTransient<ITokenService, TokenService>();
             builder.Services.AddTransient<ISystemUserRepository, SystemUserRepository>();
             builder.Services.AddTransient<IClientRepository, ClientRepository>();
             builder.Services.AddTransient<IIssueRepository, IssueRepository>();
@@ -33,29 +32,6 @@ namespace ProjectPortfolio
             builder.Services.AddSwaggerGen(c =>
             {
                 c.SwaggerDoc("v1", new OpenApiInfo { Title = "My API", Version = "v1" });
-                c.AddSecurityDefinition("Bearer", new OpenApiSecurityScheme
-                {
-                    Name = "Authorization",
-                    Type = SecuritySchemeType.ApiKey,
-                    Scheme = "Bearer",
-                    BearerFormat = "JWT",
-                    In = ParameterLocation.Header
-                });
-
-                c.AddSecurityRequirement(new OpenApiSecurityRequirement
-                {
-                    {
-                        new OpenApiSecurityScheme
-                        {
-                            Reference = new OpenApiReference
-                            {
-                                Type = ReferenceType.SecurityScheme,
-                                Id = "Bearer"
-                            }
-                        },
-                        Array.Empty<string>()
-                    }
-                });
             });
 
             builder.Services.AddAuthentication(x =>
@@ -63,20 +39,7 @@ namespace ProjectPortfolio
                 x.DefaultAuthenticateScheme = JwtBearerDefaults.AuthenticationScheme;
                 x.DefaultChallengeScheme = JwtBearerDefaults.AuthenticationScheme;
 
-            }
-            //)
-            //.AddJwtBearer(c => 
-            //    c.TokenValidationParameters = new TokenValidationParameters
-            //    {
-            //        ValidateIssuer = true,
-            //        ValidateAudience = true,
-            //        ValidateLifetime = true,
-            //        ValidateIssuerSigningKey = true,
-            //        ValidIssuer = builder.Configuration["Authentication:Jwt:Issue"],
-            //        ValidAudience = builder.Configuration["Authentication:Jwt:Audience"],
-            //        IssuerSigningKey = new SymmetricSecurityKey(Encoding.ASCII.GetBytes(builder.Configuration["Authentication:Jwt:Key"]))
-            //}
-                );
+            });
 
             var app = builder.Build();
 

@@ -12,7 +12,7 @@ namespace ProjectPortfolio.Services
         {
             var messages = new ResponseModel<IssueModel> { ValidationMessages = model.CreateValidator()  };
             
-            return model;
+            return await repository.InsertAsync(model);
         }
 
         public async Task<bool> ValidateIssueIsOpened(Guid issueId)
@@ -47,7 +47,6 @@ namespace ProjectPortfolio.Services
 
         public async Task<IssueCardSaveModel> UpdateAsync(IssueCardSaveModel issueCard)
         {
-            //var userId = await cookie.GetSystemUserId();
             var systemUser = await systemUserRepository.GetAsync((Guid)issueCard.AttendantId);
 
             var issue = await repository.GetAsync(issueCard.Id);
@@ -89,7 +88,6 @@ namespace ProjectPortfolio.Services
         public async Task<IssueModel> UpdateAsync(IssueModel model)
         {
             var db = await repository.GetAll().Where(e => e.Id == model.Id).FirstOrDefaultAsync();
-            //var userId = await cookie.GetSystemUserId();
             var systemUser = await systemUserRepository.GetAsync((Guid)model.AttendantId);
 
             if (!await ValidateIssueIsOpened(db.Id))
@@ -100,11 +98,6 @@ namespace ProjectPortfolio.Services
                 throw new Exception("O cliente não pode ser alterado.");
             if (model.Priority.GetType() == null)
                 throw new Exception("A prioridade é obrigatória.");
-
-            var role = await systemUserRepository.GetAll().Where(e => e.Id == systemUser.Id).Select(e => e.SystemRole).FirstOrDefaultAsync();
-
-            if (role != SystemRoleEnum.admin && db.Priority != model.Priority)
-                throw new Exception("Prioridade da atividade só pode ser alterado pelo administrador.");
 
             await repository.UpdateAsync(db);
 

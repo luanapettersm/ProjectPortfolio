@@ -1,0 +1,23 @@
+name: SonarCloud
+on:
+  push:
+    branches:
+      - master
+jobs:
+  sonarcloud:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v3
+      - name: Setup .NET
+        uses: actions/setup-dotnet@v3
+        with:
+          dotnet-version: 6.0
+      - name: Install SonarCloud Scanner
+        run: dotnet tool install --global dotnet-sonarscanner
+      - name: SonarCloud Analysis
+        env:
+          SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
+        run: |
+          dotnet sonarscanner begin /k:"luanapettersm_ProjectPortfolio" /o:"luanapettersm" /d:sonar.login=$env:SONAR_TOKEN
+          dotnet build
+          dotnet sonarscanner end /d:sonar.login=$env:SONAR_TOKEN
