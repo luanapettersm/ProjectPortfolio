@@ -18,6 +18,12 @@ jobs:
       with:
         dotnet-version: '8.0.x'
 
+    - name: Set UTF-8 encoding
+      run: |
+        echo "DOTNET_SYSTEM_GLOBALIZATION_INVARIANT=false" >> $GITHUB_ENV
+        echo "LC_ALL=en_US.UTF-8" >> $GITHUB_ENV
+        echo "LANG=en_US.UTF-8" >> $GITHUB_ENV
+
     - name: Restore dependencies
       run: dotnet restore
 
