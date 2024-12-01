@@ -1,9 +1,7 @@
-﻿using Microsoft.AspNetCore.Mvc.ModelBinding;
-using Microsoft.EntityFrameworkCore;
+﻿using Microsoft.EntityFrameworkCore;
 using ProjectPortfolio.Data;
 using ProjectPortfolio.Enumerators;
 using ProjectPortfolio.Models;
-using System.ComponentModel.DataAnnotations;
 
 namespace ProjectPortfolio.Services
 {
@@ -55,23 +53,6 @@ namespace ProjectPortfolio.Services
                 return false;
 
             return BCrypt.Net.BCrypt.Verify(password, systemUser.Password);
-        }
-
-        public List<string> Validator(SystemUserModel model)
-        {
-            var messages = new List<string>();
-            if (string.IsNullOrEmpty(model.Name) || model.Name.Length < 3 || model.Name.Length > 35)
-                messages.Add("Nome deve ter entre 3 e 35 caracteres.");
-            if (string.IsNullOrEmpty(model.Surname) || model.Surname.Length < 3 || model.Surname.Length > 100)
-                messages.Add("O sobrenome deve ter entre 3 e 100 caracteres.");
-            if (string.IsNullOrEmpty(model.UserName) || model.UserName.Length < 3 || model.UserName.Length > 50)
-                messages.Add("O login deve ter entre 3 e 50 caracteres.");
-            if (model.Password == null)
-                messages.Add("A senha e obrigatoria.");
-            if (model.BusinessRole.GetType() == null)
-                messages.Add("O cargo e obrigatorio.");
-
-            return messages;
         }
     }
 }
