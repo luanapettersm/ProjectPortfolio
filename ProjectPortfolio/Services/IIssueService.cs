@@ -8,5 +8,6 @@ namespace ProjectPortfolio.Services
         Task<IssueModel> CreateAsync(IssueModel model);
         Task<IssueCardSaveModel> UpdateAsync(IssueCardSaveModel issueCard);
         Task<IssueModel> UpdateAsync(IssueModel model);
+        Task<IssueClosedModel> Closed(IssueClosedModel issueClosed);
     }
 }
