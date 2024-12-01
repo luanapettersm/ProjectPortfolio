@@ -5,7 +5,8 @@ using ProjectPortfolio.Services;
 namespace ProjectPortfolio.Controllers
 {
     [Route("[controller]")]
-    public class LoginController(ISystemUserService service) : Controller
+    public class LoginController(ISystemUserService service,
+        ITokenService tokenService) : Controller
     {
         [HttpGet]
         public IActionResult Index()
@@ -14,16 +15,24 @@ namespace ProjectPortfolio.Controllers
         }
 
         [HttpPost("Authentication")]
-        public async Task<IActionResult> Authentication(AuthenticateModel auth)
+        public async Task<IActionResult> Authentication([FromBody] AuthenticateModel auth)
         {
-            if (auth == null || string.IsNullOrEmpty(auth.UserName) || string.IsNullOrEmpty(auth.Password))
-                return BadRequest("usuario e senha sao obrigatorios.");
+            //if (auth == null || string.IsNullOrEmpty(auth.UserName) || string.IsNullOrEmpty(auth.Password))
+            //    return BadRequest("usuario e senha sao obrigatorios.");
 
-            var isValidUser = await service.AuthenticateAsync(auth.UserName, auth.Password);
-            if (!isValidUser)
-                return Unauthorized("usuario ou senha invalidos.");
+            //var isValidUser = await service.AuthenticateAsync(auth.UserName, auth.Password);
+            //if (!isValidUser)
+            //    return Unauthorized("usuario ou senha invalidos.");
 
-            return Ok("/Home");
+            if (auth.UserName == "admin" && auth.Password == "admin")
+            {
+                var token = await tokenService.GetTokenAsync(auth);
+                return Ok(new { token });
+
+            }
+
+            return BadRequest(new { message = "Usuario ou senha invalidos."});
+            //return Ok("/Home");
         }
     }
 }

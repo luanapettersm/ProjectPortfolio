@@ -1,10 +1,12 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Mvc;
 using ProjectPortfolio.Data;
 using ProjectPortfolio.Models;
 using ProjectPortfolio.Services;
 
 namespace ProjectPortfolio.Controllers
 {
+    [Authorize]
     [Route("[controller]")]
     public class ClientController(IClientRepository repository, 
         IClientProjectRepository projectRepository,

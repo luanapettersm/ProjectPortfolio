@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Mvc;
 using ProjectPortfolio.Data;
 using ProjectPortfolio.Enumerators;
 using ProjectPortfolio.Models;
@@ -6,6 +7,7 @@ using ProjectPortfolio.Services;
 
 namespace ProjectPortfolio.Controllers
 {
+    [Authorize]
     [Route("[controller]")]
     public class AttendancePanelController(IIssueService service,
         IIssueRepository repository,
