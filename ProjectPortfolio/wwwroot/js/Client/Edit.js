@@ -14,7 +14,7 @@ function Close() {
 }
 
 function Save() {
-    let fd = $("#clientFormId").serializeArray();
+    var fd = $("#clientFormId").serializeArray();
     if ($("#cpfId").is(":checked")) {
         fd.push({ name: 'client.CPF', value: $("#clientInfoId").val() });
     } else {

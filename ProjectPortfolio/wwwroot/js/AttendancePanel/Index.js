@@ -67,9 +67,9 @@ columns.forEach((item) => {
 
 function getNewPosition(column, posY) {
     const cards = column.querySelectorAll(".item:not(.dragging)");
-    let result;
+    var result;
 
-    for (let refer_card of cards) {
+    for (var refer_card of cards) {
         const box = refer_card.getBoundingClientRect();
         const boxCenterY = box.y + box.height / 2;
 
@@ -79,9 +79,9 @@ function getNewPosition(column, posY) {
 }
 
 function executeOnDrop(card, column) {
-    let columsStatus = column.querySelector(".cardStatus").value;
-    let cardId = card.querySelector(".d-flex .cardId").value;
-    let cardStatus = card.querySelector(".d-flex .statusCardId").value;
+    var columsStatus = column.querySelector(".cardStatus").value;
+    var cardId = card.querySelector(".d-flex .cardId").value;
+    var cardStatus = card.querySelector(".d-flex .statusCardId").value;
 
     if (columsStatus != cardStatus) {
         card.querySelector(".d-flex .statusCardId").value = columsStatus;
@@ -91,7 +91,7 @@ function executeOnDrop(card, column) {
 }
 
 function Edit(id) {
-    let url = id == undefined ? "AttendancePanel/Edit" : `AttendancePanel/Edit/${id}`
+    var url = id == undefined ? "AttendancePanel/Edit" : `AttendancePanel/Edit/${id}`
     $.get(url, function (response) {
         $("#wrapper-edit").html(response);
         $("#editModal").show();
@@ -147,7 +147,7 @@ function Close() {
 }
 
 function Save() {
-    let fd = $("#ticketFormId").serializeArray();
+    var fd = $("#ticketFormId").serializeArray();
 
     $.post(`/AttendancePanel/Save`, fd)
         .done(function (response) {
@@ -170,7 +170,7 @@ function Note(ticketId) {
 }
 
 function GetProjects() {
-    let clientId = $("#clientId").val();
+    var clientId = $("#clientId").val();
 
     $.get(`AttendancePanel/GetProjectsByClient/${clientId}`, function (response) {
         $("#clientProjectId").empty();
