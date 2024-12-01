@@ -44,15 +44,5 @@ namespace ProjectPortfolio.Services
 
             await repository.DeleteAsync(id);
         }
-
-        public async Task<bool> AuthenticateAsync(string userName, string password)
-        {
-            var systemUser = await repository.GetUserByUserName(userName);
-
-            if (systemUser == null)
-                return false;
-
-            return BCrypt.Net.BCrypt.Verify(password, systemUser.Password);
-        }
     }
 }
