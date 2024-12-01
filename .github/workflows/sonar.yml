@@ -25,11 +25,6 @@ jobs:
           dotnet test /p:CollectCoverage=true /p:CoverletOutputFormat=opencover /p:CoverletOutput=TestResults/
 
       - name: SonarCloud Scan
-        uses: SonarSource/sonarcloud-github-action@master
-        with:
-          args: >
-            -Dsonar.projectKey=luanapettersm_ProjectPortfolio
-            -Dsonar.organization=luanapettersm
-            -Dsonar.cs.opencover.reportsPaths=TestResults/coverage.opencover.xml
+        uses: SonarSource/sonarcloud-github-action@master          
         env:
           SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
