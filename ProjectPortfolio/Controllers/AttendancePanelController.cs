@@ -26,7 +26,7 @@ namespace ProjectPortfolio.Controllers
         public async Task<IActionResult> Edit(Guid? id)
         {
             var clients = await clientRepository.GetListAsync();
-            var model = new CreateTicketModel
+            var model = new CreateIssueModel
             {
                 Attendants = await systemUserRepository.GetListAsync(),
                 Clients = clients,
@@ -99,7 +99,7 @@ namespace ProjectPortfolio.Controllers
         [HttpGet("ChangeStatusCard/{id}/{status}")]
         public async Task<IActionResult> ChangeStatusCard(Guid id, IssueStatusEnum status)
         {
-            await repository.ChangeStatusCard(id, status);
+            await service.ChangeStatusCard(id, status);
             return Ok();
         }
 

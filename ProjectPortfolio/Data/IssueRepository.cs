@@ -4,8 +4,7 @@ using ProjectPortfolio.Models;
 
 namespace ProjectPortfolio.Data
 {
-    public class IssueRepository(IDbContextFactory<Repository> dbContextFactory,
-        ISystemUserRepository systemUserRepository) : IIssueRepository
+    public class IssueRepository(IDbContextFactory<Repository> dbContextFactory) : IIssueRepository
     {
         public IQueryable<IssueModel> GetAll()
         {
@@ -41,17 +40,6 @@ namespace ProjectPortfolio.Data
             return await ct.Set<IssueModel>()
                 .Where(e => e.Status == status)
                 .ToListAsync();
-        }
-
-        public async Task<bool> ChangeStatusCard(Guid id, IssueStatusEnum status)
-        {
-            var ct = await dbContextFactory.CreateDbContextAsync();
-            var issue = await ct.Set<IssueModel>().Where(e => e.Id == id).FirstOrDefaultAsync();
-
-            if (issue.Status == status)
-                return false;
-
-            return true;
         }
     }
 }

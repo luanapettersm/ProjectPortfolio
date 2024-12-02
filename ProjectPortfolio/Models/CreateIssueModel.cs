@@ -3,7 +3,7 @@
 namespace ProjectPortfolio.Models
 {
     [NotMapped]
-    public class CreateTicketModel
+    public class CreateIssueModel
     {
         public IEnumerable<ClientModel> Clients { get; set; }
         public IEnumerable<SystemUserModel> Attendants { get; set; }

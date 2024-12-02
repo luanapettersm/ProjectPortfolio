@@ -1,5 +1,4 @@
 ﻿using Microsoft.EntityFrameworkCore;
-using Microsoft.EntityFrameworkCore.Migrations.Internal;
 using ProjectPortfolio.Data;
 using ProjectPortfolio.Enumerators;
 using ProjectPortfolio.Models;
@@ -11,6 +10,8 @@ namespace ProjectPortfolio.Services
     {
         public async Task<IssueModel> CreateAsync(IssueModel model)
         {
+            model.Validator();
+
             model.DateCreated = DateTimeOffset.Now;
             return await repository.InsertAsync(model);
         }
@@ -20,6 +21,22 @@ namespace ProjectPortfolio.Services
             var issue = await repository.GetAll().AsNoTracking().Where(e => e.Id == issueId).Select(e => new { e.DateClosed, e.Status }).FirstOrDefaultAsync();
             if (issue == null || issue.DateClosed != null || (issue.Status == IssueStatusEnum.Closed))
                 return false;
+            return true;
+        }
+
+        public async Task<bool> ChangeStatusCard(Guid id, IssueStatusEnum status)
+        {
+            var issue = await repository.GetAll().Where(e => e.Id == id).FirstOrDefaultAsync();
+
+            if (issue.Status == status)
+                return false;
+
+            if (status == IssueStatusEnum.Closed)
+                issue.DateClosed = DateTimeOffset.Now;
+
+            issue.Status = status;
+            await repository.UpdateAsync(issue);
+
             return true;
         }
 
@@ -82,24 +99,19 @@ namespace ProjectPortfolio.Services
             return db;
         }
 
-        public async Task<IssueClosedModel> Closed(IssueClosedModel issueClosed)
+        public List<string> Validator(IssueModel model)
         {
-            var db = await repository.GetAll().Where(e => e.Id == issueClosed.IssueId).FirstOrDefaultAsync();
-            var systemUser = await systemUserRepository.GetAsync((Guid)issueClosed.AttendantId);
-            db.Solution = issueClosed.Solution;
-            db.AttendantId = systemUser.Id;
-            db.Status = Enumerators.IssueStatusEnum.Closed;
+            var messages = new List<string>();
+            if (string.IsNullOrEmpty(model.Title) || model.Title.Length < 3 || model.Title.Length > 100)
+                messages.Add("O título deve ter entre 3 e 100 caracteres.");
+            if (string.IsNullOrEmpty(model.Description) || model.Description.Length < 3 || model.Description.Length > 2000)
+                messages.Add("O título deve ter entre 3 e 2000 caracteres.");
+            if (model.ClientId == Guid.Empty)
+                messages.Add("O cliente e obrigatorio.");
+            if (model.Priority.GetType() == null)
+                messages.Add("A prioridade e obrigatoria.");
 
-            if (db.DateClosed != null)
-                throw new Exception("Atividade encerrada Nao pode ser editada.");
-
-            if (issueClosed.Solution != null && issueClosed.Solution.Length < 20 || issueClosed.Solution.Length > 4000)
-                throw new Exception("A solucao da atividade deve ter entre 20 e 4000 caracteres.");
-
-            db.DateClosed = DateTimeOffset.Now;
-
-            await repository.UpdateAsync(db);
-            return issueClosed;
+            return messages;
         }
     }
 }
