@@ -5,8 +5,8 @@ Aplicação Web, sistema de gerenciamento de cliente + Kanban para escritório d
 Esta aplicação é projetada para que o sistema possua tanto uma aplicação web, onde qualquer usuário possa acessar e visualizar informações pertinentes ao escritório, quanto alguns dos projetos executados por ele. Em contrapartida, o sistema contará com o gerenciamento de clientes, bem como os projetos acordados e as atividades a serem desenvolvidas para cada projeto, que estarão disponíveis em um quadro Kanban.
 
 <h2 tabindex="-1" class="heading-element" dir="auto">✔️ Links de acesso:</h2>
-<li><a href="project-portfolio-api-byehbnbjajecgwdu.brazilsouth-01.azurewebsites.net">Link app publicado</li>
-<li><a href="https://sonarcloud.io/project/overview?id=luanapettersm_ProjectPortfolio"/>SonarCloud</li>
+<li><a href="project-portfolio-api-byehbnbjajecgwdu.brazilsouth-01.azurewebsites.net/Login">project-portfolio-api-byehbnbjajecgwdu.brazilsouth-01.azurewebsites.net/Login</li>
+<li><a href="https://sonarcloud.io/project/overview?id=luanapettersm_ProjectPortfolio"/>[SonarCloud](https://sonarcloud.io/project/overview?id=luanapettersm_ProjectPortfolio)</li>
 <li><a href="https://www.canva.com/design/DAGVutWa9AE/y_11Ovegy8uoG6L6_mYKhw/edit?utm_content=DAGVutWa9AE&utm_campaign=designshare&utm_medium=link2&utm_source=sharebutton">Apresentação (ppt)</li>
 
 <b>Login de acesso para testes</b><br>
