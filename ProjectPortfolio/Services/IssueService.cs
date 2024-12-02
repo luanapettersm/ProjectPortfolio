@@ -11,7 +11,8 @@ namespace ProjectPortfolio.Services
         public async Task<IssueModel> CreateAsync(IssueModel model)
         {
             model.Validator();
-
+            var sequentialId = await repository.GetAll().OrderByDescending(e => e.SequentialId).Select(e => e.SequentialId).FirstAsync();
+            model.SequentialId = sequentialId + 1;
             model.DateCreated = DateTimeOffset.Now;
             return await repository.InsertAsync(model);
         }
