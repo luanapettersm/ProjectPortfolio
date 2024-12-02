@@ -41,7 +41,7 @@ namespace ProjectPortfolio.Controllers
             {
                 HttpOnly = true,
                 Secure = true,
-                SameSite = SameSiteMode.Lax
+                SameSite = SameSiteMode.Strict
             });
 
             return RedirectToAction("Index", "Home");
