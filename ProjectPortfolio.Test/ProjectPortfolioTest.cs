@@ -551,7 +551,7 @@ namespace ProjectPortfolio.Test
 
             var validationMessages = issue.Validator();
 
-            Assert.Contains("O título deve ter entre 3 e 2000 caracteres.", validationMessages);
+            Assert.Contains("O titulo deve ter entre 3 e 2000 caracteres.", validationMessages);
         }
 
         [Fact(DisplayName = "Validacao falha quando Cliente e nulo")]
