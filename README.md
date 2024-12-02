@@ -9,7 +9,7 @@ Esta aplicação é projetada para que o sistema possua tanto uma aplicação we
 <li><a href="https://sonarcloud.io/project/overview?id=luanapettersm_ProjectPortfolio"/>SonarCloud</li>
 <li><a href="https://www.canva.com/design/DAGVutWa9AE/y_11Ovegy8uoG6L6_mYKhw/edit?utm_content=DAGVutWa9AE&utm_campaign=designshare&utm_medium=link2&utm_source=sharebutton">Apresentação (ppt)</li>
 
-Login de acesso para testes<br>
+<b>Login de acesso para testes</b><br>
 Login: luana.petters<br>
 Senha: Teste@12345
 
