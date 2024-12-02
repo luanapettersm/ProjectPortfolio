@@ -1,5 +1,4 @@
 ﻿using Microsoft.EntityFrameworkCore;
-using Microsoft.EntityFrameworkCore.Migrations.Internal;
 using ProjectPortfolio.Data;
 using ProjectPortfolio.Enumerators;
 using ProjectPortfolio.Models;
@@ -11,6 +10,9 @@ namespace ProjectPortfolio.Services
     {
         public async Task<IssueModel> CreateAsync(IssueModel model)
         {
+            model.Validator();
+            var sequentialId = await repository.GetAll().OrderByDescending(e => e.SequentialId).Select(e => e.SequentialId).FirstAsync();
+            model.SequentialId = sequentialId + 1;
             model.DateCreated = DateTimeOffset.Now;
             return await repository.InsertAsync(model);
         }
@@ -23,44 +25,20 @@ namespace ProjectPortfolio.Services
             return true;
         }
 
-        public async Task<IssueCardSaveModel> UpdateAsync(IssueCardSaveModel issueCard)
+        public async Task<bool> ChangeStatusCard(Guid id, IssueStatusEnum status)
         {
-            var systemUser = await systemUserRepository.GetAsync((Guid)issueCard.AttendantId);
+            var issue = await repository.GetAll().Where(e => e.Id == id).FirstOrDefaultAsync();
 
-            var issue = await repository.GetAsync(issueCard.Id);
+            if (issue.Status == status)
+                return false;
 
-            if (issue.DateClosed != null)
-            {
-                var allowedToBeMoved = DateTimeOffset.Now.AddDays(-7);
+            if (status == IssueStatusEnum.Closed)
+                issue.DateClosed = DateTimeOffset.Now;
 
-                if (issue.DateClosed != null && issue.DateClosed <= allowedToBeMoved)
-                    throw new Exception("Atividade encerrada Nao pode ser editada.");
+            issue.Status = status;
+            await repository.UpdateAsync(issue);
 
-                issue.DateClosed = null;
-            }
-
-            if (issueCard.IsMovedInAttendancePanel && issue.AttendantId != null && issue.AttendantId != systemUser.Id)
-                throw new Exception("Atividade ja possui atendente.");
-
-            var issueStatus = issue.Status;
-            var issueCardStatus = issueCard.Status;
-
-            issue.AttendantId = issueCard.AttendantId;
-
-            if (!(issue.Status == IssueStatusEnum.Pending
-                && (issueCard.Status == IssueStatusEnum.Pending || issueCard.Status == IssueStatusEnum.Opened)))
-                issue.Status = issueCard.Status;
-
-            var newIssue = await repository.UpdateAsync(issue);
-
-            var result = new IssueCardSaveModel
-            {
-                Id = newIssue.Id,
-                AttendantId = newIssue.AttendantId,
-                Status = newIssue.Status,
-            };
-
-            return result;
+            return true;
         }
 
         public async Task<IssueModel> UpdateAsync(IssueModel model)
@@ -82,24 +60,19 @@ namespace ProjectPortfolio.Services
             return db;
         }
 
-        public async Task<IssueClosedModel> Closed(IssueClosedModel issueClosed)
+        public List<string> Validator(IssueModel model)
         {
-            var db = await repository.GetAll().Where(e => e.Id == issueClosed.IssueId).FirstOrDefaultAsync();
-            var systemUser = await systemUserRepository.GetAsync((Guid)issueClosed.AttendantId);
-            db.Solution = issueClosed.Solution;
-            db.AttendantId = systemUser.Id;
-            db.Status = Enumerators.IssueStatusEnum.Closed;
+            var messages = new List<string>();
+            if (string.IsNullOrEmpty(model.Title) || model.Title.Length < 3 || model.Title.Length > 100)
+                messages.Add("O título deve ter entre 3 e 100 caracteres.");
+            if (string.IsNullOrEmpty(model.Description) || model.Description.Length < 3 || model.Description.Length > 2000)
+                messages.Add("O título deve ter entre 3 e 2000 caracteres.");
+            if (model.ClientId == Guid.Empty)
+                messages.Add("O cliente e obrigatorio.");
+            if (model.Priority.GetType() == null)
+                messages.Add("A prioridade e obrigatoria.");
 
-            if (db.DateClosed != null)
-                throw new Exception("Atividade encerrada Nao pode ser editada.");
-
-            if (issueClosed.Solution != null && issueClosed.Solution.Length < 20 || issueClosed.Solution.Length > 4000)
-                throw new Exception("A solucao da atividade deve ter entre 20 e 4000 caracteres.");
-
-            db.DateClosed = DateTimeOffset.Now;
-
-            await repository.UpdateAsync(db);
-            return issueClosed;
+            return messages;
         }
     }
 }

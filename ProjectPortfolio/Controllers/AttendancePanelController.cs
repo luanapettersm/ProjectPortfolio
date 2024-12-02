@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Mvc;
 using ProjectPortfolio.Data;
 using ProjectPortfolio.Enumerators;
 using ProjectPortfolio.Models;
@@ -6,6 +7,7 @@ using ProjectPortfolio.Services;
 
 namespace ProjectPortfolio.Controllers
 {
+    [Authorize]
     [Route("[controller]")]
     public class AttendancePanelController(IIssueService service,
         IIssueRepository repository,
@@ -24,7 +26,7 @@ namespace ProjectPortfolio.Controllers
         public async Task<IActionResult> Edit(Guid? id)
         {
             var clients = await clientRepository.GetListAsync();
-            var model = new CreateTicketModel
+            var model = new CreateIssueModel
             {
                 Attendants = await systemUserRepository.GetListAsync(),
                 Clients = clients,
@@ -97,7 +99,7 @@ namespace ProjectPortfolio.Controllers
         [HttpGet("ChangeStatusCard/{id}/{status}")]
         public async Task<IActionResult> ChangeStatusCard(Guid id, IssueStatusEnum status)
         {
-            await repository.ChangeStatusCard(id, status);
+            await service.ChangeStatusCard(id, status);
             return Ok();
         }
 

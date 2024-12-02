@@ -1,8 +1,11 @@
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.Options;
+using Microsoft.IdentityModel.Tokens;
 using Microsoft.OpenApi.Models;
 using ProjectPortfolio.Data;
 using ProjectPortfolio.Services;
+using System.Text;
 
 namespace ProjectPortfolio
 {
@@ -18,6 +21,7 @@ namespace ProjectPortfolio
             builder.Services.AddTransient<IClientProjectService, ClientProjectService>();
             builder.Services.AddTransient<ISystemUserService, SystemUserService>();
             builder.Services.AddTransient<IIssueService, IssueService>();
+            builder.Services.AddTransient<ITokenService, TokenService>();
             builder.Services.AddTransient<ISystemUserRepository, SystemUserRepository>();
             builder.Services.AddTransient<IClientRepository, ClientRepository>();
             builder.Services.AddTransient<IIssueRepository, IssueRepository>();
@@ -29,9 +33,30 @@ namespace ProjectPortfolio
             });
 
             builder.Services.AddEndpointsApiExplorer();
+
             builder.Services.AddSwaggerGen(c =>
             {
-                c.SwaggerDoc("v1", new OpenApiInfo { Title = "My API", Version = "v1" });
+                c.SwaggerDoc("v1", new OpenApiInfo { Title = "Project Portfolio - NP Interiores", Version = "v1" });
+
+                var securitySchema = new OpenApiSecurityScheme
+                {
+                    Name = "Authentication",
+                    In = ParameterLocation.Header,
+                    Type = SecuritySchemeType.Http,
+                    Scheme = "Bearer",
+                    BearerFormat = "JWT",
+                    Reference = new OpenApiReference
+                    {
+                        Id = JwtBearerDefaults.AuthenticationScheme,
+                        Type = ReferenceType.SecurityScheme
+                    }
+                };
+
+                c.AddSecurityDefinition(JwtBearerDefaults.AuthenticationScheme, securitySchema);
+                c.AddSecurityRequirement(new OpenApiSecurityRequirement
+                {
+                    {securitySchema, new string[] { } }
+                });
             });
 
             builder.Services.AddAuthentication(x =>
@@ -39,6 +64,30 @@ namespace ProjectPortfolio
                 x.DefaultAuthenticateScheme = JwtBearerDefaults.AuthenticationScheme;
                 x.DefaultChallengeScheme = JwtBearerDefaults.AuthenticationScheme;
 
+            }).AddJwtBearer(options =>
+            {
+                options.TokenValidationParameters = new TokenValidationParameters()
+                {
+                    ValidateIssuer = true,
+                    ValidateAudience = true,
+                    ValidateLifetime = true,
+                    ValidateIssuerSigningKey = true,
+                    ValidIssuer = builder.Configuration["Authentication:JwtSettings:Issuer"],
+                    ValidAudience = builder.Configuration["Authentication:JwtSettings:Audience"],
+                    IssuerSigningKey = new SymmetricSecurityKey(Encoding.ASCII.GetBytes(builder.Configuration["Authentication:JwtSettings:Key"]))
+                };
+
+                options.Events = new JwtBearerEvents
+                {
+                    OnMessageReceived = context =>
+                    {
+                        if (context.Request.Cookies.ContainsKey("JwtToken"))
+                        {
+                            context.Token = context.Request.Cookies["JwtToken"];
+                        }
+                        return Task.CompletedTask;
+                    }
+                };
             });
 
             var app = builder.Build();

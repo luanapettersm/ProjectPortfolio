@@ -1,5 +1,5 @@
 ﻿@using ProjectPortfolio.Enumerators
-@model CreateTicketModel;
+@model CreateIssueModel;
 
 <div id="editModal" class="modal" tabindex="-1">
     <div class="modal-dialog">
@@ -118,7 +118,7 @@
                         <div class="col-12">
                             <input class="form-control" id="titleId" name="ticket.title" placeholder="Título" value="@(Model.Issue != null ? Model.Issue.Title : "")">
                         </div>
-                        <textarea class="form-control" id="descriptionId" name="ticket.description" placeholder="Descricao">
+                        <textarea class="form-control" id="descriptionId" name="ticket.description" placeholder="Descrição">
                             @(Model.Issue != null ? Model.Issue.Description : "")
                         </textarea>
                     </div>

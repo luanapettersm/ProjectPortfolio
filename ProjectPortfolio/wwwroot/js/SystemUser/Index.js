@@ -1,27 +1,19 @@
 ﻿window.onload = function () {
     var gridColumns = [
         {
-            name: 'name',
-            class: 'text-left',
-            orderable: true,
-            render: function (data, type, row) {
-                return row.name;
-            }
-        },
-        {
-            name: 'surname',
-            class: 'text-left',
-            orderable: false,
-            render: function (data, type, row) {
-                return row.surname;
-            }
-        },
-        {
             name: 'displayName',
             class: 'text-left',
             orderable: false,
             render: function (data, type, row) {
                 return row.displayName;
+            }
+        },
+        {
+            name: 'userName',
+            class: 'text-left',
+            orderable: false,
+            render: function (data, type, row) {
+                return row.userName;
             }
         },
         {

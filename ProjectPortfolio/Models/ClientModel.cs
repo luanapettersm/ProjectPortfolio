@@ -32,8 +32,6 @@ namespace ProjectPortfolio.Models
         
         public ICollection<ClientProjectModel> Projects { get; set; }
 
-        [Required(ErrorMessage = "O CPF e obrigatorio.")]
-        [StringLength(11, MinimumLength = 11, ErrorMessage = "O CPF deve ter 11 caracteres.")]
         public string CPF
         {
             get => _cpf;

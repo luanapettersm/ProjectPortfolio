@@ -1,9 +1,11 @@
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using ProjectPortfolio.Models;
 using System.Diagnostics;
 
 namespace ProjectPortfolio.Controllers
 {
+    [Authorize]
     public class HomeController : Controller
     {
         public IActionResult Index()
