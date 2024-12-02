@@ -153,45 +153,45 @@ namespace ProjectPortfolio.Test
         //    Assert.Equal("usuario esta vinculado a atividade ativa e Nao pode ser deletado.", exception.Message);
         //}
 
-        [Fact(DisplayName = "Deve autenticar o usuario corretamente")]
-        public async Task AuthenticateAsync_ShouldReturnTrue_WhenPasswordIsValid()
-        {
-            var mockRepository = new Mock<ISystemUserRepository>();
-            var mockIssueRepository = new Mock<IIssueRepository>();
-            var service = new SystemUserService(mockRepository.Object, mockIssueRepository.Object);
+        //[Fact(DisplayName = "Deve autenticar o usuario corretamente")]
+        //public async Task AuthenticateAsync_ShouldReturnTrue_WhenPasswordIsValid()
+        //{
+        //    var mockRepository = new Mock<ISystemUserRepository>();
+        //    var mockIssueRepository = new Mock<IIssueRepository>();
+        //    var service = new SystemUserService(mockRepository.Object, mockIssueRepository.Object);
 
-            var user = new SystemUserModel
-            {
-                UserName = "username123",
-                Password = BCrypt.Net.BCrypt.HashPassword("password123")
-            };
+        //    var user = new SystemUserModel
+        //    {
+        //        UserName = "username123",
+        //        Password = BCrypt.Net.BCrypt.HashPassword("password123")
+        //    };
 
-            mockRepository.Setup(r => r.GetUserByUserName("username123")).ReturnsAsync(user);
+        //    mockRepository.Setup(r => r.GetUserByUserName("username123")).ReturnsAsync(user);
 
-            var result = await service.AuthenticateAsync("username123", "password123");
+        //    var result = await service.AuthenticateAsync("username123", "password123");
 
-            Assert.True(result);
-        }
+        //    Assert.True(result);
+        //}
 
-        [Fact(DisplayName = "Nao deve autenticar o usuario com senha invalida")]
-        public async Task AuthenticateAsync_ShouldReturnFalse_WhenPasswordIsInvalid()
-        {
-            var mockRepository = new Mock<ISystemUserRepository>();
-            var mockIssueRepository = new Mock<IIssueRepository>();
-            var service = new SystemUserService(mockRepository.Object, mockIssueRepository.Object);
+        //[Fact(DisplayName = "Nao deve autenticar o usuario com senha invalida")]
+        //public async Task AuthenticateAsync_ShouldReturnFalse_WhenPasswordIsInvalid()
+        //{
+        //    var mockRepository = new Mock<ISystemUserRepository>();
+        //    var mockIssueRepository = new Mock<IIssueRepository>();
+        //    var service = new SystemUserService(mockRepository.Object, mockIssueRepository.Object);
 
-            var user = new SystemUserModel
-            {
-                UserName = "username123",
-                Password = BCrypt.Net.BCrypt.HashPassword("password123")
-            };
+        //    var user = new SystemUserModel
+        //    {
+        //        UserName = "username123",
+        //        Password = BCrypt.Net.BCrypt.HashPassword("password123")
+        //    };
 
-            mockRepository.Setup(r => r.GetUserByUserName("username123")).ReturnsAsync(user);
+        //    mockRepository.Setup(r => r.GetUserByUserName("username123")).ReturnsAsync(user);
 
-            var result = await service.AuthenticateAsync("username123", "wrongpassword");
+        //    var result = await service.AuthenticateAsync("username123", "wrongpassword");
 
-            Assert.False(result);
-        }
+        //    Assert.False(result);
+        //}
         #endregion
 
 

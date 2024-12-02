@@ -1,11 +1,16 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Authentication;
+using Microsoft.AspNetCore.Authentication.Cookies;
+using Microsoft.AspNetCore.Mvc;
+using ProjectPortfolio.Data;
 using ProjectPortfolio.Models;
 using ProjectPortfolio.Services;
+using System.Net.Http.Headers;
+using System.Security.Claims;
 
 namespace ProjectPortfolio.Controllers
 {
     [Route("[controller]")]
-    public class LoginController(ISystemUserService service,
+    public class LoginController(ISystemUserRepository repository,
         ITokenService tokenService) : Controller
     {
         [HttpGet]
@@ -15,24 +20,31 @@ namespace ProjectPortfolio.Controllers
         }
 
         [HttpPost("Authentication")]
-        public async Task<IActionResult> Authentication([FromBody] AuthenticateModel auth)
+        public async Task<IActionResult> Authentication(AuthenticateModel auth)
         {
-            //if (auth == null || string.IsNullOrEmpty(auth.UserName) || string.IsNullOrEmpty(auth.Password))
-            //    return BadRequest("usuario e senha sao obrigatorios.");
+            if (auth == null || string.IsNullOrEmpty(auth.UserName) || string.IsNullOrEmpty(auth.Password))
+                return BadRequest("Usuário e senha são obrigatórios.");
 
-            //var isValidUser = await service.AuthenticateAsync(auth.UserName, auth.Password);
-            //if (!isValidUser)
-            //    return Unauthorized("usuario ou senha invalidos.");
+            var user = await repository.GetUserByUserName(auth.UserName);
 
-            if (auth.UserName == "admin" && auth.Password == "admin")
+            if (user == null)
+                return BadRequest("Usuário não localizado no sistema.");
+
+            var password = BCrypt.Net.BCrypt.Verify(auth.Password, user.Password);
+
+            if (auth.UserName != user.UserName || !password)
+                return BadRequest(new { message = "Usuario ou senha inválidos." });
+
+            var token = await tokenService.GetTokenAsync(auth);
+
+            Response.Cookies.Append("JwtToken", token, new CookieOptions
             {
-                var token = await tokenService.GetTokenAsync(auth);
-                return Ok(new { token });
+                HttpOnly = true,
+                Secure = true,
+                SameSite = SameSiteMode.Lax
+            });
 
-            }
-
-            return BadRequest(new { message = "Usuario ou senha invalidos."});
-            //return Ok("/Home");
+            return RedirectToAction("Index", "Home");
         }
     }
 }

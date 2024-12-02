@@ -1,5 +1,6 @@
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.Options;
 using Microsoft.IdentityModel.Tokens;
 using Microsoft.OpenApi.Models;
 using ProjectPortfolio.Data;
@@ -63,15 +64,30 @@ namespace ProjectPortfolio
                 x.DefaultAuthenticateScheme = JwtBearerDefaults.AuthenticationScheme;
                 x.DefaultChallengeScheme = JwtBearerDefaults.AuthenticationScheme;
 
-            }).AddJwtBearer(options => options.TokenValidationParameters = new TokenValidationParameters()
+            }).AddJwtBearer(options =>
             {
-                ValidateIssuer = true,
-                ValidateAudience = true,
-                ValidateLifetime = true,
-                ValidateIssuerSigningKey = true,
-                ValidIssuer = builder.Configuration["Authentication:JwtSettings:Issuer"],
-                ValidAudience = builder.Configuration["Authentication:JwtSettings:Audience"],
-                IssuerSigningKey = new SymmetricSecurityKey(Encoding.ASCII.GetBytes(builder.Configuration["Authentication:JwtSettings:Key"]))
+                options.TokenValidationParameters = new TokenValidationParameters()
+                {
+                    ValidateIssuer = true,
+                    ValidateAudience = true,
+                    ValidateLifetime = true,
+                    ValidateIssuerSigningKey = true,
+                    ValidIssuer = builder.Configuration["Authentication:JwtSettings:Issuer"],
+                    ValidAudience = builder.Configuration["Authentication:JwtSettings:Audience"],
+                    IssuerSigningKey = new SymmetricSecurityKey(Encoding.ASCII.GetBytes(builder.Configuration["Authentication:JwtSettings:Key"]))
+                };
+
+                options.Events = new JwtBearerEvents
+                {
+                    OnMessageReceived = context =>
+                    {
+                        if (context.Request.Cookies.ContainsKey("JwtToken"))
+                        {
+                            context.Token = context.Request.Cookies["JwtToken"];
+                        }
+                        return Task.CompletedTask;
+                    }
+                };
             });
 
             var app = builder.Build();
