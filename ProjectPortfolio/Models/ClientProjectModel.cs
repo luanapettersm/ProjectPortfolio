@@ -29,8 +29,8 @@ namespace ProjectPortfolio.Models
 
         public string Description { get; set; }
 
-        [Required(ErrorMessage = "O título e obrigatorio.")]
-        [StringLength(50, MinimumLength = 3, ErrorMessage = "O título deve ter entre 3 e 50 caracteres.")]
+        [Required(ErrorMessage = "O titulo e obrigatorio.")]
+        [StringLength(50, MinimumLength = 3, ErrorMessage = "O titulo deve ter entre 3 e 50 caracteres.")]
         public string Title { get; set; }
         
         [ForeignKey(nameof(ClientId))]

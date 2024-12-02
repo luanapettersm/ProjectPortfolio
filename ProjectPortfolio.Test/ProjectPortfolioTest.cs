@@ -18,6 +18,105 @@ namespace ProjectPortfolio.Test
         }
 
         #region SystemUser
+        [Fact(DisplayName = "DisplayName combina Nome e Sobrenome corretamente")]
+        public void DisplayName_ShouldCombineNameAndSurname()
+        {
+            var user = new SystemUserModel
+            {
+                Name = "John",
+                Surname = "Doe"
+            };
+
+            var displayName = user.DisplayName;
+
+            Assert.Equal("John Doe", displayName);
+        }
+
+        [Fact(DisplayName = "Validacao falha quando Nome e nulo")]
+        public void Validation_ShouldFail_WhenNameIsNull()
+        {
+            var user = new SystemUserModel
+            {
+                Name = null,
+                Surname = "Doe",
+                UserName = "jdoe",
+                Password = "password123",
+                BusinessRole = BusinessRoleEnum.analyst
+            };
+
+            var validationResults = ValidateModel(user);
+
+            Assert.Contains(validationResults, result => result.ErrorMessage == "O campo Nome e obrigatorio.");
+        }
+
+        [Fact(DisplayName = "Validacao falha quando Nome esta fora do tamanho permitido")]
+        public void Validation_ShouldFail_WhenNameLengthIsInvalid()
+        {
+            var user = new SystemUserModel
+            {
+                Name = "Jo", 
+                Surname = "Doe",
+                UserName = "jdoe",
+                Password = "password123",
+                BusinessRole = BusinessRoleEnum.analyst
+            };
+
+            var validationResults = ValidateModel(user);
+
+            Assert.Contains(validationResults, result => result.ErrorMessage == "O nome deve ter entre 3 e 35 caracteres.");
+        }
+
+        [Fact(DisplayName = "Validacao falha quando Sobrenome e nulo")]
+        public void Validation_ShouldFail_WhenSurnameIsNull()
+        {
+            var user = new SystemUserModel
+            {
+                Name = "John",
+                Surname = null,
+                UserName = "jdoe",
+                Password = "password123",
+                BusinessRole = BusinessRoleEnum.analyst
+            };
+
+            var validationResults = ValidateModel(user);
+
+            Assert.Contains(validationResults, result => result.ErrorMessage == "O campo Sobrenome e obrigatorio.");
+        }
+
+        [Fact(DisplayName = "Validacao falha quando Login e nulo")]
+        public void Validation_ShouldFail_WhenUserNameIsNull()
+        {
+            var user = new SystemUserModel
+            {
+                Name = "John",
+                Surname = "Doe",
+                UserName = null,
+                Password = "password123",
+                BusinessRole = BusinessRoleEnum.analyst
+            };
+
+            var validationResults = ValidateModel(user);
+
+            Assert.Contains(validationResults, result => result.ErrorMessage == "O campo Login e obrigatorio.");
+        }
+
+        [Fact(DisplayName = "Validacao falha quando Senha e nula")]
+        public void Validation_ShouldFail_WhenPasswordIsNull()
+        {
+            var user = new SystemUserModel
+            {
+                Name = "John",
+                Surname = "Doe",
+                UserName = "jdoe",
+                Password = null,
+                BusinessRole = BusinessRoleEnum.analyst
+            };
+
+            var validationResults = ValidateModel(user);
+
+            Assert.Contains(validationResults, result => result.ErrorMessage == "O campo Senha e obrigatorio.");
+        }
+
         [Fact(DisplayName = "Nome nao pode ser nulo ou vazio")]
         public void ShouldHaveValidationErrors_WhenNameIsEmpty()
         {
@@ -287,6 +386,133 @@ namespace ProjectPortfolio.Test
             mockRepository.Verify(r => r.InsertAsync(It.Is<ClientProjectModel>(p => p.Title == "Projeto Teste")), Times.Once);
         }
 
+        [Fact(DisplayName = "Validacao falha quando Endereco e nulo")]
+        public void Validation_ShouldFail_WhenAddressIsNull()
+        {
+            var project = new ClientProjectModel
+            {
+                Address = null,
+                ZipCode = "12345-678",
+                Number = 10,
+                City = "CityName",
+                Title = "Project Title"
+            };
+
+            var validationResults = ValidateModel(project);
+
+            Assert.Contains(validationResults, result => result.ErrorMessage == "O endereco e obrigatorio.");
+        }
+
+        [Fact(DisplayName = "Validacao falha quando CEP e nulo")]
+        public void Validation_ShouldFail_WhenZipCodeIsNull()
+        {
+            var project = new ClientProjectModel
+            {
+                Address = "Street Name",
+                ZipCode = null,
+                Number = 10,
+                City = "CityName",
+                Title = "Project Title"
+            };
+
+            var validationResults = ValidateModel(project);
+
+            Assert.Contains(validationResults, result => result.ErrorMessage == "O CEP e obrigatorio.");
+        }
+
+        [Fact(DisplayName = "Validacao falha quando Numero e menor ou igual a zero")]
+        public void Validation_ShouldFail_WhenNumberIsZeroOrNegative()
+        {
+            var project = new ClientProjectModel
+            {
+                Address = "Street Name",
+                ZipCode = "12345-678",
+                Number = 0,
+                City = "CityName",
+                Title = "Project Title"
+            };
+
+            var validationResults = ValidateModel(project);
+
+            Assert.Contains(validationResults, result => result.ErrorMessage == "O numero deve ser um valor valido e maior que zero.");
+        }
+
+        [Fact(DisplayName = "Validacao falha quando Cidade e nula")]
+        public void Validation_ShouldFail_WhenCityIsNull()
+        {
+            var project = new ClientProjectModel
+            {
+                Address = "Street Name",
+                ZipCode = "12345-678",
+                Number = 10,
+                City = null,
+                Title = "Project Title"
+            };
+
+            var validationResults = ValidateModel(project);
+
+            Assert.Contains(validationResults, result => result.ErrorMessage == "A cidade e obrigatoria.");
+        }
+
+        [Fact(DisplayName = "Validacao falha quando Titulo e nulo")]
+        public void Validation_ShouldFail_WhenTitleIsNull()
+        {
+            var project = new ClientProjectModel
+            {
+                Address = "Street Name",
+                ZipCode = "12345-678",
+                Number = 10,
+                City = "CityName",
+                Title = null
+            };
+
+            var validationResults = ValidateModel(project);
+
+            Assert.Contains(validationResults, result => result.ErrorMessage == "O titulo e obrigatorio.");
+        }
+
+        [Fact(DisplayName = "Validacao falha quando Titulo esta fora do tamanho permitido")]
+        public void Validation_ShouldFail_WhenTitleLengthIsInvalid()
+        {
+            var project = new ClientProjectModel
+            {
+                Address = "Street Name",
+                ZipCode = "12345-678",
+                Number = 10,
+                City = "CityName",
+                Title = "Pr"
+            };
+
+            var validationResults = ValidateModel(project);
+
+            Assert.Contains(validationResults, result => result.ErrorMessage == "O titulo deve ter entre 3 e 50 caracteres.");
+        }
+
+        [Fact(DisplayName = "Validacao bem-sucedida com dados validos")]
+        public void Validation_ShouldPass_WhenAllFieldsAreValid()
+        {
+            var project = new ClientProjectModel
+            {
+                Address = "Street Name",
+                ZipCode = "12345-678",
+                Number = 10,
+                City = "CityName",
+                Title = "Project Title"
+            };
+
+            var validationResults = ValidateModel(project);
+
+            Assert.Empty(validationResults); 
+        }
+
+        private List<ValidationResult> ValidateModel(object model)
+        {
+            var validationResults = new List<ValidationResult>();
+            var validationContext = new ValidationContext(model, null, null);
+            Validator.TryValidateObject(model, validationContext, validationResults, true);
+            return validationResults;
+        }
+
         //[Fact(DisplayName = "Deve lancar excecao se os campos obrigatorios Nao forem preenchidos")]
         //public async Task ClientProjectService_CreateAsync_Should_Throw_Validation_Exception_When_Required_Fields_Are_Missing()
         //{
@@ -312,6 +538,37 @@ namespace ProjectPortfolio.Test
         #endregion
 
         #region Issue
+        [Fact(DisplayName = "Validacao falha quando Descricao e nula ou fora do tamanho permitido")]
+        public void Validator_ShouldFail_WhenDescriptionIsNullOrInvalid()
+        {
+            var issue = new IssueModel
+            {
+                Title = "Titulo valido",
+                Description = null,
+                ClientId = Guid.NewGuid(),
+                Priority = PriorityEnum.High
+            };
+
+            var validationMessages = issue.Validator();
+
+            Assert.Contains("O título deve ter entre 3 e 2000 caracteres.", validationMessages);
+        }
+
+        [Fact(DisplayName = "Validacao falha quando Cliente e nulo")]
+        public void Validator_ShouldFail_WhenClientIdIsEmpty()
+        {
+            var issue = new IssueModel
+            {
+                Title = "Titulo valido",
+                Description = "Descricao valida",
+                ClientId = Guid.Empty,
+                Priority = PriorityEnum.High
+            };
+
+            var validationMessages = issue.Validator();
+
+            Assert.Contains("O cliente e obrigatorio.", validationMessages);
+        }
         #endregion
     }
 }
