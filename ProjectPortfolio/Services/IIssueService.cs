@@ -8,7 +8,6 @@ namespace ProjectPortfolio.Services
         Task<bool> ValidateIssueIsOpened(Guid issueId);
         Task<bool> ChangeStatusCard(Guid id, IssueStatusEnum status);
         Task<IssueModel> CreateAsync(IssueModel model);
-        Task<IssueCardSaveModel> UpdateAsync(IssueCardSaveModel issueCard);
         Task<IssueModel> UpdateAsync(IssueModel model);
     }
 }

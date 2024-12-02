@@ -41,46 +41,6 @@ namespace ProjectPortfolio.Services
             return true;
         }
 
-        public async Task<IssueCardSaveModel> UpdateAsync(IssueCardSaveModel issueCard)
-        {
-            var systemUser = await systemUserRepository.GetAsync((Guid)issueCard.AttendantId);
-
-            var issue = await repository.GetAsync(issueCard.Id);
-
-            if (issue.DateClosed != null)
-            {
-                var allowedToBeMoved = DateTimeOffset.Now.AddDays(-7);
-
-                if (issue.DateClosed != null && issue.DateClosed <= allowedToBeMoved)
-                    throw new Exception("Atividade encerrada Nao pode ser editada.");
-
-                issue.DateClosed = null;
-            }
-
-            if (issueCard.IsMovedInAttendancePanel && issue.AttendantId != null && issue.AttendantId != systemUser.Id)
-                throw new Exception("Atividade ja possui atendente.");
-
-            var issueStatus = issue.Status;
-            var issueCardStatus = issueCard.Status;
-
-            issue.AttendantId = issueCard.AttendantId;
-
-            if (!(issue.Status == IssueStatusEnum.Pending
-                && (issueCard.Status == IssueStatusEnum.Pending || issueCard.Status == IssueStatusEnum.Opened)))
-                issue.Status = issueCard.Status;
-
-            var newIssue = await repository.UpdateAsync(issue);
-
-            var result = new IssueCardSaveModel
-            {
-                Id = newIssue.Id,
-                AttendantId = newIssue.AttendantId,
-                Status = newIssue.Status,
-            };
-
-            return result;
-        }
-
         public async Task<IssueModel> UpdateAsync(IssueModel model)
         {
             var db = await repository.GetAll().Where(e => e.Id == model.Id).FirstOrDefaultAsync();
