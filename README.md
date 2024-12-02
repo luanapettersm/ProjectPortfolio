@@ -8,6 +8,11 @@ Esta aplicação é projetada para que o sistema possua tanto uma aplicação we
 <li><a href="project-portfolio-api-byehbnbjajecgwdu.brazilsouth-01.azurewebsites.net">Link app publicado</li>
 <li><a href="https://sonarcloud.io/project/overview?id=luanapettersm_ProjectPortfolio"/>SonarCloud</li>
 <li><a href="https://www.canva.com/design/DAGVutWa9AE/y_11Ovegy8uoG6L6_mYKhw/edit?utm_content=DAGVutWa9AE&utm_campaign=designshare&utm_medium=link2&utm_source=sharebutton">Apresentação (ppt)</li>
+
+<li>Login de acesso para testes</li>
+Login: luana.petters
+Senha: Teste@12345
+
   
 <b>Obs:</b> Devido limite do tempo de uso diário para manter iniciada por conta da licença, a aplicação é pausada de tempos em tempos. Caso esteja fora quando for acessar, pode entrar em contato comigo que eu inicio.
 
