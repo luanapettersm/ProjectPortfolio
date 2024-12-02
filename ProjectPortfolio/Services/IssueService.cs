@@ -64,9 +64,9 @@ namespace ProjectPortfolio.Services
         {
             var messages = new List<string>();
             if (string.IsNullOrEmpty(model.Title) || model.Title.Length < 3 || model.Title.Length > 100)
-                messages.Add("O título deve ter entre 3 e 100 caracteres.");
+                messages.Add("O titulo deve ter entre 3 e 100 caracteres.");
             if (string.IsNullOrEmpty(model.Description) || model.Description.Length < 3 || model.Description.Length > 2000)
-                messages.Add("O título deve ter entre 3 e 2000 caracteres.");
+                messages.Add("O titulo deve ter entre 3 e 2000 caracteres.");
             if (model.ClientId == Guid.Empty)
                 messages.Add("O cliente e obrigatorio.");
             if (model.Priority.GetType() == null)

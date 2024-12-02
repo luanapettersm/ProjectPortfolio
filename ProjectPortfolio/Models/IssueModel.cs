@@ -23,9 +23,9 @@ namespace ProjectPortfolio.Models
         {
             var messages = new List<string>();
             if (string.IsNullOrEmpty(Title) || Title.Length < 3 || Title.Length > 100)
-                messages.Add("O título deve ter entre 3 e 100 caracteres.");
+                messages.Add("O titulo deve ter entre 3 e 100 caracteres.");
             if (string.IsNullOrEmpty(Description) || Description.Length < 3 || Description.Length > 2000)
-                messages.Add("O título deve ter entre 3 e 2000 caracteres.");
+                messages.Add("O titulo deve ter entre 3 e 2000 caracteres.");
             if (ClientId == Guid.Empty)
                 messages.Add("O cliente e obrigatorio.");
             if (Priority.GetType() == null)
