@@ -14,18 +14,18 @@
                     <div class="priority" title="Prioridade">
                         @if (item.Priority == PriorityEnum.High)
                         {
-                            <div>Alta</div>
+                            <div><b>Prioridade: Alta</b></div>
                         }
                         else if (item.Priority == PriorityEnum.Medium)
                         {
-                            <div>Medio</div>
+                            <div><b>Prioridade: Média</b></div>
                         }
                         else
                         {
-                            <div>Baixa</div>
-                        }
+                            <div><b>Prioridade: Baixa</b></div>
+                        }   
                     </div>
-                    <div class="client" title="Cliente">- @item.ClientName</div>
+                    <div class="client" title="Cliente">Cliente: @item.ClientName</div>
                 </div>
                 <div>
                     <button title="Editar" onclick="Edit(@item.Id)" class="iconButton icon-Panel">

@@ -6,14 +6,17 @@ using ProjectPortfolio.Models;
 namespace ProjectPortfolio.Services
 {
     public class IssueService(IIssueRepository repository,
-        ISystemUserRepository systemUserRepository) : IIssueService
+        ISystemUserRepository systemUserRepository,
+        IClientRepository clientRepository) : IIssueService
     {
         public async Task<IssueModel> CreateAsync(IssueModel model)
         {
             model.Validator();
+            var clientName = await clientRepository.GetAll().AsNoTracking().Where(e => e.Id == model.ClientId).Select(e => e.Name).FirstOrDefaultAsync();
             var sequentialId = await repository.GetAll().OrderByDescending(e => e.SequentialId).Select(e => e.SequentialId).FirstAsync();
             model.SequentialId = sequentialId + 1;
             model.DateCreated = DateTimeOffset.Now;
+            model.ClientName = clientName;
             return await repository.InsertAsync(model);
         }
 
