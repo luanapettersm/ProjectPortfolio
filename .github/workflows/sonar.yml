@@ -36,10 +36,9 @@ jobs:
         run: |
           mkdir -p ~/.sonar/sonar-scanner
           dotnet tool update dotnet-sonarscanner --tool-path ~/.sonar/sonar-scanner
-      - name: Build and analyze backend with SonarCloud
+      - name: Build and analyze with SonarCloud
         env:
           SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
         run: |
           ~/.sonar/sonar-scanner/dotnet-sonarscanner begin /k:"luanapettersm_projectportfolio" /o:"luanapettersm" /d:sonar.token="${{ secrets.SONAR_TOKEN }}" /d:sonar.host.url="https://sonarcloud.io"
-          dotnet build ./backend --configuration Release
           ~/.sonar/sonar-scanner/dotnet-sonarscanner end /d:sonar.token="${{ secrets.SONAR_TOKEN }}"
