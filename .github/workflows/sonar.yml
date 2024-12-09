@@ -25,12 +25,12 @@ jobs:
           dotnet test --collect:"XPlat Code Coverage" --results-directory TestResults
           # dotnet test /p:CollectCoverage=true /p:CoverletOutputFormat=opencover /p:CoverletOutput=TestResults/
 
-      - name: Instalar ReportGenerator
+      - name: Install ReportGenerator
         run: dotnet tool install --global dotnet-reportgenerator-globaltool
 
       - name: Prepare coverage report
         run: |
-            reportgenerator \ -reports:TestResults//*.xml \ -targetdir:coverage-report \ -reporttypes:Cobertura
+            reportgenerator \ -reports:TestResults//*.xml \ -targetdir:coverage-report \ -reporttypes:Coverage
 
       - name: SonarCloud Scan
         uses: SonarSource/sonarcloud-github-action@master          
