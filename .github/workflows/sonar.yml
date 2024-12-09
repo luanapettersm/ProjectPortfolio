@@ -32,12 +32,12 @@ jobs:
       
       - name: Preparar relatório de cobertura
         run: |
-          reportgenerator \
-          -reports:TestResults//coverage.cobertura.xml \
-          -targetdir:coverage-report \
-          -reporttypes:Cobertura
+            reportgenerator \
+            -reports:TestResults//*.xml \
+            -targetdir:coverage-report \
+            -reporttypes:Cobertura
         env:
-          PATH: ${{ env.PATH }}:/home/runner/.dotnet/tools
+            PATH: ${{ env.PATH }}:/home/runner/.dotnet/tools
 
       - name: SonarCloud Scan
         uses: SonarSource/sonarcloud-github-action@master
