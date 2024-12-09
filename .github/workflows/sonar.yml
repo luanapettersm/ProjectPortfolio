@@ -16,24 +16,30 @@ jobs:
         with:
             dotnet-version: '8.0.x'
 
-      - name: Restore dependencies
-        run: dotnet restore
-      
-      - name: Run Tests with Coverage
+      - name: Cache SonarCloud packages
+        uses: actions/cache@v4
+        with:
+          path: ~/.sonar/cache
+          key: ${{ runner.os }}-sonar
+          restore-keys: ${{ runner.os }}-sonar
+
+      - name: Cache SonarCloud scanner
+        id: cache-sonar-scanner
+        uses: actions/cache@v4
+        with:
+          path: ~/.sonar/sonar-scanner
+          key: ${{ runner.os }}-sonar-scanner
+          restore-keys: ${{ runner.os }}-sonar-scanner
+
+      - name: Install SonarCloud scanner
+        if: steps.cache-sonar-scanner.outputs.cache-hit != 'true'
         run: |
-          # dotnet build
-          dotnet test /p:CollectCoverage=true /p:CoverletOutputFormat=opencover /p:CoverletOutput=TestResults/
-
-      # - name: Prepare coverage report
-      #   run: |
-      #       reportgenerator \
-      #       -reports:TestResults//coverage.cobertura.xml \
-      #       -targetdir:coverage-report \
-      #       -reporttypes:Cobertura
-      #   env:
-      #       PATH: ${{ env.PATH }}:/home/runner/.dotnet/tools
-
-      - name: SonarCloud Scan
-        uses: SonarSource/sonarcloud-github-action@master          
+          mkdir -p ~/.sonar/sonar-scanner
+          dotnet tool update dotnet-sonarscanner --tool-path ~/.sonar/sonar-scanner
+      - name: Build and analyze backend with SonarCloud
         env:
           SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
+        run: |
+          ~/.sonar/sonar-scanner/dotnet-sonarscanner begin /k:"luanapettersm_projectportfolio" /o:"luanapettersm" /d:sonar.token="${{ secrets.SONAR_TOKEN }}" /d:sonar.host.url="https://sonarcloud.io"
+          dotnet build ./backend --configuration Release
+          ~/.sonar/sonar-scanner/dotnet-sonarscanner end /d:sonar.token="${{ secrets.SONAR_TOKEN }}"
