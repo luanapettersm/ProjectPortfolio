@@ -11,28 +11,35 @@ jobs:
     steps:
       - uses: actions/checkout@v3
 
-      - name: Setup .NET
+      - name: Configurar .NET
         uses: actions/setup-dotnet@v3
         with:
-            dotnet-version: '8.0.x'
+          dotnet-version: '8.0.x'
 
-      - name: Restore dependencies
+      - name: Restaurar dependências
         run: dotnet restore
       
-      - name: Run Tests with Coverage
+      - name: Executar testes com cobertura
         run: |
           dotnet build
           dotnet test --collect:"XPlat Code Coverage" --results-directory TestResults
-          # dotnet test /p:CollectCoverage=true /p:CoverletOutputFormat=opencover /p:CoverletOutput=TestResults/
 
-      - name: Install ReportGenerator
+      - name: Verificar arquivos gerados
+        run: ls TestResults
+
+      - name: Instalar ReportGenerator
         run: dotnet tool install --global dotnet-reportgenerator-globaltool
-
-      - name: Prepare coverage report
+      
+      - name: Preparar relatório de cobertura
         run: |
-            reportgenerator \ -reports:TestResults//*.xml \ -targetdir:coverage-report \ -reporttypes:Coverage
+          reportgenerator \
+          -reports:TestResults//coverage.cobertura.xml \
+          -targetdir:coverage-report \
+          -reporttypes:Cobertura
+        env:
+          PATH: ${{ env.PATH }}:/home/runner/.dotnet/tools
 
       - name: SonarCloud Scan
-        uses: SonarSource/sonarcloud-github-action@master          
+        uses: SonarSource/sonarcloud-github-action@master
         env:
           SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
