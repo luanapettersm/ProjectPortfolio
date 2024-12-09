@@ -19,11 +19,11 @@ jobs:
       - name: Restore dependencies
         run: dotnet restore
 
+      - name: Configure PATH for .NET tools
+        run: echo "::add-path::/home/runner/.dotnet/tools"
+
       - name: Install ReportGenerator
         run: dotnet tool install -g dotnet-reportgenerator-globaltool
-        env:
-            DOTNET_ROOT: /usr/share/dotnet
-            PATH: ${{ env.PATH }}:/home/runner/.dotnet/tools
 
       - name: Run Tests with Coverage
         run: |
