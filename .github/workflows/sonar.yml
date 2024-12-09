@@ -18,20 +18,23 @@ jobs:
 
       - name: Restore dependencies
         run: dotnet restore
-      
+
+      - name: Install ReportGenerator
+        run: dotnet tool install -g dotnet-reportgenerator-globaltool
+        env:
+            DOTNET_ROOT: /usr/share/dotnet
+            PATH: ${{ env.PATH }}:/home/runner/.dotnet/tools
+
       - name: Run Tests with Coverage
         run: |
-          # dotnet build
-
-          # dotnet test /p:CollectCoverage=true /p:CoverletOutputFormat=opencover /p:CoverletOutput=TestResults/
           dotnet test --collect:"XPlat Code Coverage" --results-directory TestResults
 
       - name: Prepare coverage report
         run: |
-            reportgenerator \
-            -reports:TestResults//coverage.cobertura.xml \
-            -targetdir:coverage-report \
-            -reporttypes:Cobertura
+          reportgenerator \
+          -reports:TestResults/**/coverage.cobertura.xml \
+          -targetdir:coverage-report \
+          -reporttypes:Cobertura
         env:
             PATH: ${{ env.PATH }}:/home/runner/.dotnet/tools
 
