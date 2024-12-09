@@ -21,8 +21,10 @@ jobs:
       
       - name: Run Tests with Coverage
         run: |
-          dotnet build
-          dotnet test /p:CollectCoverage=true /p:CoverletOutputFormat=opencover /p:CoverletOutput=TestResults/
+          # dotnet build
+
+          # dotnet test /p:CollectCoverage=true /p:CoverletOutputFormat=opencover /p:CoverletOutput=TestResults/
+          dotnet test --collect:"XPlat Code Coverage" --results-directory TestResults
 
       - name: Prepare coverage report
         run: |
