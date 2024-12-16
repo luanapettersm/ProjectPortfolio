@@ -9,6 +9,7 @@ Esta aplicação é projetada para que o sistema possua tanto uma aplicação we
 <li><a href="https://sonarcloud.io/project/overview?id=luanapettersm_ProjectPortfolio"/>SonarCloud</li>
 <li><a href="https://www.canva.com/design/DAGVutWa9AE/y_11Ovegy8uoG6L6_mYKhw/edit?utm_content=DAGVutWa9AE&utm_campaign=designshare&utm_medium=link2&utm_source=sharebutton">Apresentação (ppt)</li>
 <li><a href="https://portal.azure.com/#@catolicasc.org.br/dashboard/arm/subscriptions/ea90d239-f89a-48fd-8463-ed05aea11b3d/resourcegroups/dashboards/providers/microsoft.portal/dashboards/a9c9c944-8d08-4deb-9238-25e7446d30f6">Painel de monitoramento</li>
+<li><a href="https://docs.google.com/document/d/1WiW1t1bMsuC_ypBNEGAbv69zwU5Ze53_cvd3mg4iN-4/edit?usp=sharing">RFC</li>
 
 <b>Login de acesso para testes</b><br>
 Login: admin<br>
